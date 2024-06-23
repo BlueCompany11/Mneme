@@ -1,0 +1,1 @@
+This project has very low priority as it no longer supports Google Books Play.

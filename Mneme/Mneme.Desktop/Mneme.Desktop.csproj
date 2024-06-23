@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Mneme.Desktop</AssemblyName>
+    <ApplicationIcon>Mneme-symbol-blue-bg-96x96.ico</ApplicationIcon>
+    <Win32Resource />
+    <StartupObject>Mneme.Desktop.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Icons\Dashboard.svg" />
+    <None Remove="Icons\Integration.svg" />
+    <None Remove="Icons\Mneme-logo-color-600x200.png" />
+    <None Remove="Icons\Mneme-logo-color-bg-600x200.jpg" />
+    <None Remove="Icons\Mneme-symbol-blue-bg-96x96.ico" />
+    <None Remove="Icons\Mneme-symbol-blue-bg-96x96.jpg" />
+    <None Remove="Icons\Mneme-symbol-color-bg-96x96.png" />
+    <None Remove="Icons\Notes.svg" />
+    <None Remove="Icons\PluralsightNotesButton.svg" />
+    <None Remove="Icons\Sources.svg" />
+    <None Remove="Icons\Testing.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Mneme-symbol-blue-bg-96x96.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="Prism.DryIoc.Extensions" Version="8.0.62" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mneme.Core\Mneme.Core.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Configuration.Integration\Mneme.PrismModule.Configuration.Integration.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Dashboard\Mneme.PrismModule.Dashboard.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integrations.GoogleBooks\Mneme.PrismModule.Integrations.GoogleBooks.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Mneme\Mneme.PrismModule.Integrations.Mneme.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Pluralsight\Mneme.PrismModule.Integrations.Pluralsight.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Notes\Mneme.PrismModule.Notes.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Sources\Mneme.PrismModule.Sources.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Testing\Mneme.PrismModule.Testing.csproj" />
+    <ProjectReference Include="..\Mneme.Views.Base\Mneme.Views.Base.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Dashboard.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Integration.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Mneme-logo-color-600x200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Mneme-logo-color-bg-600x200.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Mneme-symbol-blue-bg-96x96.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Mneme-symbol-blue-bg-96x96.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Mneme-symbol-color-bg-96x96.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Notes.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\PluralsightNotesButton.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Sources.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Testing.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Configuration\" />
+    <Folder Include="Views\Configuration\" />
+  </ItemGroup>
+</Project>

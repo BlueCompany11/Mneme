@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="Mneme.PrismModule.Configuration.Integration.Views.PluralsightConfigurationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Mneme.PrismModule.Configuration.Integration.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:svgc1="http://sharpvectors.codeplex.com/svgc/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" MaxWidth="200" />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="0.5*" MaxWidth="200" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="4" Margin="0,20,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontWeight="Bold"
+                Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                Text="Configuration Required" />
+            <TextBlock
+                Grid.Row="1"
+                Margin="48,30,48,50"
+                HorizontalAlignment="Center"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                FontSize="24"
+                Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                Text="Follow these steps only if you still have a .csv file with the notes. In late 2023 notes has been removed from Pluralsight. Please use Mneme source/notes to make notes from Pluralsight videos." />
+        </Grid>
+        <Border Grid.Row="1" Grid.Column="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource DefaultHeaderFont}" Text="First Step" />
+                <TextBlock Text="Visit the Pluralsight website and log in to your account." />
+
+                <TextBlock>
+                    <Hyperlink
+                        Cursor="Hand"
+                        NavigateUri="https://app.pluralsight.com/notes"
+                        RequestNavigate="Hyperlink_RequestNavigate">
+                        https://app.pluralsight.com/notes
+                    </Hyperlink>
+                </TextBlock>
+
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="2">
+            <StackPanel>
+                <TextBlock Style="{StaticResource DefaultHeaderFont}" Text="Second Step" />
+                <TextBlock Text="Download the notes you took from the Pluralsight web page." />
+                <UserControl Margin="0,20,0,0">
+                    <svgc1:SvgViewbox Source="/Icons/PluralsightNotesButton.svg" />
+                </UserControl>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource DefaultHeaderFont}" Text="Third Step" />
+                <TextBlock Text="Upload you user-notes.csv file using the button below." />
+                <Button
+                    Width="100"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Left"
+                    materialDesign:ButtonAssist.CornerRadius="20"
+                    Command="{Binding LoadFileCommand}"
+                    Content="Upload files" />
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="2">
+            <StackPanel>
+                <TextBlock Style="{StaticResource DefaultHeaderFont}" Text="Information" />
+                <WrapPanel>
+                    <TextBlock Text="Your file path: " />
+                    <TextBlock Text="{Binding FilePath}" />
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,1 @@
+This project is no longer maintained as Pluralsight has removed notes from their site. It can be used by the users if they have old notes.csv file or if they want to keep creating those notes in such structure. Waiting for the next move from Pluralsight.
