@@ -85,8 +85,11 @@ namespace Mneme.PrismModule.Sources.ViewModels
 
 		private async void DeleteSource(SourcePreview source)
 		{
-			if(await manager.DeleteSource(source))
+			if (await manager.DeleteSource(source)) 
+			{
 				Sources.Remove(source);
+				RaisePropertyChanged(nameof(SourcesListEmpty));
+			}
 			else
 				snackbarMessageQueue.Enqueue("Could not delete source. Some related data to this source still exists.");
 		}
@@ -123,6 +126,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 					var preview = SourcePreview.CreateFromSource(source);
 					Sources.Add(preview);
 					allSourcesPreview.Add(preview);
+					RaisePropertyChanged(nameof(SourcesListEmpty));
 				}
 			});
 		}
