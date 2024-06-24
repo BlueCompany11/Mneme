@@ -75,9 +75,8 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
 			snackbarMessageQueue.Enqueue("Source updated");
 		}
-
-		public string Title => "Source creation";
-
+		private string title;
+		public string Title => title;
 		public event Action<IDialogResult> RequestClose;
 
 		public bool CanCloseDialog()
@@ -93,8 +92,12 @@ namespace Mneme.PrismModule.Sources.ViewModels
 		public void OnDialogOpened(IDialogParameters parameters)
 		{
 			if (parameters.Count == 0)
+			{
+				title = "Source creation";
 				return;
+			}
 			sourceToEdit = parameters.GetValue<SourcePreview>("source");
+			title = "Source edition";
 			SourceTitle = sourceToEdit.Title;
 			Details = sourceToEdit.Details;
 		}
