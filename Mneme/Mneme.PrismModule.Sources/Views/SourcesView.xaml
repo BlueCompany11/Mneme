@@ -98,9 +98,15 @@
                     Command="{Binding ShowDialogCreateSourceCommand}">
                 + New Source
             </Button>
+            <TextBlock Grid.Row="3"
+                       Grid.ColumnSpan="3"
+                       Visibility="{Binding SourcesListEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                       Text="No sources to display. Add manually or integrate with any service to load automatically your sources."
+                       TextAlignment="Center" VerticalAlignment="Center" FontSize="18"></TextBlock>
             <ListBox Grid.Row="3"
                      Grid.ColumnSpan="3"
                      HorizontalContentAlignment="Stretch"
+                     Visibility="{Binding SourcesListEmpty, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                      ItemsSource="{Binding Source={StaticResource GroupedSources}}"
                      SelectedItem="{Binding SelectedSource}">
                 <ListBox.GroupStyle>
