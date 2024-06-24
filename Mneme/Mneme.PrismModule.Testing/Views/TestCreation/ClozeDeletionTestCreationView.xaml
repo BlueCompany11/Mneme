@@ -8,29 +8,7 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="TestInput"
-               TargetType="TextBox"
-               BasedOn="{StaticResource MaterialDesignFilledTextBox}">
-            <Setter Property="Margin"
-                    Value="0,8,0,0"></Setter>
-            <Setter Property="HorizontalAlignment"
-                    Value="Stretch"></Setter>
-            <Setter Property="AcceptsReturn"
-                    Value="True"></Setter>
-            <Setter Property="TextWrapping"
-                    Value="Wrap"></Setter>
-            <Setter Property="VerticalScrollBarVisibility"
-                    Value="Auto"></Setter>
-            <Setter Property="HorizontalScrollBarVisibility"
-                    Value="Disabled"></Setter>
-            <Setter Property="MaxHeight"
-                    Value="60"></Setter>
-        </Style>
-        <Style x:Key="Labels"
-               TargetType="TextBlock">
-            <Setter Property="FontWeight"
-                    Value="Medium"></Setter>
-        </Style>
+        <ResourceDictionary Source="/Mneme.PrismModule.Testing;component/Views/Styles.xaml" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
