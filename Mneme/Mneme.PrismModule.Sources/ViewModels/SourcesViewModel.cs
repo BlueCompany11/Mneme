@@ -43,6 +43,12 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			get => sources;
 			set => SetProperty(ref sources, value);
 		}
+		
+		private bool sourcesListEmpty;
+		public bool SourcesListEmpty
+		{
+			get => Sources.Count == 0 && !isLoading;
+		}
 
 		public SourcesViewModel(ISnackbarMessageQueue snackbarMessageQueue, IDialogService dialogService, SourcesManager manager)
 		{
@@ -160,6 +166,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 						}
 						allSourcesPreview = new List<SourcePreview>(Sources);
 						IsLoading = false;
+						RaisePropertyChanged(nameof(SourcesListEmpty));
 					});
 				});
 			}
