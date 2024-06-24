@@ -7,26 +7,52 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="TestInput"
+               TargetType="TextBox"
+               BasedOn="{StaticResource MaterialDesignFilledTextBox}">
+            <Setter Property="Margin"
+                    Value="0,8,0,0"></Setter>
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch"></Setter>
+            <Setter Property="AcceptsReturn"
+                    Value="True"></Setter>
+            <Setter Property="TextWrapping"
+                    Value="Wrap"></Setter>
+            <Setter Property="VerticalScrollBarVisibility"
+                    Value="Auto"></Setter>
+            <Setter Property="HorizontalScrollBarVisibility"
+                    Value="Disabled"></Setter>
+            <Setter Property="MaxHeight"
+                    Value="60"></Setter>
+        </Style>
+        <Style x:Key="Labels"
+               TargetType="TextBlock">
+            <Setter Property="FontWeight"
+                    Value="Medium"></Setter>
+        </Style>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignAccentCheckBox}">
+            <Setter Property="VerticalAlignment"
+                    Value="Center"></Setter>
+            <Setter Property="Margin"
+                    Value="0,4,4,0"></Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="2*" />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="96" />
+            <RowDefinition Height="240" />
+            <RowDefinition Height="96" />
+            <RowDefinition Height="96" />
         </Grid.RowDefinitions>
         <StackPanel>
-            <TextBlock FontWeight="Medium" Text="Question" />
-            <TextBox
-                Margin="0,10,0,0"
-                HorizontalAlignment="Stretch"
-                AcceptsReturn="True"
-                Style="{StaticResource MaterialDesignFilledTextBox}"
-                Text="{Binding Question}"
-                TextWrapping="Wrap" />
+            <TextBlock Style="{StaticResource Labels}" Text="Question" />
+            <TextBox Style="{StaticResource TestInput}"
+                     Text="{Binding Question}" />
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <TextBlock FontWeight="Medium" Text="Answers" />
-            <Grid Margin="0,10,0,0">
+            <TextBlock Style="{StaticResource Labels}" Text="Answers" />
+            <Grid Margin="0,8,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="20" />
@@ -40,69 +66,41 @@
                 <DockPanel>
                     <CheckBox IsChecked="{Binding Checks[0]}" />
                     <TextBox
-                        Margin="0,10,0,0"
-                        HorizontalAlignment="Stretch"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding Texts[0]}"
-                        TextWrapping="Wrap" />
+                        Style="{StaticResource TestInput}"
+                        Text="{Binding Texts[0]}" />
                 </DockPanel>
                 <DockPanel Grid.Row="1">
                     <CheckBox IsChecked="{Binding Checks[2]}" />
-                    <TextBox
-                        Margin="0,10,0,0"
-                        HorizontalAlignment="Stretch"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding Texts[2]}"
-                        TextWrapping="Wrap" />
+                    <TextBox Style="{StaticResource TestInput}"
+                             Text="{Binding Texts[2]}" />
                 </DockPanel>
                 <DockPanel Grid.Row="2">
                     <CheckBox IsChecked="{Binding Checks[4]}" />
-                    <TextBox
-                        Margin="0,10,0,0"
-                        HorizontalAlignment="Stretch"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding Texts[4]}"
-                        TextWrapping="Wrap" />
+                    <TextBox Style="{StaticResource TestInput}" 
+                        Text="{Binding Texts[4]}" />
                 </DockPanel>
                 <DockPanel Grid.Column="2">
                     <CheckBox IsChecked="{Binding Checks[1]}" />
-                    <TextBox
-                        Margin="0,10,0,0"
-                        HorizontalAlignment="Stretch"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding Texts[1]}"
-                        TextWrapping="Wrap" />
+                    <TextBox Style="{StaticResource TestInput}"
+                             Text="{Binding Texts[1]}" />
                 </DockPanel>
                 <DockPanel Grid.Row="1" Grid.Column="2">
                     <CheckBox IsChecked="{Binding Checks[3]}" />
-                    <TextBox
-                        Margin="0,10,0,0"
-                        HorizontalAlignment="Stretch"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding Texts[3]}"
-                        TextWrapping="Wrap" />
+                    <TextBox Style="{StaticResource TestInput}"
+                             Text="{Binding Texts[3]}" />
                 </DockPanel>
                 <DockPanel Grid.Row="2" Grid.Column="2">
                     <CheckBox IsChecked="{Binding Checks[5]}" />
-                    <TextBox
-                        Margin="0,10,0,0"
-                        HorizontalAlignment="Stretch"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding Texts[5]}"
-                        TextWrapping="Wrap" />
+                    <TextBox Style="{StaticResource TestInput}"
+                        Text="{Binding Texts[5]}" />
                 </DockPanel>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="2">
-            <TextBlock Text="Importance" />
+            <TextBlock Text="Importance" Style="{StaticResource Labels}" />
             <ComboBox
                 HorizontalAlignment="Left"
+                Margin="0,8,0,0"
                 ItemsSource="{Binding ImportanceOptions}"
                 SelectedItem="{Binding SelectedImportanceOption}"
                 Style="{StaticResource TestingCombobox}" />
