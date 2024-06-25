@@ -2,7 +2,7 @@
 
 namespace Mneme.Integrations.Pluralsight
 {
-	public class PluralsightConfigProvider : IPluralsightConfigProvider
+	public class PluralsightConfigProvider
 	{
 		public PluralsightConfig Config { get; private set; }
 		public PluralsightConfigProvider()
@@ -20,15 +20,12 @@ namespace Mneme.Integrations.Pluralsight
 			}
 		}
 
-		public event Action SourceUpdated = delegate { };
-
 		public void UpdatePath(string path)
 		{
 			Config.FilePath = path;
 			using var pluralsightContext = new PluralsightContext();
 			pluralsightContext.Attach(Config);
 			pluralsightContext.SaveChanges();
-			SourceUpdated?.Invoke();
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Mneme.Integrations.Pluralsight
 {
-	public class PluralsightPreelaborationProvider
+	internal class PluralsightPreelaborationProvider
 	{
 		public List<PluralsightPreelaboration> Preelaborations { get; private set; }
 

@@ -25,6 +25,7 @@ namespace Mneme.PrismModule.Integrations.Mneme
 			containerRegistry.Register<MnemeNoteSaver>();
 			containerRegistry.Register<BaseSourcesProvider<MnemeSource>, MnemeSourcesProvider>();
 
+			containerRegistry.Register<IIntegrationFacade<MnemeSource, MnemePreelaboration>, MnemeIntegrationFacade>();
 		}
 	}
 }
