@@ -28,43 +28,18 @@ namespace Mneme.Core.Bootstrapper
 			Container = new(rules => rules.WithTrackingDisposableTransients());
 
 			Sources();
-			HardSources();
-			GoogleHelpers();
-			PluralsightHelper();
 			PreelaborationProviders();
 			Integrations();
 		}
 
-		private void GoogleHelpers()
-		{
-			Container.Register<GoogleCredentialsProvider>();
-			Container.Register<GoogleBooksService>();
-		}
-
-		private void PluralsightHelper()
-		{
-			Container.RegisterInstance(new PluralsightConfigProvider());
-			Container.Register<PluralsightNoteIdProvider>();
-		}
-
-		private void HardSources()
-		{
-			Container.Register<ISourceSaver<MnemeSource>, MnemeSourceSaver>();
-			Container.Register<MnemeNoteSaver>();
-		}
-
 		private void PreelaborationProviders()
 		{
-			Container.Register<PluralsightPreelaborationProviderDecorator>();
-			Container.Register<GoogleBooksPreelaborationProvider>();
 			Container.Register<IPluralsightPreelaborationProvider, PluralsightPreelaborationProvider>();
 		}
 
 		private void Sources()
 		{
-			Container.Register<BaseSourcesProvider<GoogleBooksSource>, GoogleBooksSourceProvider>();
 			Container.Register<BaseSourcesProvider<PluralsightSource>, PluralsightSourceProvider>();
-			Container.Register<BaseSourcesProvider<MnemeSource>, MnemeSourcesProvider>();
 		}
 
 		private void Integrations()
