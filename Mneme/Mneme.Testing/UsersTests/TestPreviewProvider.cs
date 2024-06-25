@@ -11,9 +11,9 @@ namespace Mneme.Testing.UsersTests
 		private readonly SpaceRepetition spaceRepetition;
 
 		private Queue<TestDataPreview> Tests { get; set; }
-		public TestPreviewProvider(TestingContext testingContext, TestTypeProvider testTypeProvider, SpaceRepetition spaceRepetition)
+		public TestPreviewProvider(TestTypeProvider testTypeProvider, SpaceRepetition spaceRepetition)
 		{
-			this.testingContext = testingContext;
+			this.testingContext = new();
 			this.testTypeProvider = testTypeProvider;
 			this.spaceRepetition = spaceRepetition;
 		}

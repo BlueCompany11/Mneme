@@ -5,6 +5,7 @@ using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
 using Mneme.Model.Preelaborations;
 using Mneme.Model.TestCreation;
+using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
 using Mneme.Testing.TestCreation;
 using Prism.Commands;
@@ -60,18 +61,18 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private Preelaboration Preelaboration { get; set; }
 		public DelegateCommand CreateTestCommand { get; set; }
 		private readonly INoteTestVisitor clozeDeletionNoteTestVisitor;
-		private readonly TestingContext testingContext;
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
+		private readonly TestingRepository repository;
 		private bool freezeText;
 
-		public ClozeDeletionTestCreationViewModel(ClozeDeletionNoteTestVisitor clozeDeletionNoteTestVisitor, TestingContext testingContext, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue)
+		public ClozeDeletionTestCreationViewModel(ClozeDeletionNoteTestVisitor clozeDeletionNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			ClozeDeletions = [];
 			this.clozeDeletionNoteTestVisitor = clozeDeletionNoteTestVisitor;
-			this.testingContext = testingContext;
 			this.testImportanceMapper = testImportanceMapper;
 			this.snackbarMessageQueue = snackbarMessageQueue;
+			this.repository = repository;
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
 			CreateTestCommand = new DelegateCommand(CreateTest);
@@ -89,8 +90,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				ClozeDeletionDataStructures = ClozeDeletionDataStructures,
 				Created = DateTime.Now
 			};
-			_ = testingContext.Add(testClozeDeletion);
-			_ = testingContext.SaveChanges();
+			repository.CreateTest(testClozeDeletion);
 			snackbarMessageQueue.Enqueue("Test created");
 		}
 		public void MarkClozeDeletion(int start, int end)

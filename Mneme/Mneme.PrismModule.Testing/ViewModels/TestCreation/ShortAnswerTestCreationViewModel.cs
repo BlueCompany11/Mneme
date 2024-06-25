@@ -4,6 +4,7 @@ using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
 using Mneme.Model.Preelaborations;
 using Mneme.Model.TestCreation;
+using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
 using Mneme.Testing.TestCreation;
 using Prism.Commands;
@@ -48,17 +49,17 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			set => SetProperty(ref selectedImportanceOption, value);
 		}
 		private readonly INoteTestVisitor shortAnswerNoteTestVisitor;
-		private readonly TestingContext testingContext;
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
+		private readonly TestingRepository repository;
 
 		private Preelaboration Preelaboration { get; set; }
-		public ShortAnswerTestCreationViewModel(ShortAnswerNoteTestVisitor shortAnswerNoteTestVisitor, TestingContext testingContext, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue)
+		public ShortAnswerTestCreationViewModel(ShortAnswerNoteTestVisitor shortAnswerNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			this.shortAnswerNoteTestVisitor = shortAnswerNoteTestVisitor;
-			this.testingContext = testingContext;
 			this.testImportanceMapper = testImportanceMapper;
 			this.snackbarMessageQueue = snackbarMessageQueue;
+			this.repository = repository;
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
 			CreateTestCommand = new DelegateCommand(CreateTest);
@@ -86,8 +87,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		{
 			int importance = testImportanceMapper.Map(SelectedImportanceOption);
 			var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Preelaboration.IntegrationId };
-			_ = testingContext.Add(test);
-			_ = testingContext.SaveChanges();
+			repository.CreateTest(test);
 			snackbarMessageQueue.Enqueue("Test created");
 		}
 	}

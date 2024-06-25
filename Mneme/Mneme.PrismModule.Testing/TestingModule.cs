@@ -44,6 +44,7 @@ namespace Mneme.PrismModule.Testing
 			containerRegistry.Register<SpaceRepetition>();
 
 			containerRegistry.Register<IDatabase, DatabaseMigrator>();
+			containerRegistry.Register<TestingRepository>();
 		}
 	}
 }

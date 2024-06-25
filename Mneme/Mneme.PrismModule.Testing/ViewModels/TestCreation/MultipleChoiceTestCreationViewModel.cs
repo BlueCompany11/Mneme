@@ -4,6 +4,7 @@ using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
 using Mneme.Model.Preelaborations;
 using Mneme.Model.TestCreation;
+using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
 using Mneme.Testing.TestCreation;
 using Prism.Commands;
@@ -49,18 +50,18 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			set => SetProperty(ref selectedImportanceOption, value);
 		}
 		private readonly INoteTestVisitor multipleChoiceNoteTestVisitor;
-		private readonly TestingContext testingContext;
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
+		private readonly TestingRepository repository;
 
-		public MultipleChoiceTestCreationViewModel(MultipleChoiceNoteTestVisitor multipleChoiceNoteTestVisitor, TestingContext testingContext, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue)
+		public MultipleChoiceTestCreationViewModel(MultipleChoiceNoteTestVisitor multipleChoiceNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
 			this.multipleChoiceNoteTestVisitor = multipleChoiceNoteTestVisitor;
-			this.testingContext = testingContext;
 			this.testImportanceMapper = testImportanceMapper;
 			this.snackbarMessageQueue = snackbarMessageQueue;
+			this.repository = repository;
 			Texts = new List<string>(amountOfAnswers);
 			Checks = new List<bool>(amountOfAnswers);
 			for (int i = 0 ; i < amountOfAnswers ; i++)
@@ -99,8 +100,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				answers.Add(new TestMultipleChoice { Answer = Texts[i], IsCorrect = Checks[i] });
 			}
 			var test = new TestMultipleChoices { Question = Question, Answers = answers, Importance = importance, Created = DateTime.Now, NoteId = Preelaboration.IntegrationId };
-			_ = testingContext.Add(test);
-			_ = testingContext.SaveChanges();
+			repository.CreateTest(test);
 			snackbarMessageQueue.Enqueue("Test created");
 		}
 	}

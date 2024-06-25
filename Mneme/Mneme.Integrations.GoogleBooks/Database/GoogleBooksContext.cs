@@ -4,7 +4,7 @@ using Mneme.Integrations.GoogleBooks.Contract;
 
 namespace Mneme.Integrations.GoogleBooks.Database
 {
-	public class GoogleBooksContext : Context
+	internal class GoogleBooksContext : Context
 	{
 		public DbSet<GoogleBooksSource> GoogleBooksSources { get; set; }
 		public DbSet<GoogleBooksPreelaboration> GoogleBooksPreelaborations { get; set; }

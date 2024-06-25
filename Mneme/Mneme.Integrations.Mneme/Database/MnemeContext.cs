@@ -4,7 +4,7 @@ using Mneme.Integrations.Mneme.Contract;
 
 namespace Mneme.Integrations.Mneme.Database
 {
-	public class MnemeContext : Context
+	internal class MnemeContext : Context
 	{
 		public DbSet<MnemeSource> MnemeSources { get; set; }
 		public DbSet<MnemePreelaboration> MnemePreelaboration { get; set; }

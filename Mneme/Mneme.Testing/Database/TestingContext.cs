@@ -4,7 +4,7 @@ using Mneme.Model.TestCreation;
 
 namespace Mneme.Testing.Database
 {
-	public class TestingContext : Context
+	internal class TestingContext : Context
 	{
 		public DbSet<TestShortAnswer> TestShortAnswers { get; set; }
 		public DbSet<TestMultipleChoices> TestMultipleChoices { get; set; }

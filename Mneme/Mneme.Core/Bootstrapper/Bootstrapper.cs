@@ -26,11 +26,6 @@ namespace Mneme.Core.Bootstrapper
 		public Bootstrapper()
 		{
 			Container = new(rules => rules.WithTrackingDisposableTransients());
-			Container.Register(setup: Setup.With(trackDisposableTransient: true), made: Made.Of(() => new Context()));
-			Container.Register(setup: Setup.With(trackDisposableTransient: true), made: Made.Of(() => new MnemeContext()));
-			Container.Register(setup: Setup.With(trackDisposableTransient: true), made: Made.Of(() => new PluralsightContext()));
-			Container.Register(setup: Setup.With(trackDisposableTransient: true), made: Made.Of(() => new GoogleBooksContext()));
-			Container.Register(setup: Setup.With(trackDisposableTransient: true), made: Made.Of(() => new TestingContext()));
 
 			Sources();
 			HardSources();
