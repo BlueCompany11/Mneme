@@ -4,7 +4,7 @@ using Mneme.Integrations.Pluralsight.Contract;
 
 namespace Mneme.Integrations.Pluralsight.Database
 {
-	public class PluralsightContext : Context
+	internal class PluralsightContext : Context
 	{
 		public DbSet<PluralsightSource> PluralsightSources { get; set; }
 		public DbSet<PluralsightConfig> PluralsightConfigs { get; set; }
