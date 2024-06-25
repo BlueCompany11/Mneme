@@ -6,10 +6,10 @@ namespace Mneme.Integrations.Pluralsight.Contract
 {
 	public class PluralsightPreelaborationProviderDecorator
 	{
-		private readonly IPluralsightPreelaborationProvider pluralsightPreelaborationProvider;
+		private readonly PluralsightPreelaborationProvider pluralsightPreelaborationProvider;
 		private readonly IPluralsightConfigProvider pluralsightConfigProvider;
 
-		public PluralsightPreelaborationProviderDecorator(IPluralsightPreelaborationProvider pluralsightPreelaborationProvider, PluralsightConfigProvider pluralsightConfigProvider)
+		public PluralsightPreelaborationProviderDecorator(PluralsightConfigProvider pluralsightConfigProvider, PluralsightPreelaborationProvider pluralsightPreelaborationProvider)
 		{
 			this.pluralsightPreelaborationProvider = pluralsightPreelaborationProvider;
 			this.pluralsightConfigProvider = pluralsightConfigProvider;

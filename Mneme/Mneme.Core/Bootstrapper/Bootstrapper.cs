@@ -28,13 +28,7 @@ namespace Mneme.Core.Bootstrapper
 			Container = new(rules => rules.WithTrackingDisposableTransients());
 
 			Sources();
-			PreelaborationProviders();
 			Integrations();
-		}
-
-		private void PreelaborationProviders()
-		{
-			Container.Register<IPluralsightPreelaborationProvider, PluralsightPreelaborationProvider>();
 		}
 
 		private void Sources()
