@@ -9,7 +9,7 @@ namespace Mneme.PrismModule.Configuration.Integration.ViewModels
 	{
 		public DelegateCommand LoadFileCommand { get; private set; }
 		private string filePath;
-		private readonly IPluralsightConfigProvider pluralsightConfigProvider;
+		private readonly PluralsightConfigProvider pluralsightConfigProvider;
 
 		public string FilePath
 		{

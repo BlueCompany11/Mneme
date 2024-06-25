@@ -10,21 +10,11 @@ namespace Mneme.Desktop.ViewModels
 {
 	public class MainWindowViewModel : BindableBase
 	{
-		private readonly IBundledIntegrationFacades integrationFacade;
-
 		public ISnackbarMessageQueue SnackbarMessageQueue { get; }
-		public DelegateCommand MigrateDatabaseCommand { get; set; }
 
-		public MainWindowViewModel(IBundledIntegrationFacades integrationFacade, ISnackbarMessageQueue snackbarMessageQueue)
+		public MainWindowViewModel( ISnackbarMessageQueue snackbarMessageQueue)
 		{
-			MigrateDatabaseCommand = new DelegateCommand(MigrateDatabase);
-			this.integrationFacade = integrationFacade;
 			SnackbarMessageQueue = snackbarMessageQueue;
-		}
-
-		private async void MigrateDatabase()
-		{
-			await integrationFacade.MigrateDatabase();
 		}
 	}
 }

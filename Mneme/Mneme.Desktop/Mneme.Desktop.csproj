@@ -9,6 +9,16 @@
     <StartupObject>Mneme.Desktop.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="ViewModels\Configuration\**" />
+    <Compile Remove="Views\Configuration\**" />
+    <EmbeddedResource Remove="ViewModels\Configuration\**" />
+    <EmbeddedResource Remove="Views\Configuration\**" />
+    <None Remove="ViewModels\Configuration\**" />
+    <None Remove="Views\Configuration\**" />
+    <Page Remove="ViewModels\Configuration\**" />
+    <Page Remove="Views\Configuration\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icons\Dashboard.svg" />
     <None Remove="Icons\Integration.svg" />
     <None Remove="Icons\Mneme-logo-color-600x200.png" />
@@ -87,9 +97,5 @@
     <None Update="Database.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Configuration\" />
-    <Folder Include="Views\Configuration\" />
   </ItemGroup>
 </Project>

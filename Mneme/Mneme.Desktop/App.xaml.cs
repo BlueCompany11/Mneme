@@ -2,7 +2,7 @@
 using System.Windows;
 using DryIoc;
 using MaterialDesignThemes.Wpf;
-using Mneme.Core.Bootstrapper;
+using Mneme.Core.Interfaces;
 using Mneme.Desktop.Views;
 using Mneme.PrismModule.Configuration.Integration;
 using Mneme.PrismModule.Dashboard;
@@ -15,10 +15,8 @@ using Mneme.PrismModule.Notes.Views;
 using Mneme.PrismModule.Sources;
 using Mneme.PrismModule.Testing;
 using Mneme.Views.Base;
-using Prism.DryIoc.Extensions;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Mvvm;
 using Prism.Regions;
 
 namespace Mneme.Desktop
@@ -33,48 +31,25 @@ namespace Mneme.Desktop
 			return Container.Resolve<MainWindow>();
 		}
 
-		private readonly Bootstrapper bootstrapper = new();
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
-			RegisterFromBootstrapper();
-			RegisterForNavigation(containerRegistry);
-			MapViewWithViewModel();
 			containerRegistry.RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(4)));
-			
+			containerRegistry.Register<IBundledIntegrationFacades, BundledIntegrationFacades>();
 		}
 
 		protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
 		{
-			moduleCatalog.AddModule<DashboardModule>();
-			moduleCatalog.AddModule<SourcesModule>();
-			moduleCatalog.AddModule<NotesModule>();
-			moduleCatalog.AddModule<GoogleBooksModule>();
-			moduleCatalog.AddModule<MnemeModule>();
-			moduleCatalog.AddModule<PluralsightModule>();
-			moduleCatalog.AddModule<TestingModule>();
-			moduleCatalog.AddModule<IntegrationModule>();
+			moduleCatalog.AddModule<DashboardModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<SourcesModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<NotesModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<GoogleBooksModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<MnemeModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<PluralsightModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<TestingModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<IntegrationModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable);
 		}
 
-		private static void RegisterForNavigation(IContainerRegistry containerRegistry)
-		{
-
-
-		}
-
-		private void MapViewWithViewModel()
-		{
-
-		}
-		private void RegisterFromBootstrapper()
-		{
-			RegisterFromMainContainer();
-		}
-
-		private void RegisterFromMainContainer()
-		{
-			var helper = new RegistrationTransferer();
-			helper.TransferRegistrations(bootstrapper.Container, Container.GetContainer());
-		}
 		protected override void OnInitialized()
 		{
 			var regionManager = Container.Resolve<IRegionManager>();

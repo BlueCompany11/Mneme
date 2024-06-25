@@ -13,11 +13,6 @@
         MinHeight="720"
         MinWidth="1280"
         WindowState="Maximized">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <prism:InvokeCommandAction Command="{Binding MigrateDatabaseCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />

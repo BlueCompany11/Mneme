@@ -6,16 +6,15 @@ namespace Mneme.Integrations.Pluralsight.Contract
 {
 	public class PluralsightPreelaborationProviderDecorator
 	{
-		private readonly IPluralsightPreelaborationProvider pluralsightPreelaborationProvider;
-		private readonly IPluralsightConfigProvider pluralsightConfigProvider;
+		private readonly PluralsightPreelaborationProvider pluralsightPreelaborationProvider;
+		private readonly PluralsightConfigProvider pluralsightConfigProvider;
 
-		public PluralsightPreelaborationProviderDecorator(IPluralsightPreelaborationProvider pluralsightPreelaborationProvider, PluralsightConfigProvider pluralsightConfigProvider)
+		public PluralsightPreelaborationProviderDecorator(PluralsightConfigProvider pluralsightConfigProvider)
 		{
-			this.pluralsightPreelaborationProvider = pluralsightPreelaborationProvider;
+			this.pluralsightPreelaborationProvider = new();
 			this.pluralsightConfigProvider = pluralsightConfigProvider;
 		}
 
-		//TODO get common code from google to one class
 		public async Task<List<Preelaboration>> GetPreelaborationsAsync(CancellationToken ct = default)
 		{
 			var ret = new List<Preelaboration>();

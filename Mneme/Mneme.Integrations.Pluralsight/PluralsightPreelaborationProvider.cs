@@ -2,16 +2,13 @@
 
 namespace Mneme.Integrations.Pluralsight
 {
-	public class PluralsightPreelaborationProvider : IPluralsightPreelaborationProvider
+	internal class PluralsightPreelaborationProvider
 	{
 		public List<PluralsightPreelaboration> Preelaborations { get; private set; }
 
-		private readonly PluralsightNoteIdProvider pluralsightNoteIdProvider;
-
-		public PluralsightPreelaborationProvider(PluralsightNoteIdProvider pluralsightNoteIdProvider)
+		public PluralsightPreelaborationProvider()
 		{
 			Preelaborations = [];
-			this.pluralsightNoteIdProvider = pluralsightNoteIdProvider;
 		}
 		public List<PluralsightPreelaboration> Open(string path)
 		{
@@ -50,7 +47,7 @@ namespace Mneme.Integrations.Pluralsight
 				TimeInClip = values[4],
 				Clip = values[3],
 				Source = new PluralsightSource { Title = values[1], IntegrationId = values[1], Active = true },
-				IntegrationId = pluralsightNoteIdProvider.GetNoteId(values[5])
+				IntegrationId = GetNoteId(values[5])
 			};
 			return ret;
 		}
@@ -64,6 +61,10 @@ namespace Mneme.Integrations.Pluralsight
 			}
 			preelaborations = null;
 			return false;
+		}
+		private static string GetNoteId(string url)
+		{
+			return url.Split("&noteid=")[1];
 		}
 	}
 }
