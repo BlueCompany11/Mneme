@@ -34,6 +34,11 @@ namespace Mneme.Desktop
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(4)));
+			RegisterFromCoreProject(containerRegistry);
+		}
+
+		public void RegisterFromCoreProject(IContainerRegistry containerRegistry)
+		{
 			containerRegistry.Register<IBundledIntegrationFacades, BundledIntegrationFacades>();
 		}
 
