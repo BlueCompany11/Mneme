@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mneme.DataAccess\Mneme.DataAccess.csproj" />
     <ProjectReference Include="..\Mneme.Integrations.Contracts\Mneme.Integrations.Contracts.csproj" />
   </ItemGroup>
 

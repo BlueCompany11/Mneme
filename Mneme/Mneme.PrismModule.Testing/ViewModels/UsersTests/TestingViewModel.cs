@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using Mneme.Model.TestCreation;
+using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.UsersTests;
 using Mneme.Views.Base;
 using Prism.Commands;
@@ -64,19 +65,15 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			};
 			if (CurrentTest is TestShortAnswer)
 			{
-				regionManager.RequestNavigate(RegionNames.TestingRegion, "ShortAnswerTestView", param); //TODO
+				regionManager.RequestNavigate(RegionNames.TestingRegion, nameof(ShortAnswerTestView), param);
 			}
 			else if (CurrentTest is TestMultipleChoices)
 			{
-				regionManager.RequestNavigate(RegionNames.TestingRegion, "MultipleAnswersTestView", param); //TODO
+				regionManager.RequestNavigate(RegionNames.TestingRegion, nameof(MultipleAnswersTestView), param);
 			}
 			else if (CurrentTest is TestClozeDeletion)
 			{
-				regionManager.RequestNavigate(RegionNames.TestingRegion, "ClozeDeletionTestView", param); //TODO
-			}
-			else
-			{
-				throw new Exception("No such test type " + test);
+				regionManager.RequestNavigate(RegionNames.TestingRegion, nameof(ClozeDeletionTestView), param);
 			}
 		}
 		public bool IsNavigationTarget(NavigationContext navigationContext)

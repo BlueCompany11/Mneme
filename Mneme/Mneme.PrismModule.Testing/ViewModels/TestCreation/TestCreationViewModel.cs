@@ -5,6 +5,7 @@ using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
 using Mneme.Model.Preelaborations;
+using Mneme.PrismModule.Integration.Facade;
 using Mneme.Views.Base;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -14,6 +15,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 	public class TestCreationViewModel : BindableBase, INavigationAware
 	{
 		private readonly IRegionManager regionManager;
+		private readonly NoteToPreviewNavigator navigator;
 		private List<string> testOptions;
 		public ISnackbarMessageQueue SnackbarMessageQueue { get; }
 		public List<string> TestOptions
@@ -35,10 +37,11 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 
 		private Preelaboration CurrentPreelaboration { get; set; }
 
-		public TestCreationViewModel(IRegionManager regionManager, ISnackbarMessageQueue snackbarMessageQueue)
+		public TestCreationViewModel(IRegionManager regionManager, ISnackbarMessageQueue snackbarMessageQueue, NoteToPreviewNavigator navigator)
 		{
 			this.regionManager = regionManager;
 			SnackbarMessageQueue = snackbarMessageQueue;
+			this.navigator = navigator;
 			TestOptions = ["Short Answer", "Multiple Choice", "Cloze Deletion"];
 			SelectedTestOption = TestOptions[0];
 		}
@@ -66,17 +69,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		{
 			CurrentPreelaboration = navigationContext.Parameters.GetValue<Preelaboration>("pre");
 			ChangeTestOptionView(SelectedTestOption);
-
-			if (CurrentPreelaboration is GoogleBooksPreelaboration)
-				regionManager.RequestNavigate(RegionNames.NotePreviewRegion, "GoogleBooksNotePreviewView", navigationContext.Parameters); //TODO
-			else if (CurrentPreelaboration is PluralsightPreelaboration)
-			{
-				regionManager.RequestNavigate(RegionNames.NotePreviewRegion, "PluralsightNotePreviewView", navigationContext.Parameters); //TODO
-			}
-			else if (CurrentPreelaboration is MnemePreelaboration)
-			{
-				regionManager.RequestNavigate(RegionNames.NotePreviewRegion, "MnemeNotePreviewView", navigationContext.Parameters); //TODO
-			}
+			navigator.NavigateToPreview(CurrentPreelaboration, navigationContext.Parameters, RegionNames.NotePreviewRegion);
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)

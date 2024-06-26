@@ -5,12 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Mneme.Core.Interfaces;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
 using Mneme.Model.Preelaborations;
 using Mneme.Notes;
+using Mneme.PrismModule.Integration.Facade;
+using Mneme.PrismModule.Notes.Views;
 using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -22,6 +23,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 	{
 		private readonly IRegionManager regionManager;
 		private readonly NotesUtility utilty;
+		private readonly NoteToPreviewNavigator navigator;
 		private bool isLoading;
 		private PreelaborationPreview selectedPreelaborationPreview;
 		private List<Preelaboration> Preelaborations { get; set; }
@@ -84,13 +86,14 @@ namespace Mneme.PrismModule.Notes.ViewModels
 
 		public DelegateCommand OpenNewNoteViewCommand { get; set; }
 		public DelegateCommand<PreelaborationPreview> DeleteNoteCommand { get; set; }
-		public NotesViewModel(IRegionManager regionManager, NotesUtility utilty)
+		public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator)
 		{
 			PreelaborationsPreview = [];
 			Preelaborations = [];
 			cachedPreelaborationsPreview = [];
 			this.regionManager = regionManager;
 			this.utilty = utilty;
+			this.navigator = navigator;
 			BindingOperations.EnableCollectionSynchronization(PreelaborationsPreview, _syncLock);
 			OpenNewNoteViewCommand = new DelegateCommand(OpenNewNoteView);
 			DeleteNoteCommand = new DelegateCommand<PreelaborationPreview>(DeleteNote, (p) => p?.Preelaboration.GetType() == typeof(MnemePreelaboration));
@@ -117,7 +120,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 
 		private void OpenNewNoteView()
 		{
-			regionManager.RequestNavigate(RegionNames.PreelaborationRegion, "NewMnemeNoteView"); //TODO
+			regionManager.RequestNavigate(RegionNames.PreelaborationRegion, nameof(NewMnemeNoteView));
 		}
 
 		private async void DeleteNote(PreelaborationPreview preview)
@@ -131,18 +134,8 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			var para = new NavigationParameters() {
 				{ "pre", SelectedPreelaboration }
 			};
-			if (SelectedPreelaboration is GoogleBooksPreelaboration)
-			{
-				regionManager.RequestNavigate(RegionNames.PreelaborationRegion, "GoogleBooksNotePreviewView", para); //TODO
-			}
-			else if (SelectedPreelaboration is PluralsightPreelaboration)
-			{
-				regionManager.RequestNavigate(RegionNames.PreelaborationRegion, "PluralsightNotePreviewView", para); //TODO
-			}
-			else if (SelectedPreelaboration is MnemePreelaboration)
-			{
-				regionManager.RequestNavigate(RegionNames.PreelaborationRegion, "MnemeNotePreviewView", para); //TODO
-			}
+			navigator.NavigateToPreview(SelectedPreelaboration, para, RegionNames.PreelaborationRegion);
+			
 		}
 		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{
@@ -186,7 +179,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		}
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-			if (navigationContext.Uri.OriginalString == "NewMnemeNoteView") //TODO
+			if (navigationContext.Uri.OriginalString == nameof(NewMnemeNoteView))
 				return;
 			try
 			{

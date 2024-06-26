@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mneme.Core\Mneme.Core.csproj" />
+    <ProjectReference Include="..\Mneme.Integrations.GoogleBooks\Mneme.Integrations.GoogleBooks.csproj" />
+    <ProjectReference Include="..\Mneme.Integrations.Mneme\Mneme.Integrations.Mneme.csproj" />
+    <ProjectReference Include="..\Mneme.Integrations.Pluralsight\Mneme.Integrations.Pluralsight.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integrations.GoogleBooks\Mneme.PrismModule.Integrations.GoogleBooks.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Mneme\Mneme.PrismModule.Integrations.Mneme.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Pluralsight\Mneme.PrismModule.Integrations.Pluralsight.csproj" />
+    <ProjectReference Include="..\Mneme.Views.Base\Mneme.Views.Base.csproj" />
+  </ItemGroup>
+</Project>

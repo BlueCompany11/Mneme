@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Mneme.Core.Interfaces;
-using Mneme.Integrations.Contracts;
-using Mneme.Integrations.Mneme;
-using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model.Sources;
 using Mneme.Notes;
 using Mneme.PrismModule.Notes.Views;

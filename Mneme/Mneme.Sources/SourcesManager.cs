@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mneme.Core.Interfaces;
+using Mneme.Core;
 using Mneme.Model.Sources;
 
 namespace Mneme.Sources
@@ -7,16 +7,18 @@ namespace Mneme.Sources
 	public class SourcesManager : IDisposable
 	{
 		private readonly IBundledIntegrationFacades integration;
+		private readonly IMnemeIntegrationFacade mnemeIntegration;
 
-		public SourcesManager(IBundledIntegrationFacades integration)
+		public SourcesManager(IBundledIntegrationFacades integration, IMnemeIntegrationFacade mnemeIntegration)
 		{
 			this.integration = integration;
+			this.mnemeIntegration = mnemeIntegration;
 		}
 		public async Task<bool> DeleteSource(SourcePreview source)
 		{
 			try
 			{
-				await integration.DeleteSource(source.Id);
+				await mnemeIntegration.DeleteSource(source.Id);
 				return true;
 			}
 			catch (DbUpdateException)
