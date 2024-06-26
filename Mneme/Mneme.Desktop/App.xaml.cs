@@ -58,7 +58,7 @@ namespace Mneme.Desktop
 		{
 			var regionManager = Container.Resolve<IRegionManager>();
 			_ = regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DashboardView));
-			_ = regionManager.RegisterViewWithRegion(RegionNames.PreelaborationRegion, typeof(EmptyNotePreviewView));
+			_ = regionManager.RegisterViewWithRegion(RegionNames.NoteRegion, typeof(EmptyNotePreviewView));
 			_ = regionManager.RegisterViewWithRegion(RegionNames.SideBarMenuRegion, typeof(MainMenuSideBarView));
 			base.OnInitialized();
 		}

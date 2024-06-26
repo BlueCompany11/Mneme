@@ -5,7 +5,7 @@ using Mneme.Integrations.Mneme.Database;
 
 namespace Mneme.Integrations.Mneme.Contract
 {
-	public class MnemeIntegrationFacade : IntegrationFacadeBase<Context, MnemeSource, MnemePreelaboration>
+	public class MnemeIntegrationFacade : IntegrationFacadeBase<Context, MnemeSource, MnemeNote>
 	{
 
 		public MnemeIntegrationFacade() : base()
@@ -16,9 +16,9 @@ namespace Mneme.Integrations.Mneme.Contract
 		{
 			return new MnemeContext();
 		}
-		public override async Task<IReadOnlyList<MnemePreelaboration>> GetNotes(CancellationToken ct)
+		public override async Task<IReadOnlyList<MnemeNote>> GetNotes(CancellationToken ct)
 		{
-			var notes = await context.Set<MnemePreelaboration>().Include(x => x.Source).ToListAsync(ct);
+			var notes = await context.Set<MnemeNote>().Include(x => x.Source).ToListAsync(ct);
 			return notes;
 		}
 	}

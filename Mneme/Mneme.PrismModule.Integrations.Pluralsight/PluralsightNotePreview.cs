@@ -13,7 +13,7 @@ namespace Mneme.PrismModule.Integrations.Pluralsight
 		public required string Type { get; init; }
 		public required string Note { get; init; }
 		public required string TimeInClip { get; init; }
-		public static PluralsightNotePreview CreateFromNote(PluralsightPreelaboration note)
+		public static PluralsightNotePreview CreateFromNote(PluralsightNote note)
 		{
 			return new PluralsightNotePreview()
 			{

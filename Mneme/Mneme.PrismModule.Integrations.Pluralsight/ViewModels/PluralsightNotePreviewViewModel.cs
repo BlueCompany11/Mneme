@@ -1,5 +1,5 @@
 ﻿using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.PrismModule.Integrations.Base;
 using Mneme.Views.Base;
 using Prism.Regions;
@@ -59,7 +59,7 @@ namespace Mneme.PrismModule.Integrations.Pluralsight.ViewModels
 			set => SetProperty(ref type, value);
 		}
 
-		protected override Preelaboration Preelaboration { get; set; }
+		protected override Note Preelaboration { get; set; }
 
 		public PluralsightNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
 
@@ -77,7 +77,7 @@ namespace Mneme.PrismModule.Integrations.Pluralsight.ViewModels
 
 		protected override void LoadNote()
 		{
-			notePreview = PluralsightNotePreview.CreateFromNote((PluralsightPreelaboration)Preelaboration);
+			notePreview = PluralsightNotePreview.CreateFromNote((PluralsightNote)Preelaboration);
 			PluralsightNotePreviewUpdate();
 		}
 	}

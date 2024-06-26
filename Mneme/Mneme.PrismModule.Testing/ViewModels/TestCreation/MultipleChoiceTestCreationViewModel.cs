@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
@@ -72,10 +72,10 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			CreateTestCommand = new DelegateCommand(CreateTest);
 		}
 
-		private Preelaboration Preelaboration { get; set; }
+		private Note Preelaboration { get; set; }
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			Preelaboration = navigationContext.Parameters.GetValue<Preelaboration>("pre");
+			Preelaboration = navigationContext.Parameters.GetValue<Note>("pre");
 			var data = Preelaboration.Accept(multipleChoiceNoteTestVisitor) as MultipleChoiceNoteData;
 			Question = data.Question;
 		}

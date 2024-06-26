@@ -21,9 +21,9 @@ namespace Mneme.PrismModule.Integrations.Pluralsight
 			containerRegistry.RegisterForNavigation<PluralsightNotePreviewView>();
 
 			containerRegistry.Register<PluralsightConfigProvider>();
-			containerRegistry.Register<PluralsightPreelaborationProviderDecorator>();
+			containerRegistry.Register<PluralsightNoteProviderDecorator>();
 			containerRegistry.Register<BaseSourcesProvider<PluralsightSource>, PluralsightSourceProvider>();
-			containerRegistry.Register<IIntegrationFacade<PluralsightSource, PluralsightPreelaboration>, PluralsightIntegrationFacade>();
+			containerRegistry.Register<IIntegrationFacade<PluralsightSource, PluralsightNote>, PluralsightIntegrationFacade>();
 
 			containerRegistry.Register<IDatabase, PluralsightIntegrationFacade>();
 		}

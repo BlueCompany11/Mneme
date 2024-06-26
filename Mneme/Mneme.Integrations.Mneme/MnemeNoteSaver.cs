@@ -5,7 +5,7 @@ namespace Mneme.Integrations.Mneme
 {
 	public class MnemeNoteSaver
 	{
-		public void Save(MnemePreelaboration note)
+		public void Save(MnemeNote note)
 		{
 			using var context = new MnemeContext();
 			var source = context.MnemeSources.FirstOrDefault(x => x.IntegrationId == note.Source.IntegrationId);

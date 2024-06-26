@@ -1,11 +1,11 @@
-﻿using Mneme.Model.Preelaborations;
+﻿using Mneme.Model.Notes;
 using Mneme.Model.Sources;
 
 namespace Mneme.Integrations.Contracts
 {
 	public interface IIntegrationFacade<S, N> : IDatabase, IDisposable
 		where S : Source
-		where N : Preelaboration
+		where N : Note
 	{
 		Task DeleteSource(string id, CancellationToken ct);
 		Task UpdateSource(S source, CancellationToken ct);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
@@ -53,7 +53,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
 
-		private Preelaboration Preelaboration { get; set; }
+		private Note Preelaboration { get; set; }
 		public ShortAnswerTestCreationViewModel(ShortAnswerNoteTestVisitor shortAnswerNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			this.shortAnswerNoteTestVisitor = shortAnswerNoteTestVisitor;
@@ -67,7 +67,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		}
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			Preelaboration = navigationContext.Parameters.GetValue<Preelaboration>("pre");
+			Preelaboration = navigationContext.Parameters.GetValue<Note>("pre");
 			var data = Preelaboration.Accept(shortAnswerNoteTestVisitor) as ShortAnswerNoteData;
 			Question = data.Question;
 		}

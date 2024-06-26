@@ -4,20 +4,20 @@ using Mneme.Model.Preelaborations;
 
 namespace Mneme.Integrations.Pluralsight.Contract
 {
-	public class PluralsightPreelaborationProviderDecorator
+	public class PluralsightNoteProviderDecorator
 	{
-		private readonly PluralsightPreelaborationProvider pluralsightPreelaborationProvider;
+		private readonly PluralsightNoteProvider pluralsightPreelaborationProvider;
 		private readonly PluralsightConfigProvider pluralsightConfigProvider;
 
-		public PluralsightPreelaborationProviderDecorator(PluralsightConfigProvider pluralsightConfigProvider)
+		public PluralsightNoteProviderDecorator(PluralsightConfigProvider pluralsightConfigProvider)
 		{
 			this.pluralsightPreelaborationProvider = new();
 			this.pluralsightConfigProvider = pluralsightConfigProvider;
 		}
 
-		public async Task<List<Preelaboration>> GetPreelaborationsAsync(CancellationToken ct = default)
+		public async Task<List<Note>> GetPreelaborationsAsync(CancellationToken ct = default)
 		{
-			var ret = new List<Preelaboration>();
+			var ret = new List<Note>();
 			using var pluralsightContext = new PluralsightContext();
 			if (pluralsightPreelaborationProvider.TryOpen(pluralsightConfigProvider.Config.FilePath, out var pre))
 			{
@@ -33,7 +33,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 			return ret;
 		}
 
-		private async Task AddNewSources(List<PluralsightPreelaboration> pre, PluralsightContext pluralsightContext, CancellationToken ct)
+		private async Task AddNewSources(List<PluralsightNote> pre, PluralsightContext pluralsightContext, CancellationToken ct)
 		{
 			var uniqueSources = pre.GroupBy(x => x.Source.IntegrationId).Select(x => x.First().Source).ToList();
 			var existingSources = await pluralsightContext.PluralsightSources.ToListAsync(ct);
@@ -45,7 +45,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 			}
 		}
 
-		private void AddNewNotes(List<PluralsightPreelaboration> notes, PluralsightContext pluralsightContext)
+		private void AddNewNotes(List<PluralsightNote> notes, PluralsightContext pluralsightContext)
 		{
 			foreach (var note in notes)
 			{

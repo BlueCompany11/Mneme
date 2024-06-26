@@ -11,7 +11,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 			details = string.Empty;
 		}
 
-		public PluralsightSource(PluralsightPreelaboration pluralsightPreelaboration)
+		public PluralsightSource(PluralsightNote pluralsightPreelaboration)
 		{
 			details = pluralsightPreelaboration.Path;
 		}

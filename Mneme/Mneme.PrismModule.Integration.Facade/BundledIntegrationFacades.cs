@@ -8,23 +8,23 @@ using Mneme.Integrations.Contracts;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Model.Sources;
 
 namespace Mneme.PrismModule.Integration.Facade
 {
 	public class BundledIntegrationFacades : IBundledIntegrationFacades
 	{
-		private readonly IIntegrationFacade<GoogleBooksSource, GoogleBooksPreelaboration> googleBooksIntegration;
-		private readonly IIntegrationFacade<MnemeSource, MnemePreelaboration> mnemeIntegration;
-		private readonly IIntegrationFacade<PluralsightSource, PluralsightPreelaboration> pluralsightIntegration;
+		private readonly IIntegrationFacade<GoogleBooksSource, GoogleBooksNote> googleBooksIntegration;
+		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
+		private readonly IIntegrationFacade<PluralsightSource, PluralsightNote> pluralsightIntegration;
 		private readonly IDatabase testingModule;
 		private bool disposedValue;
 
 		public BundledIntegrationFacades(
-			IIntegrationFacade<GoogleBooksSource, GoogleBooksPreelaboration> googleBooksIntegration,
-			IIntegrationFacade<MnemeSource, MnemePreelaboration> mnemeIntegration,
-			IIntegrationFacade<PluralsightSource, PluralsightPreelaboration> pluralsightIntegration
+			IIntegrationFacade<GoogleBooksSource, GoogleBooksNote> googleBooksIntegration,
+			IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration,
+			IIntegrationFacade<PluralsightSource, PluralsightNote> pluralsightIntegration
 			)
 		{
 			this.googleBooksIntegration = googleBooksIntegration;
@@ -55,9 +55,9 @@ namespace Mneme.PrismModule.Integration.Facade
 		}
 
 
-		public async Task<IReadOnlyList<Preelaboration>> GetActiveNotes(CancellationToken ct = default)
+		public async Task<IReadOnlyList<Note>> GetActiveNotes(CancellationToken ct = default)
 		{
-			var ret = new List<Preelaboration>();
+			var ret = new List<Note>();
 			ret.AddRange(await googleBooksIntegration.GetNotes(ct));
 			ret.AddRange(await mnemeIntegration.GetNotes(ct));
 			ret.AddRange(await pluralsightIntegration.GetNotes(ct));
@@ -80,7 +80,7 @@ namespace Mneme.PrismModule.Integration.Facade
 		/// </summary>
 		/// <param name="ct"></param>
 		/// <returns></returns>
-		public async Task<IReadOnlyList<Preelaboration>> GetNotes(CancellationToken ct = default)
+		public async Task<IReadOnlyList<Note>> GetNotes(CancellationToken ct = default)
 		{
 			return await GetActiveNotes(ct);
 		}

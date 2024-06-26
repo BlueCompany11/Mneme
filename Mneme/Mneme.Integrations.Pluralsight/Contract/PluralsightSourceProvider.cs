@@ -5,9 +5,9 @@ namespace Mneme.Integrations.Pluralsight.Contract
 {
 	public class PluralsightSourceProvider : BaseSourcesProvider<PluralsightSource>
 	{
-		private readonly PluralsightPreelaborationProviderDecorator pluralsightPreelaborationProvider;
+		private readonly PluralsightNoteProviderDecorator pluralsightPreelaborationProvider;
 
-		public PluralsightSourceProvider(PluralsightPreelaborationProviderDecorator pluralsightPreelaborationProvider)
+		public PluralsightSourceProvider(PluralsightNoteProviderDecorator pluralsightPreelaborationProvider)
 		{
 			this.pluralsightPreelaborationProvider = pluralsightPreelaborationProvider;
 		}
@@ -23,7 +23,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 			var preelaborations = await pluralsightPreelaborationProvider.GetPreelaborationsAsync(ct);
 			preelaborations = preelaborations.GroupBy(x => x.Title).Select(x => x.First()).ToList();
 			var ret = new List<PluralsightSource>();
-			foreach (PluralsightPreelaboration item in preelaborations)
+			foreach (PluralsightNote item in preelaborations)
 			{
 				ret.Add(new PluralsightSource(item) { Active = true, IntegrationId = item.Source.IntegrationId, Title = item.Source.Title });
 			}

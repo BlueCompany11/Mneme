@@ -56,7 +56,7 @@
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            prism:RegionManager.RegionName="{x:Static regions:RegionNames.PreelaborationRegion}" />
+                            prism:RegionManager.RegionName="{x:Static regions:RegionNames.NoteRegion}" />
             <GridSplitter Grid.RowSpan="3"
                           Grid.Column="1"
                           Width="3"

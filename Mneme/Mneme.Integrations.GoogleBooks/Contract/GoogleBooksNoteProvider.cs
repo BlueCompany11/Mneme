@@ -4,18 +4,18 @@ using Mneme.Integrations.GoogleBooks.Database;
 
 namespace Mneme.Integrations.GoogleBooks.Contract
 {
-	public class GoogleBooksPreelaborationProvider
+	public class GoogleBooksNoteProvider
 	{
 		private readonly GoogleBooksService googleBooksService;
 
-		public GoogleBooksPreelaborationProvider(GoogleBooksService googleBooksService)
+		public GoogleBooksNoteProvider(GoogleBooksService googleBooksService)
 		{
 			this.googleBooksService = googleBooksService;
 		}
 
-		public async Task<List<GoogleBooksPreelaboration>> GetPreelaborationsAsync(CancellationToken ct)
+		public async Task<List<GoogleBooksNote>> GetPreelaborationsAsync(CancellationToken ct)
 		{
-			var ret = new List<GoogleBooksPreelaboration>();
+			var ret = new List<GoogleBooksNote>();
 			googleBooksService.Connect();
 			var notes = await googleBooksService.LoadNotes(ct);
 			if (ct.IsCancellationRequested)

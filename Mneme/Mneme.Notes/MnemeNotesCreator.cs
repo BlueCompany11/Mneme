@@ -14,10 +14,10 @@ namespace Mneme.Notes
 			this.integration = integration;
 			this.mnemeIntegration = mnemeIntegration;
 		}
-		public async Task<MnemePreelaboration> SaveMnemeNote(SourcePreview sourcePreview, string content, string title, string path, CancellationToken ct)
+		public async Task<MnemeNote> SaveMnemeNote(SourcePreview sourcePreview, string content, string title, string path, CancellationToken ct)
 		{
 			var newSource = (await integration.GetSource(sourcePreview.Id, sourcePreview.TypeOfSource, ct)) as MnemeSource;
-			var note = new MnemePreelaboration() { IntegrationId = Guid.NewGuid().ToString(), Content = content, Title = title, Path = path, CreationTime = DateTime.Now, Source = newSource };
+			var note = new MnemeNote() { IntegrationId = Guid.NewGuid().ToString(), Content = content, Title = title, Path = path, CreationTime = DateTime.Now, Source = newSource };
 			await mnemeIntegration.CreateNote(note, ct);
 			return note;
 		}

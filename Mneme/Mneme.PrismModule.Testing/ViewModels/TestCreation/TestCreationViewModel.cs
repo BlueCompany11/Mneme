@@ -4,7 +4,7 @@ using MaterialDesignThemes.Wpf;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.PrismModule.Integration.Facade;
 using Mneme.Views.Base;
 using Prism.Mvvm;
@@ -35,7 +35,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			}
 		}
 
-		private Preelaboration CurrentPreelaboration { get; set; }
+		private Note CurrentPreelaboration { get; set; }
 
 		public TestCreationViewModel(IRegionManager regionManager, ISnackbarMessageQueue snackbarMessageQueue, NoteToPreviewNavigator navigator)
 		{
@@ -67,7 +67,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			CurrentPreelaboration = navigationContext.Parameters.GetValue<Preelaboration>("pre");
+			CurrentPreelaboration = navigationContext.Parameters.GetValue<Note>("pre");
 			ChangeTestOptionView(SelectedTestOption);
 			navigator.NavigateToPreview(CurrentPreelaboration, navigationContext.Parameters, RegionNames.NotePreviewRegion);
 		}

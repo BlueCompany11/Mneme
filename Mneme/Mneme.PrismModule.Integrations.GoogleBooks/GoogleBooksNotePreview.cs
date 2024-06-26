@@ -14,7 +14,7 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks
 		public string Type { get; set; }
 		public string NoteText { get; set; }
 
-		public static GoogleBooksNotePreview CreateFromNote(GoogleBooksPreelaboration note)
+		public static GoogleBooksNotePreview CreateFromNote(GoogleBooksNote note)
 		{
 			return new GoogleBooksNotePreview()
 			{

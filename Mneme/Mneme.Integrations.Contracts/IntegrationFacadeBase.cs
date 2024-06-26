@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mneme.DataAccess;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Model.Sources;
 
 namespace Mneme.Integrations.Contracts
@@ -10,7 +10,7 @@ namespace Mneme.Integrations.Contracts
 		IIntegrationFacade<S, N>
 		where T : Context
 		where S : Source
-		where N : Preelaboration
+		where N : Note
 	{
 		protected readonly T context;
 		protected bool disposedValue;

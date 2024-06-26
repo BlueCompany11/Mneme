@@ -9,9 +9,9 @@ namespace Mneme.PrismModule.Integration.Facade
 {
 	public class MnemeIntegrationFacade : IMnemeIntegrationFacade
 	{
-		private readonly IIntegrationFacade<MnemeSource, MnemePreelaboration> mnemeIntegration;
+		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 
-		public MnemeIntegrationFacade(IIntegrationFacade<MnemeSource, MnemePreelaboration> mnemeIntegration)
+		public MnemeIntegrationFacade(IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
 		{
 			this.mnemeIntegration = mnemeIntegration;
 		}
@@ -48,7 +48,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			}
 		}
 
-		public async Task CreateNote(MnemePreelaboration note, CancellationToken ct = default)
+		public async Task CreateNote(MnemeNote note, CancellationToken ct = default)
 		{
 			await mnemeIntegration.CreateNote(note);
 		}

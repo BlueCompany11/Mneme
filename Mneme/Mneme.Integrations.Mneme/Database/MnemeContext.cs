@@ -7,7 +7,7 @@ namespace Mneme.Integrations.Mneme.Database
 	internal class MnemeContext : Context
 	{
 		public DbSet<MnemeSource> MnemeSources { get; set; }
-		public DbSet<MnemePreelaboration> MnemePreelaboration { get; set; }
+		public DbSet<MnemeNote> MnemePreelaboration { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<MnemeSource>(entity =>
@@ -17,7 +17,7 @@ namespace Mneme.Integrations.Mneme.Database
 				entity.HasIndex(e => e.IntegrationId).IsUnique();
 			});
 
-			modelBuilder.Entity<MnemePreelaboration>(entity =>
+			modelBuilder.Entity<MnemeNote>(entity =>
 			{
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.HasKey(e => e.Id);

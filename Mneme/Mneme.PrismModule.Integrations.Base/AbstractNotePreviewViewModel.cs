@@ -1,4 +1,4 @@
-﻿using Mneme.Model.Preelaborations;
+﻿using Mneme.Model.Notes;
 using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -23,7 +23,7 @@ namespace Mneme.PrismModule.Integrations.Base
 			ShowCreateTestButton = true;
 		}
 		public DelegateCommand CreateTestCommand { get; set; }
-		protected abstract Preelaboration Preelaboration { get; set; }
+		protected abstract Note Preelaboration { get; set; }
 		protected abstract void LoadNote();
 		protected void CheckIfShouldDisplayCreateTestButton(NavigationContext navigationContext)
 		{
@@ -52,7 +52,7 @@ namespace Mneme.PrismModule.Integrations.Base
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			CheckIfShouldDisplayCreateTestButton(navigationContext);
-			var receivedPreelaboration = navigationContext.Parameters.GetValue<Preelaboration>("pre");
+			var receivedPreelaboration = navigationContext.Parameters.GetValue<Note>("pre");
 			Preelaboration = receivedPreelaboration;
 			LoadNote();
 		}

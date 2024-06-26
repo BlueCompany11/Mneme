@@ -3,11 +3,11 @@ using Mneme.Model.Interfaces;
 
 namespace Mneme.Model.Preelaborations
 {
-	public abstract class Preelaboration
+	public abstract class Note
 	{
 		public int Id { get; set; }
 		/// <summary>
-		/// Used to recognize if 2 preelaborations are the same
+		/// Used to recognize if 2 notes are the same
 		/// </summary>
 		public required string IntegrationId { get; init; }
 		public required string Title { get; init; }

@@ -2,7 +2,7 @@
 using Mneme.Integrations.Mneme;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model.Interfaces;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.PrismModule.Integrations.Base;
 using Mneme.Views.Base;
 using Prism.Regions;
@@ -52,12 +52,12 @@ namespace Mneme.PrismModule.Integrations.Mneme.ViewModels
 			get => creationDate;
 			set => SetProperty(ref creationDate, value);
 		}
-		protected override Preelaboration Preelaboration { get; set; }
+		protected override Note Preelaboration { get; set; }
 
 		public MnemeNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
 		protected override void LoadNote()
 		{
-			notePreview = MnemeNotePreview.CreateFromNote((MnemePreelaboration)Preelaboration);
+			notePreview = MnemeNotePreview.CreateFromNote((MnemeNote)Preelaboration);
 			NotePreviewUpdate();
 		}
 

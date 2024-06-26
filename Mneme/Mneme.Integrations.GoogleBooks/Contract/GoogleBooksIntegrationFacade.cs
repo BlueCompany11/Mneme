@@ -4,11 +4,11 @@ using Mneme.Integrations.GoogleBooks.Database;
 
 namespace Mneme.Integrations.GoogleBooks.Contract
 {
-	public class GoogleBooksIntegrationFacade : IntegrationFacadeBase<Context, GoogleBooksSource, GoogleBooksPreelaboration>
+	public class GoogleBooksIntegrationFacade : IntegrationFacadeBase<Context, GoogleBooksSource, GoogleBooksNote>
 	{
-		private readonly GoogleBooksPreelaborationProvider noteProvider;
+		private readonly GoogleBooksNoteProvider noteProvider;
 
-		public GoogleBooksIntegrationFacade(GoogleBooksPreelaborationProvider noteProvider) : base()
+		public GoogleBooksIntegrationFacade(GoogleBooksNoteProvider noteProvider) : base()
 		{
 			this.noteProvider = noteProvider;
 		}
@@ -17,7 +17,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 		{
 			return new GoogleBooksContext();
 		}
-		public override async Task<IReadOnlyList<GoogleBooksPreelaboration>> GetNotes(CancellationToken ct)
+		public override async Task<IReadOnlyList<GoogleBooksNote>> GetNotes(CancellationToken ct)
 		{
 			return await noteProvider.GetPreelaborationsAsync(ct);
 		}

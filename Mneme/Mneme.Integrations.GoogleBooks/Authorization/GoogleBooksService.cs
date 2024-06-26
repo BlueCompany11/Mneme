@@ -99,10 +99,10 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 			var volumes = await LoadVolumesAsync(ct);
 			await UpdateAnnotationsAsync(volumes, ct);
 		}
-		public async Task<List<GoogleBooksPreelaboration>> LoadNotes(CancellationToken ct)
+		public async Task<List<GoogleBooksNote>> LoadNotes(CancellationToken ct)
 		{
 			await LoadAnnotationsAsync(ct);
-			var ret = new List<GoogleBooksPreelaboration>();
+			var ret = new List<GoogleBooksNote>();
 			foreach (var a in annotations)
 				ret.Add(Convert(a));
 			return ret;
@@ -166,9 +166,9 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 			}
 			return ret;
 		}
-		private GoogleBooksPreelaboration Convert(GoogleBooksAnnotation annotation)
+		private GoogleBooksNote Convert(GoogleBooksAnnotation annotation)
 		{
-			return new GoogleBooksPreelaboration
+			return new GoogleBooksNote
 			{
 				Content = annotation.SelectedText,
 				CreationTime = annotation.Created,

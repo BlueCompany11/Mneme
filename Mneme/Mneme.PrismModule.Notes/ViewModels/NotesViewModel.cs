@@ -8,7 +8,7 @@ using System.Windows.Data;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Notes;
 using Mneme.PrismModule.Integration.Facade;
 using Mneme.PrismModule.Notes.Views;
@@ -25,15 +25,15 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		private readonly NotesUtility utilty;
 		private readonly NoteToPreviewNavigator navigator;
 		private bool isLoading;
-		private PreelaborationPreview selectedPreelaborationPreview;
-		private List<Preelaboration> Preelaborations { get; set; }
-		private Preelaboration SelectedPreelaboration { get; set; }
-		private ObservableCollection<PreelaborationPreview> preelaborationsPreview;
+		private NotePreview selectedPreelaborationPreview;
+		private List<Note> Preelaborations { get; set; }
+		private Note SelectedPreelaboration { get; set; }
+		private ObservableCollection<NotePreview> preelaborationsPreview;
 		private CancellationTokenSource cts;
 		private string searchedPhrase;
 		private string deleteNoteToolTip;
-		private List<PreelaborationPreview> cachedPreelaborationsPreview;
-		public ObservableCollection<PreelaborationPreview> PreelaborationsPreview
+		private List<NotePreview> cachedPreelaborationsPreview;
+		public ObservableCollection<NotePreview> PreelaborationsPreview
 		{
 			get => preelaborationsPreview;
 			set => SetProperty(ref preelaborationsPreview, value);
@@ -59,16 +59,16 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				SetProperty(ref searchedPhrase, value);
 				if (searchedPhrase.Length > 2)
 				{
-					PreelaborationsPreview = new ObservableCollection<PreelaborationPreview>(cachedPreelaborationsPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.Note.ToLower().Contains(searchedPhrase.ToLower())));
+					PreelaborationsPreview = new ObservableCollection<NotePreview>(cachedPreelaborationsPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.Note.ToLower().Contains(searchedPhrase.ToLower())));
 				}
 				else if (PreelaborationsPreview.Count != cachedPreelaborationsPreview.Count)
 				{
-					PreelaborationsPreview = new ObservableCollection<PreelaborationPreview>(cachedPreelaborationsPreview);
+					PreelaborationsPreview = new ObservableCollection<NotePreview>(cachedPreelaborationsPreview);
 				}
 			}
 
 		}
-		public PreelaborationPreview SelectedPreelaborationPreview
+		public NotePreview SelectedPreelaborationPreview
 		{
 			get => selectedPreelaborationPreview;
 			set
@@ -77,7 +77,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				{
 					_ = SetProperty(ref selectedPreelaborationPreview, value);
 					SelectedPreelaboration = selectedPreelaborationPreview?.Preelaboration;
-					DeleteNoteToolTip = SelectedPreelaboration?.GetType() == typeof(MnemePreelaboration) ? "Delete note" : "Only notes created by the user can be deleted";
+					DeleteNoteToolTip = SelectedPreelaboration?.GetType() == typeof(MnemeNote) ? "Delete note" : "Only notes created by the user can be deleted";
 					Navigate();
 				}
 			}
@@ -85,7 +85,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		private static readonly object _syncLock = new();
 
 		public DelegateCommand OpenNewNoteViewCommand { get; set; }
-		public DelegateCommand<PreelaborationPreview> DeleteNoteCommand { get; set; }
+		public DelegateCommand<NotePreview> DeleteNoteCommand { get; set; }
 		public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator)
 		{
 			PreelaborationsPreview = [];
@@ -96,12 +96,12 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			this.navigator = navigator;
 			BindingOperations.EnableCollectionSynchronization(PreelaborationsPreview, _syncLock);
 			OpenNewNoteViewCommand = new DelegateCommand(OpenNewNoteView);
-			DeleteNoteCommand = new DelegateCommand<PreelaborationPreview>(DeleteNote, (p) => p?.Preelaboration.GetType() == typeof(MnemePreelaboration));
+			DeleteNoteCommand = new DelegateCommand<NotePreview>(DeleteNote, (p) => p?.Preelaboration.GetType() == typeof(MnemeNote));
 		}
 
 		private async Task GetPreelaborations(CancellationToken ct)
 		{
-			Preelaborations = new List<Preelaboration>(await utilty.GetNotes(ct));
+			Preelaborations = new List<Note>(await utilty.GetNotes(ct));
 		}
 
 		private void PreelaborationsProvider_PreelaborationsUpdated()
@@ -112,18 +112,18 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				PreelaborationsPreview.Clear();
 				foreach (var item in Preelaborations)
 				{
-					PreelaborationsPreview.Add(PreelaborationPreview.CreateFromNote(item));
+					PreelaborationsPreview.Add(NotePreview.CreateFromNote(item));
 				}
-				cachedPreelaborationsPreview = new List<PreelaborationPreview>(PreelaborationsPreview);
+				cachedPreelaborationsPreview = new List<NotePreview>(PreelaborationsPreview);
 			}
 		}
 
 		private void OpenNewNoteView()
 		{
-			regionManager.RequestNavigate(RegionNames.PreelaborationRegion, nameof(NewMnemeNoteView));
+			regionManager.RequestNavigate(RegionNames.NoteRegion, nameof(NewMnemeNoteView));
 		}
 
-		private async void DeleteNote(PreelaborationPreview preview)
+		private async void DeleteNote(NotePreview preview)
 		{
 			await utilty.DeleteNote(preview);
 			PreelaborationsPreview.Remove(preview);
@@ -134,7 +134,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			var para = new NavigationParameters() {
 				{ "pre", SelectedPreelaboration }
 			};
-			navigator.NavigateToPreview(SelectedPreelaboration, para, RegionNames.PreelaborationRegion);
+			navigator.NavigateToPreview(SelectedPreelaboration, para, RegionNames.NoteRegion);
 			
 		}
 		public async void OnNavigatedTo(NavigationContext navigationContext)
@@ -166,8 +166,8 @@ namespace Mneme.PrismModule.Notes.ViewModels
 
 			void ShowNewMnemeNote(NavigationContext navigationContext)
 			{
-				var note = (MnemePreelaboration)navigationContext.Parameters["note"];
-				var preview = PreelaborationPreview.CreateFromNote(note);
+				var note = (MnemeNote)navigationContext.Parameters["note"];
+				var preview = NotePreview.CreateFromNote(note);
 				PreelaborationsPreview.Insert(0, preview);
 				SelectedPreelaboration = note;
 				SelectedPreelaborationPreview = preview;
