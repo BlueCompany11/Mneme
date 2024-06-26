@@ -59,7 +59,7 @@ namespace Mneme.PrismModule.Integrations.Pluralsight.ViewModels
 			set => SetProperty(ref type, value);
 		}
 
-		protected override Note Preelaboration { get; set; }
+		protected override Note BaseNote { get; set; }
 
 		public PluralsightNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
 
@@ -77,7 +77,7 @@ namespace Mneme.PrismModule.Integrations.Pluralsight.ViewModels
 
 		protected override void LoadNote()
 		{
-			notePreview = PluralsightNotePreview.CreateFromNote((PluralsightNote)Preelaboration);
+			notePreview = PluralsightNotePreview.CreateFromNote((PluralsightNote)BaseNote);
 			PluralsightNotePreviewUpdate();
 		}
 	}

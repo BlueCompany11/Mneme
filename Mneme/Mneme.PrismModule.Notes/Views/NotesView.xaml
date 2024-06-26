@@ -70,7 +70,7 @@
                             Command="{Binding OpenNewNoteViewCommand}"
                             Content="+ New Note" />
                 </DockPanel>
-                <TextBlock Text="{Binding PreelaborationsPreview.Count, StringFormat='Returned {0} notes.'}" />
+                <TextBlock Text="{Binding NotesPreview.Count, StringFormat='Returned {0} notes.'}" />
                 <Grid>
                     <materialDesign:PackIcon Margin="24,0,-160,0"
                                              VerticalAlignment="Center"
@@ -96,8 +96,8 @@
                      HorizontalContentAlignment="Stretch"
                      BorderBrush="Transparent"
                      Grid.IsSharedSizeScope="True"
-                     ItemsSource="{Binding PreelaborationsPreview}"
-                     SelectedItem="{Binding SelectedPreelaborationPreview}">
+                     ItemsSource="{Binding NotesPreview}"
+                     SelectedItem="{Binding SelectedNotePreview}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="LightGray"

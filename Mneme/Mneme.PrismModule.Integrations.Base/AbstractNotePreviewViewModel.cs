@@ -23,7 +23,7 @@ namespace Mneme.PrismModule.Integrations.Base
 			ShowCreateTestButton = true;
 		}
 		public DelegateCommand CreateTestCommand { get; set; }
-		protected abstract Note Preelaboration { get; set; }
+		protected abstract Note BaseNote { get; set; }
 		protected abstract void LoadNote();
 		protected void CheckIfShouldDisplayCreateTestButton(NavigationContext navigationContext)
 		{
@@ -34,7 +34,7 @@ namespace Mneme.PrismModule.Integrations.Base
 		{
 			var param = new NavigationParameters
 			{
-				{"pre", Preelaboration },
+				{"note", BaseNote },
 				{"showCreateTestButton", false}
 			};
 			regionManager.RequestNavigate(RegionNames.ContentRegion, "TestCreationView", param); //TODO
@@ -52,8 +52,8 @@ namespace Mneme.PrismModule.Integrations.Base
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			CheckIfShouldDisplayCreateTestButton(navigationContext);
-			var receivedPreelaboration = navigationContext.Parameters.GetValue<Note>("pre");
-			Preelaboration = receivedPreelaboration;
+			var receivedNote = navigationContext.Parameters.GetValue<Note>("note");
+			BaseNote = receivedNote;
 			LoadNote();
 		}
 	}

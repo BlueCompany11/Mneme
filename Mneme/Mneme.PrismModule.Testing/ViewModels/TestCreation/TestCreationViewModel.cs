@@ -35,7 +35,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			}
 		}
 
-		private Note CurrentPreelaboration { get; set; }
+		private Note CurrentNote { get; set; }
 
 		public TestCreationViewModel(IRegionManager regionManager, ISnackbarMessageQueue snackbarMessageQueue, NoteToPreviewNavigator navigator)
 		{
@@ -60,16 +60,16 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		{
 			var param = new NavigationParameters
 			{
-				{"pre", CurrentPreelaboration }
+				{"note", CurrentNote }
 			};
 			regionManager.RequestNavigate("TestPickRegion", uri, param);
 		}
 
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			CurrentPreelaboration = navigationContext.Parameters.GetValue<Note>("pre");
+			CurrentNote = navigationContext.Parameters.GetValue<Note>("note");
 			ChangeTestOptionView(SelectedTestOption);
-			navigator.NavigateToPreview(CurrentPreelaboration, navigationContext.Parameters, RegionNames.NotePreviewRegion);
+			navigator.NavigateToPreview(CurrentNote, navigationContext.Parameters, RegionNames.NotePreviewRegion);
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)

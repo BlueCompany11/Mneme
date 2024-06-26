@@ -12,16 +12,16 @@ namespace Mneme.PrismModule.Integrations.Mneme
 		public required string Source { get; init; }
 		public required string SourceDetails { get; init; }
 		public required DateTime CreationDate { get; init; }
-		public static MnemeNotePreview CreateFromNote(MnemeNote preelaboration)
+		public static MnemeNotePreview CreateFromNote(MnemeNote note)
 		{
 			return new MnemeNotePreview()
 			{
-				Title = preelaboration.Title,
-				NoteText = preelaboration.Content,
-				NoteDetails = preelaboration.Path,
-				Source = preelaboration.Source.Title,
-				SourceDetails = preelaboration.Source.Details,
-				CreationDate = preelaboration.CreationTime
+				Title = note.Title,
+				NoteText = note.Content,
+				NoteDetails = note.Path,
+				Source = note.Source.Title,
+				SourceDetails = note.Source.Details,
+				CreationDate = note.CreationTime
 			};
 		}
 	}

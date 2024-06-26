@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Model.Sources;
 
 namespace Mneme.Core

@@ -72,11 +72,11 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			CreateTestCommand = new DelegateCommand(CreateTest);
 		}
 
-		private Note Preelaboration { get; set; }
+		private Note Note { get; set; }
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			Preelaboration = navigationContext.Parameters.GetValue<Note>("pre");
-			var data = Preelaboration.Accept(multipleChoiceNoteTestVisitor) as MultipleChoiceNoteData;
+			Note = navigationContext.Parameters.GetValue<Note>("note");
+			var data = Note.Accept(multipleChoiceNoteTestVisitor) as MultipleChoiceNoteData;
 			Question = data.Question;
 		}
 
@@ -99,7 +99,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			{
 				answers.Add(new TestMultipleChoice { Answer = Texts[i], IsCorrect = Checks[i] });
 			}
-			var test = new TestMultipleChoices { Question = Question, Answers = answers, Importance = importance, Created = DateTime.Now, NoteId = Preelaboration.IntegrationId };
+			var test = new TestMultipleChoices { Question = Question, Answers = answers, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
 			repository.CreateTest(test);
 			snackbarMessageQueue.Enqueue("Test created");
 		}

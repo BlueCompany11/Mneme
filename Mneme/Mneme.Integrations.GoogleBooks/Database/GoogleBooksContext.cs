@@ -7,7 +7,7 @@ namespace Mneme.Integrations.GoogleBooks.Database
 	internal class GoogleBooksContext : Context
 	{
 		public DbSet<GoogleBooksSource> GoogleBooksSources { get; set; }
-		public DbSet<GoogleBooksNote> GoogleBooksPreelaborations { get; set; }
+		public DbSet<GoogleBooksNote> GoogleBooksNotes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

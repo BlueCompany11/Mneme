@@ -55,7 +55,7 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks.ViewModels
 			set => SetProperty(ref noteText, value);
 		}
 
-		protected override Note Preelaboration { get; set; }
+		protected override Note BaseNote { get; set; }
 
 		public GoogleBooksNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
 
@@ -72,7 +72,7 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks.ViewModels
 
 		protected override void LoadNote()
 		{
-			notePreview = GoogleBooksNotePreview.CreateFromNote((GoogleBooksNote)Preelaboration);
+			notePreview = GoogleBooksNotePreview.CreateFromNote((GoogleBooksNote)BaseNote);
 			GoogleBooksNotePreviewUpdate();
 		}
 	}

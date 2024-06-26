@@ -19,7 +19,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 		}
 		public override async Task<IReadOnlyList<GoogleBooksNote>> GetNotes(CancellationToken ct)
 		{
-			return await noteProvider.GetPreelaborationsAsync(ct);
+			return await noteProvider.GetNotesAsync(ct);
 		}
 	}
 }

@@ -5,11 +5,11 @@ namespace Mneme.Integrations.Pluralsight.Contract
 {
 	public class PluralsightSourceProvider : BaseSourcesProvider<PluralsightSource>
 	{
-		private readonly PluralsightNoteProviderDecorator pluralsightPreelaborationProvider;
+		private readonly PluralsightNoteProviderDecorator pluralsightNoteProvider;
 
-		public PluralsightSourceProvider(PluralsightNoteProviderDecorator pluralsightPreelaborationProvider)
+		public PluralsightSourceProvider(PluralsightNoteProviderDecorator pluralsightNoteProvider)
 		{
-			this.pluralsightPreelaborationProvider = pluralsightPreelaborationProvider;
+			this.pluralsightNoteProvider = pluralsightNoteProvider;
 		}
 
 		protected override void AddSources(List<PluralsightSource> sources)
@@ -20,10 +20,10 @@ namespace Mneme.Integrations.Pluralsight.Contract
 
 		protected async override Task<List<PluralsightSource>> GetSourcesFromAccountAsync(CancellationToken ct)
 		{
-			var preelaborations = await pluralsightPreelaborationProvider.GetPreelaborationsAsync(ct);
-			preelaborations = preelaborations.GroupBy(x => x.Title).Select(x => x.First()).ToList();
+			var notes = await pluralsightNoteProvider.GetNotesAsync(ct);
+			notes = notes.GroupBy(x => x.Title).Select(x => x.First()).ToList();
 			var ret = new List<PluralsightSource>();
-			foreach (PluralsightNote item in preelaborations)
+			foreach (PluralsightNote item in notes)
 			{
 				ret.Add(new PluralsightSource(item) { Active = true, IntegrationId = item.Source.IntegrationId, Title = item.Source.Title });
 			}

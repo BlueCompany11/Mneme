@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mneme.Model.Preelaborations
+namespace Mneme.Model.Notes
 {
 	public class NotePreview
 	{
@@ -10,7 +10,7 @@ namespace Mneme.Model.Preelaborations
 		public string Note { get; set; }
 		public DateTime Date { get; set; }
 		public List<string> Tags { get; set; }
-		public Note Preelaboration { get; init; }
+		public Note BaseNote { get; init; }
 		public static NotePreview CreateFromNote(Note note)
 		{
 			return new NotePreview()
@@ -20,7 +20,7 @@ namespace Mneme.Model.Preelaborations
 				Note = note.Content,
 				Title = note.Title,
 				Tags = [],
-				Preelaboration = note
+				BaseNote = note
 			};
 		}
 	}

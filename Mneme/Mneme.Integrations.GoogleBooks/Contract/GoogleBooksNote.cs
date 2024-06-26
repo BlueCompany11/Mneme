@@ -1,5 +1,5 @@
 ﻿using Mneme.Model.Interfaces;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 
 namespace Mneme.Integrations.GoogleBooks.Contract
 {

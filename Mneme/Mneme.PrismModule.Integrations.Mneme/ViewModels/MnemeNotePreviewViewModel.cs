@@ -52,12 +52,12 @@ namespace Mneme.PrismModule.Integrations.Mneme.ViewModels
 			get => creationDate;
 			set => SetProperty(ref creationDate, value);
 		}
-		protected override Note Preelaboration { get; set; }
+		protected override Note BaseNote { get; set; }
 
 		public MnemeNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
 		protected override void LoadNote()
 		{
-			notePreview = MnemeNotePreview.CreateFromNote((MnemeNote)Preelaboration);
+			notePreview = MnemeNotePreview.CreateFromNote((MnemeNote)BaseNote);
 			NotePreviewUpdate();
 		}
 

@@ -8,7 +8,7 @@ namespace Mneme.Integrations.Pluralsight.Database
 	{
 		public DbSet<PluralsightSource> PluralsightSources { get; set; }
 		public DbSet<PluralsightConfig> PluralsightConfigs { get; set; }
-		public DbSet<PluralsightNote> PluralsightPreelaboration { get; set; }
+		public DbSet<PluralsightNote> PluralsightNotes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

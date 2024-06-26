@@ -1,6 +1,4 @@
 ﻿using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Interfaces;
-using Mneme.Model.Preelaborations;
 
 namespace Mneme.PrismModule.Integrations.Pluralsight
 {

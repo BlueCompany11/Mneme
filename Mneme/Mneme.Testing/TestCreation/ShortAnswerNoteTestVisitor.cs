@@ -7,19 +7,19 @@ namespace Mneme.Testing.TestCreation
 {
 	public class ShortAnswerNoteTestVisitor : INoteTestVisitor, INoteTestVisitor<GoogleBooksNote>, INoteTestVisitor<PluralsightNote>, INoteTestVisitor<MnemeNote>
 	{
-		public INoteTest GetTestNote(GoogleBooksNote preelaboration)
+		public INoteTest GetTestNote(GoogleBooksNote note)
 		{
-			return new ShortAnswerNoteData { Question = preelaboration.Content };
+			return new ShortAnswerNoteData { Question = note.Content };
 		}
 
-		public INoteTest GetTestNote(PluralsightNote preelaboration)
+		public INoteTest GetTestNote(PluralsightNote note)
 		{
-			return new ShortAnswerNoteData { Question = preelaboration.Content };
+			return new ShortAnswerNoteData { Question = note.Content };
 		}
 
-		public INoteTest GetTestNote(MnemeNote preelaboration)
+		public INoteTest GetTestNote(MnemeNote note)
 		{
-			return new ShortAnswerNoteData { Question = preelaboration.Content };
+			return new ShortAnswerNoteData { Question = note.Content };
 		}
 	}
 }

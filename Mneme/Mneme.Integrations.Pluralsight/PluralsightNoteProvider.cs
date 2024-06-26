@@ -4,18 +4,18 @@ namespace Mneme.Integrations.Pluralsight
 {
 	internal class PluralsightNoteProvider
 	{
-		public List<PluralsightNote> Preelaborations { get; private set; }
+		public List<PluralsightNote> Notes { get; private set; }
 
 		public PluralsightNoteProvider()
 		{
-			Preelaborations = [];
+			Notes = [];
 		}
 		public List<PluralsightNote> Open(string path)
 		{
 			var ret = new List<PluralsightNote>();
 			if (string.IsNullOrEmpty(path))
 				return ret;
-			Preelaborations.Clear();
+			Notes.Clear();
 			using (var reader = new StreamReader(path))
 			{
 				_ = reader.ReadLine();
@@ -31,7 +31,7 @@ namespace Mneme.Integrations.Pluralsight
 					ret.Add(BuildFromCsvLine(values));
 				}
 			}
-			Preelaborations = ret;
+			Notes = ret;
 			return ret;
 		}
 
@@ -52,14 +52,14 @@ namespace Mneme.Integrations.Pluralsight
 			return ret;
 		}
 
-		public bool TryOpen(string path, out List<PluralsightNote> preelaborations)
+		public bool TryOpen(string path, out List<PluralsightNote> notes)
 		{
 			if (File.Exists(path))
 			{
-				preelaborations = Open(path);
+				notes = Open(path);
 				return true;
 			}
-			preelaborations = null;
+			notes = null;
 			return false;
 		}
 		private static string GetNoteId(string url)

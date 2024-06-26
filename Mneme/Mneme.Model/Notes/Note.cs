@@ -1,7 +1,7 @@
 ﻿using System;
 using Mneme.Model.Interfaces;
 
-namespace Mneme.Model.Preelaborations
+namespace Mneme.Model.Notes
 {
 	public abstract class Note
 	{

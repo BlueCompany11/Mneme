@@ -7,7 +7,7 @@ namespace Mneme.Integrations.Mneme.Database
 	internal class MnemeContext : Context
 	{
 		public DbSet<MnemeSource> MnemeSources { get; set; }
-		public DbSet<MnemeNote> MnemePreelaboration { get; set; }
+		public DbSet<MnemeNote> MnemeNotes { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<MnemeSource>(entity =>

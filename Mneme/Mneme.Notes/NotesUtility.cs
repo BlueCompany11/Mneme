@@ -26,7 +26,7 @@ namespace Mneme.Notes
 		}
 		public async Task DeleteNote(NotePreview preview)
 		{
-			await mnemeIntegration.DeleteNote(preview.Preelaboration.IntegrationId);
+			await mnemeIntegration.DeleteNote(preview.BaseNote.IntegrationId);
 		}
 	}
 }

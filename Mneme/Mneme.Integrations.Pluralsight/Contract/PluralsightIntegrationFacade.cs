@@ -22,7 +22,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 		public override async Task<IReadOnlyList<PluralsightNote>> GetNotes(CancellationToken ct)
 		{
 			var ret = new List<PluralsightNote>();
-			foreach (var note in await noteProvider.GetPreelaborationsAsync(ct))
+			foreach (var note in await noteProvider.GetNotesAsync(ct))
 			{
 				ret.Add((PluralsightNote)note);
 			}
