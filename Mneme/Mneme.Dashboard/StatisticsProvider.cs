@@ -1,5 +1,5 @@
 ﻿using System;
-using Mneme.Core.Interfaces;
+using Mneme.Core;
 
 namespace Mneme.Dashboard
 {

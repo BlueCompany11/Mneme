@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Mneme.Core.Interfaces;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;

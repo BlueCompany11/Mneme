@@ -1,9 +1,4 @@
-﻿using System;
-using MaterialDesignThemes.Wpf;
-using Mneme.Core.Interfaces;
-using Mneme.Integrations.Contracts;
-using Mneme.Model.Sources;
-using Prism.Commands;
+﻿using MaterialDesignThemes.Wpf;
 using Prism.Mvvm;
 
 namespace Mneme.Desktop.ViewModels

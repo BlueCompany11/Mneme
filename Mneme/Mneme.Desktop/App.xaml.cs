@@ -2,11 +2,12 @@
 using System.Windows;
 using DryIoc;
 using MaterialDesignThemes.Wpf;
-using Mneme.Core.Interfaces;
+using Mneme.Core;
 using Mneme.Desktop.Views;
 using Mneme.PrismModule.Configuration.Integration;
 using Mneme.PrismModule.Dashboard;
 using Mneme.PrismModule.Dashboard.Views;
+using Mneme.PrismModule.Integration.Facade;
 using Mneme.PrismModule.Integrations.GoogleBooks;
 using Mneme.PrismModule.Integrations.Mneme;
 using Mneme.PrismModule.Integrations.Pluralsight;
@@ -34,12 +35,6 @@ namespace Mneme.Desktop
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(4)));
-			RegisterFromCoreProject(containerRegistry);
-		}
-
-		public void RegisterFromCoreProject(IContainerRegistry containerRegistry)
-		{
-			containerRegistry.Register<IBundledIntegrationFacades, BundledIntegrationFacades>();
 		}
 
 		protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -52,7 +47,8 @@ namespace Mneme.Desktop
 			moduleCatalog.AddModule<PluralsightModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<TestingModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<IntegrationModule>(InitializationMode.WhenAvailable);
-			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable); 
+			moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable);
 		}
 
 		protected override void OnInitialized()

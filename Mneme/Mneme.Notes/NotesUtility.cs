@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Google.Apis.Books.v1.Data;
 using Microsoft.VisualBasic;
-using Mneme.Core.Interfaces;
+using Mneme.Core;
 using Mneme.Model.Preelaborations;
 
 namespace Mneme.Notes
@@ -13,10 +13,12 @@ namespace Mneme.Notes
 	public class NotesUtility
 	{
 		private readonly IBundledIntegrationFacades integration;
+		private readonly IMnemeIntegrationFacade mnemeIntegration;
 
-		public NotesUtility(IBundledIntegrationFacades integration)
+		public NotesUtility(IBundledIntegrationFacades integration, IMnemeIntegrationFacade mnemeIntegration)
 		{
 			this.integration = integration;
+			this.mnemeIntegration = mnemeIntegration;
 		}
 		public async Task<IReadOnlyList<Preelaboration>> GetNotes(CancellationToken ct)
 		{
@@ -24,7 +26,7 @@ namespace Mneme.Notes
 		}
 		public async Task DeleteNote(PreelaborationPreview preview)
 		{
-			await integration.DeleteNote(preview.Preelaboration.IntegrationId);
+			await mnemeIntegration.DeleteNote(preview.Preelaboration.IntegrationId);
 		}
 	}
 }
