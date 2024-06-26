@@ -17,7 +17,6 @@ namespace Mneme.Core
 		Task<IReadOnlyList<Preelaboration>> GetNotes(CancellationToken ct = default);
 		Task<IReadOnlyList<Source>> GetSources(CancellationToken ct = default);
 		Task IgnoreSource(string id, string type, CancellationToken ct = default);
-		Task MigrateDatabase(CancellationToken ct = default);
 		Task<Source> GetSource(string id, string type, CancellationToken ct = default);
 	}
 }

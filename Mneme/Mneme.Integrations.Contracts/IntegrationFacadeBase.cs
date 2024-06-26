@@ -73,11 +73,6 @@ namespace Mneme.Integrations.Contracts
 			return await context.Set<S>().ToListAsync(ct);
 		}
 
-		public virtual async Task MigrateDatabase(CancellationToken ct)
-		{
-			await context.Database.MigrateAsync(ct);
-		}
-
 		public virtual Task CreateSource(S source)
 		{
 			context.Set<S>().Update(source);
@@ -125,6 +120,12 @@ namespace Mneme.Integrations.Contracts
 			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 			Dispose(disposing: true);
 			GC.SuppressFinalize(this);
+		}
+
+		public async Task MigrateDatabase(CancellationToken ct = default)
+		{
+			using var context = CreateContext();
+			await context.Database.MigrateAsync(ct);
 		}
 	}
 }

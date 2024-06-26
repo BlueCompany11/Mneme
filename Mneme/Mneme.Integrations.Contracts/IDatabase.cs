@@ -1,7 +1,7 @@
 ﻿namespace Mneme.Integrations.Contracts
 {
-	public interface IDatabase : IDisposable
+	public interface IDatabase
 	{
-		Task MigrateDatabase(CancellationToken ct);
+		Task MigrateDatabase(CancellationToken ct = default);
 	}
 }

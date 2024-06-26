@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using DryIoc;
 using MaterialDesignThemes.Wpf;
@@ -60,6 +61,13 @@ namespace Mneme.Desktop
 			_ = regionManager.RegisterViewWithRegion(RegionNames.PreelaborationRegion, typeof(EmptyNotePreviewView));
 			_ = regionManager.RegisterViewWithRegion(RegionNames.SideBarMenuRegion, typeof(MainMenuSideBarView));
 			base.OnInitialized();
+		}
+
+		protected override async void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+			var migrations = Container.Resolve<DatabaseMigrations>();
+			await migrations.MigrateDatabase();
 		}
 	}
 }

@@ -24,6 +24,7 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks
 			containerRegistry.Register<BaseSourcesProvider<GoogleBooksSource>, GoogleBooksSourceProvider>();
 
 			containerRegistry.Register<IIntegrationFacade<GoogleBooksSource, GoogleBooksPreelaboration>, GoogleBooksIntegrationFacade>();
+			containerRegistry.Register<IDatabase, GoogleBooksIntegrationFacade>();
 		}
 	}
 }
