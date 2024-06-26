@@ -17,7 +17,7 @@ namespace Mneme.Integrations.Pluralsight.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
-            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightPreelaboration", b =>
+            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace Mneme.Integrations.Pluralsight.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("PluralsightPreelaboration");
+                    b.ToTable("PluralsightNotes");
                 });
 
             modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightSource", b =>
@@ -101,7 +101,7 @@ namespace Mneme.Integrations.Pluralsight.Migrations
                     b.ToTable("PluralsightConfigs");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightPreelaboration", b =>
+            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightNote", b =>
                 {
                     b.HasOne("Mneme.Integrations.Pluralsight.Contract.PluralsightSource", "Source")
                         .WithMany()

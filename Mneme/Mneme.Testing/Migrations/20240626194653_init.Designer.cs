@@ -10,8 +10,8 @@ using Mneme.Testing.Database;
 
 namespace Mneme.Testing.Migrations
 {
-	[DbContext(typeof(TestingContext))]
-    [Migration("20240602195600_init")]
+    [DbContext(typeof(TestingContext))]
+    [Migration("20240626194653_init")]
     partial class init
     {
         /// <inheritdoc />

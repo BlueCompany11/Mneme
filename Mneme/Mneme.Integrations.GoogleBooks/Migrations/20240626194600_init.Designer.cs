@@ -11,7 +11,7 @@ using Mneme.Integrations.GoogleBooks.Database;
 namespace Mneme.Integrations.GoogleBooks.Migrations
 {
     [DbContext(typeof(GoogleBooksContext))]
-    [Migration("20240613082555_init")]
+    [Migration("20240626194600_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksPreelaboration", b =>
+            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("GoogleBooksPreelaborations");
+                    b.ToTable("GoogleBooksNotes");
                 });
 
             modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", b =>
@@ -81,7 +81,7 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
                     b.ToTable("GoogleBooksSources");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksPreelaboration", b =>
+            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
                 {
                     b.HasOne("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", "Source")
                         .WithMany()
