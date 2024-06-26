@@ -1,5 +1,6 @@
 ﻿using Mneme.Integrations.Pluralsight.Contract;
 using Mneme.Model.Preelaborations;
+using Mneme.PrismModule.Integrations.Base;
 using Mneme.Views.Base;
 using Prism.Regions;
 

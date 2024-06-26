@@ -3,12 +3,13 @@ using Mneme.Integrations.Mneme;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model.Interfaces;
 using Mneme.Model.Preelaborations;
+using Mneme.PrismModule.Integrations.Base;
 using Mneme.Views.Base;
 using Prism.Regions;
 
 namespace Mneme.PrismModule.Integrations.Mneme.ViewModels
 {
-	public class MnemeNotePreviewViewModel : AbstractNotePreviewViewModel, INavigationAware
+	public class MnemeNotePreviewViewModel : AbstractNotePreviewViewModel
 	{
 		private MnemeNotePreview notePreview;
 		private string title;

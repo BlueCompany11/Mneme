@@ -8,6 +8,7 @@ using Mneme.PrismModule.Configuration.Integration;
 using Mneme.PrismModule.Dashboard;
 using Mneme.PrismModule.Dashboard.Views;
 using Mneme.PrismModule.Integration.Facade;
+using Mneme.PrismModule.Integrations.Base;
 using Mneme.PrismModule.Integrations.GoogleBooks;
 using Mneme.PrismModule.Integrations.Mneme;
 using Mneme.PrismModule.Integrations.Pluralsight;
@@ -48,7 +49,8 @@ namespace Mneme.Desktop
 			moduleCatalog.AddModule<TestingModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<IntegrationModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable); 
-			moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable); 
+			moduleCatalog.AddModule<IntegrationBaseModule>(InitializationMode.WhenAvailable);
 		}
 
 		protected override void OnInitialized()

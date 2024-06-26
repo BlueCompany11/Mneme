@@ -7,8 +7,7 @@
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mneme.Integrations.GoogleBooks\Mneme.Integrations.GoogleBooks.csproj" />
-    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Base\Mneme.PrismModule.Integrations.Base.csproj" />
+    <ProjectReference Include="..\Mneme.Model\Mneme.Model.csproj" />
     <ProjectReference Include="..\Mneme.Views.Base\Mneme.Views.Base.csproj" />
   </ItemGroup>
 </Project>

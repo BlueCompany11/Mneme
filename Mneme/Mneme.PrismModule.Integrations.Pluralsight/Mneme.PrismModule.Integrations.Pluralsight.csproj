@@ -8,6 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mneme.Integrations.Pluralsight\Mneme.Integrations.Pluralsight.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Base\Mneme.PrismModule.Integrations.Base.csproj" />
     <ProjectReference Include="..\Mneme.Views.Base\Mneme.Views.Base.csproj" />
   </ItemGroup>
 </Project>

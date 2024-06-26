@@ -1,9 +1,10 @@
 ﻿using Mneme.Model.Preelaborations;
+using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace Mneme.Views.Base
+namespace Mneme.PrismModule.Integrations.Base
 {
 	public abstract class AbstractNotePreviewViewModel : BindableBase, INavigationAware
 	{
