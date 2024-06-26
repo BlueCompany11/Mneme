@@ -11,18 +11,9 @@ namespace Mneme.Testing.Contracts
 {
 	public class DatabaseMigrator : IDatabase
 	{
-		TestingContext context;
-		public DatabaseMigrator()
-		{
-			context = new TestingContext();
-		}
-		public void Dispose()
-		{
-			context.Dispose();
-		}
-
 		public async Task MigrateDatabase(CancellationToken ct)
 		{
+			using var context = new TestingContext();
 			await context.Database.MigrateAsync(ct);
 		}
 	}

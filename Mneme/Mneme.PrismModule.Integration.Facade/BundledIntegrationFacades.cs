@@ -124,14 +124,6 @@ namespace Mneme.PrismModule.Integration.Facade
 			}
 		}
 
-		public async Task MigrateDatabase(CancellationToken ct = default)
-		{
-			await googleBooksIntegration.MigrateDatabase(ct);
-			await mnemeIntegration.MigrateDatabase(ct);
-			await pluralsightIntegration.MigrateDatabase(ct);
-			//await testingModule.MigrateDatabase(ct); //TODO
-		}
-
 		public async Task<Source> GetSource(string id, string type, CancellationToken ct)
 		{
 			if (type == GoogleBooksSource.Type)
