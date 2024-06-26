@@ -9,7 +9,7 @@ using Mneme.Testing.Database;
 
 namespace Mneme.Testing.Migrations
 {
-	[DbContext(typeof(TestingContext))]
+    [DbContext(typeof(TestingContext))]
     partial class TestingContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

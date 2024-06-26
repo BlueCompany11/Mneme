@@ -11,6 +11,6 @@
 
 	public interface INoteTestVisitor<T>
 	{
-		INoteTest GetTestNote(T preelaboration);
+		INoteTest GetTestNote(T note);
 	}
 }

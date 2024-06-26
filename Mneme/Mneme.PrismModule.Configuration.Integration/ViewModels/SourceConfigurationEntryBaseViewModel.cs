@@ -1,4 +1,4 @@
-﻿using Mneme.Desktop.Events;
+﻿using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;

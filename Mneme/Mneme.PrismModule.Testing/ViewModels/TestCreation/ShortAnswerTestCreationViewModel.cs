@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
@@ -53,7 +53,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
 
-		private Preelaboration Preelaboration { get; set; }
+		private Note Note { get; set; }
 		public ShortAnswerTestCreationViewModel(ShortAnswerNoteTestVisitor shortAnswerNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			this.shortAnswerNoteTestVisitor = shortAnswerNoteTestVisitor;
@@ -67,8 +67,8 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		}
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			Preelaboration = navigationContext.Parameters.GetValue<Preelaboration>("pre");
-			var data = Preelaboration.Accept(shortAnswerNoteTestVisitor) as ShortAnswerNoteData;
+			Note = navigationContext.Parameters.GetValue<Note>("note");
+			var data = Note.Accept(shortAnswerNoteTestVisitor) as ShortAnswerNoteData;
 			Question = data.Question;
 		}
 
@@ -86,7 +86,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private void CreateTest()
 		{
 			int importance = testImportanceMapper.Map(SelectedImportanceOption);
-			var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Preelaboration.IntegrationId };
+			var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
 			repository.CreateTest(test);
 			snackbarMessageQueue.Enqueue("Test created");
 		}

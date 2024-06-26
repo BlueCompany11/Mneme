@@ -8,7 +8,7 @@ using System.Windows.Data;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Notes;
 using Mneme.PrismModule.Integration.Facade;
 using Mneme.PrismModule.Notes.Views;
@@ -25,18 +25,18 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		private readonly NotesUtility utilty;
 		private readonly NoteToPreviewNavigator navigator;
 		private bool isLoading;
-		private PreelaborationPreview selectedPreelaborationPreview;
-		private List<Preelaboration> Preelaborations { get; set; }
-		private Preelaboration SelectedPreelaboration { get; set; }
-		private ObservableCollection<PreelaborationPreview> preelaborationsPreview;
+		private NotePreview selectedNotePreview;
+		private List<Note> Notes { get; set; }
+		private Note SelectedNote { get; set; }
+		private ObservableCollection<NotePreview> notesPreview;
 		private CancellationTokenSource cts;
 		private string searchedPhrase;
 		private string deleteNoteToolTip;
-		private List<PreelaborationPreview> cachedPreelaborationsPreview;
-		public ObservableCollection<PreelaborationPreview> PreelaborationsPreview
+		private List<NotePreview> cachedNotesPreview;
+		public ObservableCollection<NotePreview> NotesPreview
 		{
-			get => preelaborationsPreview;
-			set => SetProperty(ref preelaborationsPreview, value);
+			get => notesPreview;
+			set => SetProperty(ref notesPreview, value);
 		}
 
 		public bool IsLoading
@@ -59,25 +59,25 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				SetProperty(ref searchedPhrase, value);
 				if (searchedPhrase.Length > 2)
 				{
-					PreelaborationsPreview = new ObservableCollection<PreelaborationPreview>(cachedPreelaborationsPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.Note.ToLower().Contains(searchedPhrase.ToLower())));
+					NotesPreview = new ObservableCollection<NotePreview>(cachedNotesPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.Note.ToLower().Contains(searchedPhrase.ToLower())));
 				}
-				else if (PreelaborationsPreview.Count != cachedPreelaborationsPreview.Count)
+				else if (NotesPreview.Count != cachedNotesPreview.Count)
 				{
-					PreelaborationsPreview = new ObservableCollection<PreelaborationPreview>(cachedPreelaborationsPreview);
+					NotesPreview = new ObservableCollection<NotePreview>(cachedNotesPreview);
 				}
 			}
 
 		}
-		public PreelaborationPreview SelectedPreelaborationPreview
+		public NotePreview SelectedNotePreview
 		{
-			get => selectedPreelaborationPreview;
+			get => selectedNotePreview;
 			set
 			{
-				if (selectedPreelaborationPreview != value)
+				if (selectedNotePreview != value)
 				{
-					_ = SetProperty(ref selectedPreelaborationPreview, value);
-					SelectedPreelaboration = selectedPreelaborationPreview?.Preelaboration;
-					DeleteNoteToolTip = SelectedPreelaboration?.GetType() == typeof(MnemePreelaboration) ? "Delete note" : "Only notes created by the user can be deleted";
+					_ = SetProperty(ref selectedNotePreview, value);
+					SelectedNote = selectedNotePreview?.BaseNote;
+					DeleteNoteToolTip = SelectedNote?.GetType() == typeof(MnemeNote) ? "Delete note" : "Only notes created by the user can be deleted";
 					Navigate();
 				}
 			}
@@ -85,56 +85,56 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		private static readonly object _syncLock = new();
 
 		public DelegateCommand OpenNewNoteViewCommand { get; set; }
-		public DelegateCommand<PreelaborationPreview> DeleteNoteCommand { get; set; }
+		public DelegateCommand<NotePreview> DeleteNoteCommand { get; set; }
 		public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator)
 		{
-			PreelaborationsPreview = [];
-			Preelaborations = [];
-			cachedPreelaborationsPreview = [];
+			NotesPreview = [];
+			Notes = [];
+			cachedNotesPreview = [];
 			this.regionManager = regionManager;
 			this.utilty = utilty;
 			this.navigator = navigator;
-			BindingOperations.EnableCollectionSynchronization(PreelaborationsPreview, _syncLock);
+			BindingOperations.EnableCollectionSynchronization(NotesPreview, _syncLock);
 			OpenNewNoteViewCommand = new DelegateCommand(OpenNewNoteView);
-			DeleteNoteCommand = new DelegateCommand<PreelaborationPreview>(DeleteNote, (p) => p?.Preelaboration.GetType() == typeof(MnemePreelaboration));
+			DeleteNoteCommand = new DelegateCommand<NotePreview>(DeleteNote, (p) => p?.BaseNote.GetType() == typeof(MnemeNote));
 		}
 
-		private async Task GetPreelaborations(CancellationToken ct)
+		private async Task GetNotes(CancellationToken ct)
 		{
-			Preelaborations = new List<Preelaboration>(await utilty.GetNotes(ct));
+			Notes = new List<Note>(await utilty.GetNotes(ct));
 		}
 
-		private void PreelaborationsProvider_PreelaborationsUpdated()
+		private void NotesProvider_NotesUpdated()
 		{
-			Preelaborations = Preelaborations.OrderByDescending(x => x.CreationTime).ToList();
+			Notes = Notes.OrderByDescending(x => x.CreationTime).ToList();
 			lock (_syncLock)
 			{
-				PreelaborationsPreview.Clear();
-				foreach (var item in Preelaborations)
+				NotesPreview.Clear();
+				foreach (var item in Notes)
 				{
-					PreelaborationsPreview.Add(PreelaborationPreview.CreateFromNote(item));
+					NotesPreview.Add(NotePreview.CreateFromNote(item));
 				}
-				cachedPreelaborationsPreview = new List<PreelaborationPreview>(PreelaborationsPreview);
+				cachedNotesPreview = new List<NotePreview>(NotesPreview);
 			}
 		}
 
 		private void OpenNewNoteView()
 		{
-			regionManager.RequestNavigate(RegionNames.PreelaborationRegion, nameof(NewMnemeNoteView));
+			regionManager.RequestNavigate(RegionNames.NoteRegion, nameof(NewMnemeNoteView));
 		}
 
-		private async void DeleteNote(PreelaborationPreview preview)
+		private async void DeleteNote(NotePreview preview)
 		{
 			await utilty.DeleteNote(preview);
-			PreelaborationsPreview.Remove(preview);
+			NotesPreview.Remove(preview);
 		}
 
 		private void Navigate()
 		{
 			var para = new NavigationParameters() {
-				{ "pre", SelectedPreelaboration }
+				{ "note", SelectedNote }
 			};
-			navigator.NavigateToPreview(SelectedPreelaboration, para, RegionNames.PreelaborationRegion);
+			navigator.NavigateToPreview(SelectedNote, para, RegionNames.NoteRegion);
 			
 		}
 		public async void OnNavigatedTo(NavigationContext navigationContext)
@@ -152,12 +152,12 @@ namespace Mneme.PrismModule.Notes.ViewModels
 					{
 						try
 						{
-							await GetPreelaborations(cts.Token);
+							await GetNotes(cts.Token);
 						}
 						catch (TaskCanceledException) { }
 						Application.Current.Dispatcher.Invoke(() =>
 						{
-							PreelaborationsProvider_PreelaborationsUpdated();
+							NotesProvider_NotesUpdated();
 							IsLoading = false;
 						});
 					});
@@ -166,11 +166,11 @@ namespace Mneme.PrismModule.Notes.ViewModels
 
 			void ShowNewMnemeNote(NavigationContext navigationContext)
 			{
-				var note = (MnemePreelaboration)navigationContext.Parameters["note"];
-				var preview = PreelaborationPreview.CreateFromNote(note);
-				PreelaborationsPreview.Insert(0, preview);
-				SelectedPreelaboration = note;
-				SelectedPreelaborationPreview = preview;
+				var note = (MnemeNote)navigationContext.Parameters["note"];
+				var preview = NotePreview.CreateFromNote(note);
+				NotesPreview.Insert(0, preview);
+				SelectedNote = note;
+				SelectedNotePreview = preview;
 			}
 		}
 		public bool IsNavigationTarget(NavigationContext navigationContext)

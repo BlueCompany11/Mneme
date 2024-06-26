@@ -1,5 +1,5 @@
 ﻿using Mneme.Integrations.GoogleBooks.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.PrismModule.Integrations.Base;
 using Mneme.Views.Base;
 using Prism.Regions;
@@ -55,7 +55,7 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks.ViewModels
 			set => SetProperty(ref noteText, value);
 		}
 
-		protected override Preelaboration Preelaboration { get; set; }
+		protected override Note BaseNote { get; set; }
 
 		public GoogleBooksNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
 
@@ -72,7 +72,7 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks.ViewModels
 
 		protected override void LoadNote()
 		{
-			notePreview = GoogleBooksNotePreview.CreateFromNote((GoogleBooksPreelaboration)Preelaboration);
+			notePreview = GoogleBooksNotePreview.CreateFromNote((GoogleBooksNote)BaseNote);
 			GoogleBooksNotePreviewUpdate();
 		}
 	}

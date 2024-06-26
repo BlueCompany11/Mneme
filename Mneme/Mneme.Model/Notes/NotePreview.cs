@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mneme.Model.Preelaborations
+namespace Mneme.Model.Notes
 {
-	public class PreelaborationPreview
+	public class NotePreview
 	{
 		public string Id { get; set; }
 		public string Title { get; set; }
 		public string Note { get; set; }
 		public DateTime Date { get; set; }
 		public List<string> Tags { get; set; }
-		public Preelaboration Preelaboration { get; init; }
-		public static PreelaborationPreview CreateFromNote(Preelaboration note)
+		public Note BaseNote { get; init; }
+		public static NotePreview CreateFromNote(Note note)
 		{
-			return new PreelaborationPreview()
+			return new NotePreview()
 			{
 				Id = note.IntegrationId,
 				Date = note.CreationTime,
 				Note = note.Content,
 				Title = note.Title,
 				Tags = [],
-				Preelaboration = note
+				BaseNote = note
 			};
 		}
 	}

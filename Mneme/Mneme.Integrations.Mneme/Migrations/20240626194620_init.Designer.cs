@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Mneme.Integrations.Pluralsight.Database;
+using Mneme.Integrations.Mneme.Database;
 
 #nullable disable
 
-namespace Mneme.Integrations.Pluralsight.Migrations
+namespace Mneme.Integrations.Mneme.Migrations
 {
-    [DbContext(typeof(PluralsightContext))]
-    [Migration("20240613082633_init")]
+    [DbContext(typeof(MnemeContext))]
+    [Migration("20240626194620_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -20,15 +20,11 @@ namespace Mneme.Integrations.Pluralsight.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
-            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightPreelaboration", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Clip")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
                         .HasColumnType("TEXT");
@@ -39,19 +35,11 @@ namespace Mneme.Integrations.Pluralsight.Migrations
                     b.Property<string>("IntegrationId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Module")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Path")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SourceId")
+                    b.Property<int?>("SourceId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("TimeInClip")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
@@ -63,10 +51,10 @@ namespace Mneme.Integrations.Pluralsight.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("PluralsightPreelaboration");
+                    b.ToTable("MnemeNotes");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightSource", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeSource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,6 +62,9 @@ namespace Mneme.Integrations.Pluralsight.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("IntegrationId")
                         .HasColumnType("TEXT");
@@ -86,31 +77,14 @@ namespace Mneme.Integrations.Pluralsight.Migrations
                     b.HasIndex("IntegrationId")
                         .IsUnique();
 
-                    b.ToTable("PluralsightSources");
+                    b.ToTable("MnemeSources");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.Pluralsight.PluralsightConfig", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PluralsightConfigs");
-                });
-
-            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightPreelaboration", b =>
-                {
-                    b.HasOne("Mneme.Integrations.Pluralsight.Contract.PluralsightSource", "Source")
+                    b.HasOne("Mneme.Integrations.Mneme.Contract.MnemeSource", "Source")
                         .WithMany()
-                        .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SourceId");
 
                     b.Navigation("Source");
                 });

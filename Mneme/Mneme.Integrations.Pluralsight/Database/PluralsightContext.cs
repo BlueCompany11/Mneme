@@ -8,7 +8,7 @@ namespace Mneme.Integrations.Pluralsight.Database
 	{
 		public DbSet<PluralsightSource> PluralsightSources { get; set; }
 		public DbSet<PluralsightConfig> PluralsightConfigs { get; set; }
-		public DbSet<PluralsightPreelaboration> PluralsightPreelaboration { get; set; }
+		public DbSet<PluralsightNote> PluralsightNotes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -19,7 +19,7 @@ namespace Mneme.Integrations.Pluralsight.Database
 				entity.HasIndex(e => e.IntegrationId).IsUnique();
 			});
 
-			modelBuilder.Entity<PluralsightPreelaboration>(entity =>
+			modelBuilder.Entity<PluralsightNote>(entity =>
 			{
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.HasKey(e => e.Id);

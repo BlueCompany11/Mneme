@@ -20,10 +20,10 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks
 
 			containerRegistry.Register<GoogleCredentialsProvider>();
 			containerRegistry.Register<GoogleBooksService>();
-			containerRegistry.Register<GoogleBooksPreelaborationProvider>();
+			containerRegistry.Register<GoogleBooksNoteProvider>();
 			containerRegistry.Register<BaseSourcesProvider<GoogleBooksSource>, GoogleBooksSourceProvider>();
 
-			containerRegistry.Register<IIntegrationFacade<GoogleBooksSource, GoogleBooksPreelaboration>, GoogleBooksIntegrationFacade>();
+			containerRegistry.Register<IIntegrationFacade<GoogleBooksSource, GoogleBooksNote>, GoogleBooksIntegrationFacade>();
 			containerRegistry.Register<IDatabase, GoogleBooksIntegrationFacade>();
 		}
 	}

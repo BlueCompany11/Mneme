@@ -21,11 +21,9 @@ namespace Mneme.PrismModule.Integrations.Mneme
 		{
 			containerRegistry.RegisterForNavigation<MnemeNotePreviewView>();
 
-			containerRegistry.Register<ISourceSaver<MnemeSource>, MnemeSourceSaver>();
-			containerRegistry.Register<MnemeNoteSaver>();
 			containerRegistry.Register<BaseSourcesProvider<MnemeSource>, MnemeSourcesProvider>();
 
-			containerRegistry.Register<IIntegrationFacade<MnemeSource, MnemePreelaboration>, MnemeIntegrationFacade>();
+			containerRegistry.Register<IIntegrationFacade<MnemeSource, MnemeNote>, MnemeIntegrationFacade>();
 			containerRegistry.Register<IDatabase, MnemeIntegrationFacade>();
 		}
 	}

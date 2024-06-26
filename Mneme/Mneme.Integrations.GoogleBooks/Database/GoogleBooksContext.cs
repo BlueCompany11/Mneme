@@ -7,7 +7,7 @@ namespace Mneme.Integrations.GoogleBooks.Database
 	internal class GoogleBooksContext : Context
 	{
 		public DbSet<GoogleBooksSource> GoogleBooksSources { get; set; }
-		public DbSet<GoogleBooksPreelaboration> GoogleBooksPreelaborations { get; set; }
+		public DbSet<GoogleBooksNote> GoogleBooksNotes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -18,7 +18,7 @@ namespace Mneme.Integrations.GoogleBooks.Database
 				entity.HasIndex(e => e.IntegrationId).IsUnique();
 			});
 
-			modelBuilder.Entity<GoogleBooksPreelaboration>(entity =>
+			modelBuilder.Entity<GoogleBooksNote>(entity =>
 			{
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.HasKey(e => e.Id);

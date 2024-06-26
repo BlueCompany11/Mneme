@@ -5,21 +5,21 @@ using Mneme.Model.Interfaces;
 using Mneme.Model.TestCreation;
 namespace Mneme.Testing.TestCreation
 {
-	public class ShortAnswerNoteTestVisitor : INoteTestVisitor, INoteTestVisitor<GoogleBooksPreelaboration>, INoteTestVisitor<PluralsightPreelaboration>, INoteTestVisitor<MnemePreelaboration>
+	public class ShortAnswerNoteTestVisitor : INoteTestVisitor, INoteTestVisitor<GoogleBooksNote>, INoteTestVisitor<PluralsightNote>, INoteTestVisitor<MnemeNote>
 	{
-		public INoteTest GetTestNote(GoogleBooksPreelaboration preelaboration)
+		public INoteTest GetTestNote(GoogleBooksNote note)
 		{
-			return new ShortAnswerNoteData { Question = preelaboration.Content };
+			return new ShortAnswerNoteData { Question = note.Content };
 		}
 
-		public INoteTest GetTestNote(PluralsightPreelaboration preelaboration)
+		public INoteTest GetTestNote(PluralsightNote note)
 		{
-			return new ShortAnswerNoteData { Question = preelaboration.Content };
+			return new ShortAnswerNoteData { Question = note.Content };
 		}
 
-		public INoteTest GetTestNote(MnemePreelaboration preelaboration)
+		public INoteTest GetTestNote(MnemeNote note)
 		{
-			return new ShortAnswerNoteData { Question = preelaboration.Content };
+			return new ShortAnswerNoteData { Question = note.Content };
 		}
 	}
 }

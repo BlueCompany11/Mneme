@@ -6,21 +6,21 @@ using Mneme.Model.TestCreation;
 
 namespace Mneme.Testing.TestCreation
 {
-	public class ClozeDeletionNoteTestVisitor : INoteTestVisitor, INoteTestVisitor<GoogleBooksPreelaboration>, INoteTestVisitor<PluralsightPreelaboration>, INoteTestVisitor<MnemePreelaboration>
+	public class ClozeDeletionNoteTestVisitor : INoteTestVisitor, INoteTestVisitor<GoogleBooksNote>, INoteTestVisitor<PluralsightNote>, INoteTestVisitor<MnemeNote>
 	{
-		public INoteTest GetTestNote(GoogleBooksPreelaboration preelaboration)
+		public INoteTest GetTestNote(GoogleBooksNote note)
 		{
-			return new ClozeDeletionNoteData { Text = preelaboration.Content };
+			return new ClozeDeletionNoteData { Text = note.Content };
 		}
 
-		public INoteTest GetTestNote(PluralsightPreelaboration preelaboration)
+		public INoteTest GetTestNote(PluralsightNote note)
 		{
-			return new ClozeDeletionNoteData { Text = preelaboration.Content };
+			return new ClozeDeletionNoteData { Text = note.Content };
 		}
 
-		public INoteTest GetTestNote(MnemePreelaboration preelaboration)
+		public INoteTest GetTestNote(MnemeNote note)
 		{
-			return new ClozeDeletionNoteData { Text = preelaboration.Content };
+			return new ClozeDeletionNoteData { Text = note.Content };
 		}
 	}
 }

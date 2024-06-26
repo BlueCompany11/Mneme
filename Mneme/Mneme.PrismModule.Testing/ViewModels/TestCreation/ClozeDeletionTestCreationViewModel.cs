@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
@@ -58,7 +58,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		}
 
 		private List<ClozeDeletionDataStructure> ClozeDeletionDataStructures { get; set; }
-		private Preelaboration Preelaboration { get; set; }
+		private Note Note { get; set; }
 		public DelegateCommand CreateTestCommand { get; set; }
 		private readonly INoteTestVisitor clozeDeletionNoteTestVisitor;
 		private readonly TestImportanceMapper testImportanceMapper;
@@ -86,7 +86,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			{
 				Text = Text,
 				Importance = importance,
-				NoteId = Preelaboration.IntegrationId,
+				NoteId = Note.IntegrationId,
 				ClozeDeletionDataStructures = ClozeDeletionDataStructures,
 				Created = DateTime.Now
 			};
@@ -103,8 +103,8 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			ClearTextFromUi?.Invoke();
-			Preelaboration = navigationContext.Parameters.GetValue<Preelaboration>("pre");
-			var data = Preelaboration.Accept(clozeDeletionNoteTestVisitor) as ClozeDeletionNoteData;
+			Note = navigationContext.Parameters.GetValue<Note>("note");
+			var data = Note.Accept(clozeDeletionNoteTestVisitor) as ClozeDeletionNoteData;
 			freezeText = false;
 			Text = data.Text;
 			ClozeDeletions.Clear();

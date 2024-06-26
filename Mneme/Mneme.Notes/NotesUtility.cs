@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Google.Apis.Books.v1.Data;
 using Microsoft.VisualBasic;
 using Mneme.Core;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 
 namespace Mneme.Notes
 {
@@ -20,13 +20,13 @@ namespace Mneme.Notes
 			this.integration = integration;
 			this.mnemeIntegration = mnemeIntegration;
 		}
-		public async Task<IReadOnlyList<Preelaboration>> GetNotes(CancellationToken ct)
+		public async Task<IReadOnlyList<Note>> GetNotes(CancellationToken ct)
 		{
 			return await integration.GetNotes(ct);
 		}
-		public async Task DeleteNote(PreelaborationPreview preview)
+		public async Task DeleteNote(NotePreview preview)
 		{
-			await mnemeIntegration.DeleteNote(preview.Preelaboration.IntegrationId);
+			await mnemeIntegration.DeleteNote(preview.BaseNote.IntegrationId);
 		}
 	}
 }

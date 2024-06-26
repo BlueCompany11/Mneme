@@ -1,7 +1,7 @@
 ﻿using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Preelaborations;
+using Mneme.Model.Notes;
 using Mneme.PrismModule.Integrations.GoogleBooks.Views;
 using Mneme.PrismModule.Integrations.Mneme.Views;
 using Mneme.PrismModule.Integrations.Pluralsight.Views;
@@ -17,17 +17,17 @@ namespace Mneme.PrismModule.Integration.Facade
 		{
 			this.regionManager = regionManager;
 		}
-		public void NavigateToPreview(Preelaboration note, NavigationParameters para, string regionName)
+		public void NavigateToPreview(Note note, NavigationParameters para, string regionName)
 		{
-			if (note is GoogleBooksPreelaboration)
+			if (note is GoogleBooksNote)
 			{
 				regionManager.RequestNavigate(regionName, nameof(GoogleBooksNotePreviewView), para);
 			}
-			else if (note is PluralsightPreelaboration)
+			else if (note is PluralsightNote)
 			{
 				regionManager.RequestNavigate(regionName, nameof(PluralsightNotePreviewView), para);
 			}
-			else if (note is MnemePreelaboration)
+			else if (note is MnemeNote)
 			{
 				regionManager.RequestNavigate(regionName, nameof(MnemeNotePreviewView), para);
 			}

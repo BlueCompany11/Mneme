@@ -2,20 +2,20 @@
 
 namespace Mneme.Integrations.Pluralsight
 {
-	internal class PluralsightPreelaborationProvider
+	internal class PluralsightNoteProvider
 	{
-		public List<PluralsightPreelaboration> Preelaborations { get; private set; }
+		public List<PluralsightNote> Notes { get; private set; }
 
-		public PluralsightPreelaborationProvider()
+		public PluralsightNoteProvider()
 		{
-			Preelaborations = [];
+			Notes = [];
 		}
-		public List<PluralsightPreelaboration> Open(string path)
+		public List<PluralsightNote> Open(string path)
 		{
-			var ret = new List<PluralsightPreelaboration>();
+			var ret = new List<PluralsightNote>();
 			if (string.IsNullOrEmpty(path))
 				return ret;
-			Preelaborations.Clear();
+			Notes.Clear();
 			using (var reader = new StreamReader(path))
 			{
 				_ = reader.ReadLine();
@@ -31,13 +31,13 @@ namespace Mneme.Integrations.Pluralsight
 					ret.Add(BuildFromCsvLine(values));
 				}
 			}
-			Preelaborations = ret;
+			Notes = ret;
 			return ret;
 		}
 
-		private PluralsightPreelaboration BuildFromCsvLine(string[] values)
+		private PluralsightNote BuildFromCsvLine(string[] values)
 		{
-			var ret = new PluralsightPreelaboration
+			var ret = new PluralsightNote
 			{
 				Content = values[0],
 				Title = values[1],
@@ -52,14 +52,14 @@ namespace Mneme.Integrations.Pluralsight
 			return ret;
 		}
 
-		public bool TryOpen(string path, out List<PluralsightPreelaboration> preelaborations)
+		public bool TryOpen(string path, out List<PluralsightNote> notes)
 		{
 			if (File.Exists(path))
 			{
-				preelaborations = Open(path);
+				notes = Open(path);
 				return true;
 			}
-			preelaborations = null;
+			notes = null;
 			return false;
 		}
 		private static string GetNoteId(string url)

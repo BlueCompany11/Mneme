@@ -17,7 +17,7 @@ namespace Mneme.Integrations.Mneme.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
-            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemePreelaboration", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace Mneme.Integrations.Mneme.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("MnemePreelaboration");
+                    b.ToTable("MnemeNotes");
                 });
 
             modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeSource", b =>
@@ -77,7 +77,7 @@ namespace Mneme.Integrations.Mneme.Migrations
                     b.ToTable("MnemeSources");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemePreelaboration", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
                 {
                     b.HasOne("Mneme.Integrations.Mneme.Contract.MnemeSource", "Source")
                         .WithMany()
