@@ -22,10 +22,17 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 
 		protected async override Task<List<GoogleBooksSource>> GetSourcesFromAccountAsync(CancellationToken ct)
 		{
-			googleBooksService.Connect();
+			var ret = new List<GoogleBooksSource>();
+			try
+			{
+				googleBooksService.Connect();
+			}
+			catch (FileNotFoundException)
+			{
+				return ret;
+			}
 			var annotations = await googleBooksService.LoadNotes(ct);
 			annotations = annotations.GroupBy(x => x.Source.IntegrationId).Select(x => x.First()).ToList();
-			var ret = new List<GoogleBooksSource>();
 			foreach (var item in annotations)
 			{
 				ret.Add(new GoogleBooksSource { Title = item.Source.Title, IntegrationId = item.Source.IntegrationId, Active = true, });
