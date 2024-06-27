@@ -16,52 +16,37 @@
             <prism:InvokeCommandAction Command="{Binding LoadDataCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <UserControl.Resources>
-        <Style x:Key="Background"
-               TargetType="Border">
-            <Setter Property="Margin"
-                    Value="24,28,0,0" />
-            <Setter Property="Background"
-                    Value="White" />
-            <Setter Property="CornerRadius"
-                    Value="10" />
-        </Style>
-        <Style TargetType="local:DashboardBadgeControl">
-            <Setter Property="Margin"
-                    Value="24,28,0,0" />
-        </Style>
-        <Style TargetType="local:DashboardBadgeTextFirstControl">
-            <Setter Property="Margin"
-                    Value="24,28,0,0" />
-        </Style>
-    </UserControl.Resources>
-    <Grid Margin="24,32,24,32">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="372" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <TextBlock Margin="24,0,0,0"
-                   FontSize="30"
-                   FontWeight="Bold"
-                   Text="Overview" />
-        <local:DashboardBadgeControl Grid.Row="1"
-                                     Description="Active Sources"
-                                     Header="{Binding ActiveSourcesAmount}" />
-        <local:DashboardBadgeControl Grid.Row="1"
-                                     Grid.Column="1"
-                                     Description="Active Notes"
-                                     Header="{Binding ActiveNotesAmount}" />
-        <local:DashboardBadgeTextFirstControl Grid.Row="2"
-                                              Description="{Binding MostRecentSource}"
-                                              Header="The most recently added source" />
-        <local:DashboardBadgeTextFirstControl Grid.Row="2"
-                                              Grid.Column="1"
-                                              Description="{Binding MostRecentNote}"
-                                              Header="The most recently added note" />
+    <Grid Style="{StaticResource MainGridBorder}">
+        <Grid Style="{StaticResource MainGrid}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="372" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource ViewTitle}"
+                       Text="Overview"/>
+            <local:DashboardBadgeControl Grid.Row="1"
+                                         Description="Active Sources"
+                                         Header="{Binding ActiveSourcesAmount}" />
+            <local:DashboardBadgeControl Grid.Row="1"
+                                         Grid.Column="1"
+                                         Margin="24,0,0,0"
+                                         Description="Active Notes"
+                                         Header="{Binding ActiveNotesAmount}" />
+            <local:DashboardBadgeTextFirstControl Grid.Row="2"
+                                                  Description="{Binding MostRecentSource}"
+                                                  Margin="0,24,0,0"
+                                                  Header="The most recently added source" />
+            <local:DashboardBadgeTextFirstControl Grid.Row="2"
+                                                  Grid.Column="1"
+                                                  Margin="24,24,0,0"
+                                                  Description="{Binding MostRecentNote}"
+                                                  Header="The most recently added note" />
+        </Grid>
     </Grid>
+    
 </UserControl>

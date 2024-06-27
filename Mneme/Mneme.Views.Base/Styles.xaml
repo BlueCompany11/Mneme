@@ -50,4 +50,21 @@
         <Setter Property="Height"
                 Value="50" />
     </Style>
+    <Style x:Key="MainGrid" TargetType="Grid">
+        <Setter Property="Margin"
+                Value="24,32,24,32"></Setter>
+    </Style> 
+    <Style x:Key="MainGridBorder"
+           TargetType="Grid">
+        <Setter Property="Background"
+                Value="#F7F7F7"></Setter>
+    </Style>
+    <Style x:Key="ViewTitle" TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="30"></Setter>
+        <Setter Property="Margin"
+                Value="0,0,0,24"></Setter>
+        <Setter Property="FontWeight"
+                Value="Bold"></Setter>
+    </Style>
 </ResourceDictionary>

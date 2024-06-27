@@ -41,8 +41,8 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Grid>
+    <Grid Style="{StaticResource MainGridBorder}">
+        <Grid Style="{StaticResource MainGrid}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition />
@@ -62,9 +62,9 @@
                           Width="3"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch" />
-            <StackPanel Margin="16,10,20,0">
+            <StackPanel Margin="0,0,24,0">
                 <DockPanel>
-                    <TextBlock Style="{StaticResource MainHeaderFont}"
+                    <TextBlock Style="{StaticResource ViewTitle}"
                                Text="Notes" />
                     <Button HorizontalAlignment="Right"
                             Command="{Binding OpenNewNoteViewCommand}"
@@ -93,6 +93,7 @@
                              Value="35" />
             </Grid>
             <ListBox Grid.Row="1"
+                     Margin="0,0,24,0"
                      HorizontalContentAlignment="Stretch"
                      BorderBrush="Transparent"
                      Grid.IsSharedSizeScope="True"
