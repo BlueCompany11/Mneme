@@ -38,19 +38,14 @@ namespace Mneme.Integrations.Contracts
 			return Task.CompletedTask;
 		}
 
-		public virtual Task<IReadOnlyList<N>> GetActiveNotes(CancellationToken ct)
+		public virtual async Task<IReadOnlyList<N>> GetActiveNotes(CancellationToken ct)
 		{
-			throw new NotImplementedException();
+			return await context.Set<N>().ToListAsync(ct);
 		}
 
 		public virtual async Task<IReadOnlyList<S>> GetActiveSources(CancellationToken ct)
 		{
 			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct);
-		}
-
-		public virtual async Task<IReadOnlyList<S>> GetKnownSources(bool onlyActive, CancellationToken ct)
-		{
-			return await context.Set<S>().ToListAsync(ct);
 		}
 
 		public virtual Task<N> GetNote(string id, CancellationToken ct)
@@ -63,6 +58,12 @@ namespace Mneme.Integrations.Contracts
 			return await context.Set<N>().ToListAsync(ct);
 		}
 
+		public virtual async Task<IReadOnlyList<N>> GetKnownNotes(bool activeOnly, CancellationToken ct)
+		{
+			return await context.Set<N>().ToListAsync(ct);
+			//TODO activeOnly
+		}
+
 		public virtual Task<S> GetSource(string id, CancellationToken ct)
 		{
 			return Task.FromResult(context.Set<S>().First(x => x.IntegrationId == id));
@@ -71,6 +72,11 @@ namespace Mneme.Integrations.Contracts
 		public virtual async Task<IReadOnlyList<S>> GetSources(CancellationToken ct)
 		{
 			return await context.Set<S>().ToListAsync(ct);
+		}
+
+		public virtual async Task<IReadOnlyList<S>> GetKnownSources(bool onlyActive, CancellationToken ct)
+		{
+			return await context.Set<S>().Where(x=>x.Active).ToListAsync(ct);
 		}
 
 		public virtual Task CreateSource(S source)
@@ -127,5 +133,6 @@ namespace Mneme.Integrations.Contracts
 			using var context = CreateContext();
 			await context.Database.MigrateAsync(ct);
 		}
+
 	}
 }

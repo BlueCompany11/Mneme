@@ -12,10 +12,10 @@ namespace Mneme.Dashboard
 			this.integration = integration;
 		}
 
-		public async Task<int> GetActiveSourcesCount(CancellationToken ct = default) => (await integration.GetActiveSources(ct)).Count;
-		public async Task<int> GetActiveNotesCount(CancellationToken ct = default) => (await integration.GetActiveNotes(ct)).Count;
-		public async Task<string?> GetMostRecentSource(CancellationToken ct = default) => (await integration.GetActiveSources(ct)).OrderBy(x => x.Created).Select(x => x.Title).FirstOrDefault();
-		public async Task<string?> GetMostRecentNote(CancellationToken ct = default) => (await integration.GetActiveNotes(ct)).OrderBy(x => x.CreationTime).Select(x => x.Title + Environment.NewLine + x.Content).FirstOrDefault();
+		public async Task<int> GetKnownSourcesCount(CancellationToken ct = default) => (await integration.GetKnownSources()).Count;
+		public async Task<int> GetKnownNotesCount(CancellationToken ct = default) => (await integration.GetKnownNotes()).Count;
+		public async Task<string?> GetMostRecentSource(CancellationToken ct = default) => (await integration.GetKnownSources()).OrderBy(x => x.Created).Select(x => x.Title).FirstOrDefault();
+		public async Task<string?> GetMostRecentNote(CancellationToken ct = default) => (await integration.GetKnownNotes()).OrderBy(x => x.CreationTime).Select(x => x.Title + Environment.NewLine + x.Content).FirstOrDefault();
 
 		public void Dispose()
 		{

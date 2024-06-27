@@ -1,4 +1,5 @@
-﻿using Mneme.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using Mneme.DataAccess;
 using Mneme.Integrations.Contracts;
 using Mneme.Integrations.GoogleBooks.Database;
 
@@ -20,6 +21,12 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 		public override async Task<IReadOnlyList<GoogleBooksNote>> GetNotes(CancellationToken ct)
 		{
 			return await noteProvider.GetNotesAsync(ct);
+		}
+
+		public override async Task<IReadOnlyList<GoogleBooksNote>> GetKnownNotes(bool activeOnly, CancellationToken ct)
+		{
+			return await context.Set<GoogleBooksNote>().ToListAsync(ct);
+			//TODO activeOnly
 		}
 	}
 }
