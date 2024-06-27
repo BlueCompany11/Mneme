@@ -70,14 +70,14 @@ namespace Mneme.PrismModule.Integration.Facade
 			ret.AddRange(await pluralsightIntegration.GetActiveSources(ct));
 			return ret;
 		}
-		/// <summary>
-		/// Not yet fully implemented
-		/// </summary>
-		/// <param name="ct"></param>
-		/// <returns></returns>
+
 		public async Task<IReadOnlyList<Note>> GetNotes(CancellationToken ct = default)
 		{
-			return await GetActiveNotes(ct);
+			var ret = new List<Note>();
+			ret.AddRange(await googleBooksIntegration.GetNotes(ct));
+			ret.AddRange(await mnemeIntegration.GetNotes(ct));
+			ret.AddRange(await pluralsightIntegration.GetNotes(ct));
+			return ret;
 		}
 
 		public async Task<IReadOnlyList<Source>> GetSources(CancellationToken ct = default)
