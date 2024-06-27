@@ -11,6 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Margin="20" FontSize="20" FontWeight="Bold">Google Books Configuration</TextBlock>
@@ -20,5 +21,6 @@
             You will be asked to login to your Google account to allow Mneme to access your Google Books library. Just click Sources or Notes tab. For now it is recommended to login to the account, even if there are no notes at all.<LineBreak /><LineBreak />
             If you want to change your Google account, open a folder %AppData%\Google.Apis.Auth and delete the file stored there.
         </TextBlock>
+        <Button Grid.Row="2" Content="Connect" Command="{Binding ConnectCommand}" VerticalAlignment="Top" ></Button>
     </Grid>
 </UserControl>
