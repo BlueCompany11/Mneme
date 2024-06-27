@@ -64,8 +64,8 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Grid Margin="24">
+    <Grid Style="{StaticResource MainGridBorder}">
+        <Grid Style="{StaticResource MainGrid}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -76,8 +76,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="0,0,0,8"
-                       Style="{StaticResource MainHeaderFont}"
+            <TextBlock Style="{StaticResource ViewTitle}"
                        Text="Sources" />
             <Grid Grid.Row="1"
                   Margin="0,0,0,16">
