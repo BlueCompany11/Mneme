@@ -18,7 +18,6 @@ namespace Mneme.PrismModule.Integration.Facade
 		private readonly IIntegrationFacade<GoogleBooksSource, GoogleBooksNote> googleBooksIntegration;
 		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 		private readonly IIntegrationFacade<PluralsightSource, PluralsightNote> pluralsightIntegration;
-		private readonly IDatabase testingModule;
 		private bool disposedValue;
 
 		public BundledIntegrationFacades(
@@ -30,7 +29,6 @@ namespace Mneme.PrismModule.Integration.Facade
 			this.googleBooksIntegration = googleBooksIntegration;
 			this.mnemeIntegration = mnemeIntegration;
 			this.pluralsightIntegration = pluralsightIntegration;
-			//this.testingModule = testingModule;
 		}
 		public async Task ActivateSource(string id, string type, CancellationToken ct = default)
 		{
@@ -58,22 +56,19 @@ namespace Mneme.PrismModule.Integration.Facade
 		public async Task<IReadOnlyList<Note>> GetActiveNotes(CancellationToken ct = default)
 		{
 			var ret = new List<Note>();
-			ret.AddRange(await googleBooksIntegration.GetNotes(ct));
-			ret.AddRange(await mnemeIntegration.GetNotes(ct));
-			ret.AddRange(await pluralsightIntegration.GetNotes(ct));
+			ret.AddRange(await googleBooksIntegration.GetActiveNotes(ct));
+			ret.AddRange(await mnemeIntegration.GetActiveNotes(ct));
+			ret.AddRange(await pluralsightIntegration.GetActiveNotes(ct));
 			return ret;
-			//TODO
-			//throw new NotImplementedException();
-			//return ret.Where(x=>x.Active).ToList();
 		}
 
 		public async Task<IReadOnlyList<Source>> GetActiveSources(CancellationToken ct = default)
 		{
 			var ret = new List<Source>();
-			ret.AddRange(await googleBooksIntegration.GetSources(ct));
-			ret.AddRange(await mnemeIntegration.GetSources(ct));
-			ret.AddRange(await pluralsightIntegration.GetSources(ct));
-			return ret.Where(x => x.Active).ToList();
+			ret.AddRange(await googleBooksIntegration.GetActiveSources(ct));
+			ret.AddRange(await mnemeIntegration.GetActiveSources(ct));
+			ret.AddRange(await pluralsightIntegration.GetActiveSources(ct));
+			return ret;
 		}
 		/// <summary>
 		/// Not yet fully implemented
@@ -93,12 +88,21 @@ namespace Mneme.PrismModule.Integration.Facade
 			ret.AddRange(await pluralsightIntegration.GetSources(ct));
 			return ret;
 		}
-		public async Task<IReadOnlyList<Source>> GetKnownSources(bool onlyActive, CancellationToken ct = default)
+		public async Task<IReadOnlyList<Source>> GetKnownSources(bool onlyActive = true, CancellationToken ct = default)
 		{
 			var ret = new List<Source>();
 			ret.AddRange(await googleBooksIntegration.GetKnownSources(onlyActive, ct));
 			ret.AddRange(await mnemeIntegration.GetKnownSources(onlyActive, ct));
 			ret.AddRange(await pluralsightIntegration.GetKnownSources(onlyActive, ct));
+			return ret;
+		}
+
+		public async Task<IReadOnlyList<Note>> GetKnownNotes(bool onlyActive = true, CancellationToken ct = default)
+		{
+			var ret = new List<Note>();
+			ret.AddRange(await googleBooksIntegration.GetKnownNotes(onlyActive, ct));
+			ret.AddRange(await mnemeIntegration.GetKnownNotes(onlyActive, ct));
+			ret.AddRange(await pluralsightIntegration.GetKnownNotes(onlyActive, ct));
 			return ret;
 		}
 

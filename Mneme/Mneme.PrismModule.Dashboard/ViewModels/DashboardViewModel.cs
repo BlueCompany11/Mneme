@@ -52,18 +52,18 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 
 		private async void LoadDataHandler()
 		{
-			ActiveSourcesAmount = await statistics.GetActiveSourcesCount();
-			ActiveNotesAmount = await statistics.GetActiveNotesCount();
+			ActiveSourcesAmount = await statistics.GetKnownSourcesCount();
+			ActiveNotesAmount = await statistics.GetKnownNotesCount();
 			MostRecentSource = await statistics.GetMostRecentSource();
 			MostRecentNote = await statistics.GetMostRecentNote();
 		}
 
 		private async Task LoadData(CancellationToken ct)
 		{
-			ActiveSourcesAmount = await statistics.GetActiveSourcesCount(ct);
+			ActiveSourcesAmount = await statistics.GetKnownSourcesCount(ct);
 			if (ct.IsCancellationRequested)
 				return;
-			ActiveNotesAmount = await statistics.GetActiveNotesCount(ct);
+			ActiveNotesAmount = await statistics.GetKnownNotesCount(ct);
 			if (ct.IsCancellationRequested)
 				return;
 			MostRecentSource = await statistics.GetMostRecentSource(ct);

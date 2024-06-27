@@ -19,10 +19,11 @@ namespace Mneme.Integrations.Contracts
 		Task CreateNote(N note);
 		Task<IReadOnlyList<S>> GetActiveSources(CancellationToken ct);
 		Task<IReadOnlyList<S>> GetSources(CancellationToken ct);
+		Task<IReadOnlyList<S>> GetKnownSources(bool activeOnly, CancellationToken ct);
 		Task<IReadOnlyList<N>> GetActiveNotes(CancellationToken ct);
 		Task<IReadOnlyList<N>> GetNotes(CancellationToken ct);
+		Task<IReadOnlyList<N>> GetKnownNotes(bool activeOnly, CancellationToken ct);
 		Task<S> GetSource(string id, CancellationToken ct);
 		Task<N> GetNote(string id, CancellationToken ct);
-		Task<IReadOnlyList<S>> GetKnownSources(bool onlyActive, CancellationToken ct);
 	}
 }
