@@ -17,7 +17,14 @@ namespace Mneme.PrismModule.Configuration.Integration.ViewModels
 		public string Format4 { get; set; }
 		public bool IsButtonEnabled { get; set; } = true;
 		public string ToolTip { get; set; } = "";
+		private string status;
 
+		public string Status
+		{
+			get => status;
+			set => SetProperty(ref status, value);
+		}
+		
 		public DelegateCommand ConnectCommand { get; set; }
 
 		public GoogleBooksSourceConfigurationViewModel(IEventAggregator eventAggregator, GoogleBooksService service, ISnackbarMessageQueue queue) : base(eventAggregator)
@@ -28,6 +35,7 @@ namespace Mneme.PrismModule.Configuration.Integration.ViewModels
 			this.service = service;
 			this.queue = queue;
 			ConnectCommand = new DelegateCommand(Connect);
+			Status = "Unknown";
 		}
 
 		private void Connect()
@@ -35,9 +43,12 @@ namespace Mneme.PrismModule.Configuration.Integration.ViewModels
 			try
 			{
 				service.Connect();
+				queue.Enqueue("Connection with Google Books account established");
+				Status = "Connected";
 			}
 			catch(Exception)
 			{
+				Status = "Disconnected";
 				queue.Enqueue("Failed to connect to Google Books");
 			}
 		}
