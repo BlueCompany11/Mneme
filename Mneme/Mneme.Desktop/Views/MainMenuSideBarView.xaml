@@ -20,9 +20,9 @@
             <Setter Property="Background" Value="White" />
             <Setter Property="BorderBrush" Value="White" />
         </Style>
-
     </UserControl.Resources>
-    <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp5" UniformCornerRadius="0">
+    <Grid Background="White"
+          SnapsToDevicePixels="True">
         <TabControl
             Margin="0,24,0,0"
             materialDesign:ColorZoneAssist.Mode="Standard"
@@ -69,5 +69,5 @@
                 </TabItem.Header>
             </TabItem>
         </TabControl>
-    </materialDesign:Card>
+    </Grid>
 </UserControl>
