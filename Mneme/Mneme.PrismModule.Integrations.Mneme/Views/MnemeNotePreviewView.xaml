@@ -8,21 +8,62 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
-    <Grid Margin="20">
+    <UserControl.Resources>
+        <Style x:Key="NoteTypeText"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="24">
+            </Setter>
+            <Setter Property="Margin"
+                    Value="0,28,0,0"></Setter>
+        </Style>
+        <Style x:Key="TitleText"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="24" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+        </Style>
+        <Style x:Key="NoteTitleText"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="22" />
+            <Setter Property="FontFamily"
+                    Value="Bold"></Setter>
+            <Setter Property="TextWrapping"
+                    Value="WrapWithOverflow"></Setter>
+            <Setter Property="Margin"
+                    Value="0,48,0,48"></Setter>
+        </Style>
+        <Style x:Key="SectionTitleText"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="16" />
+            <Setter Property="FontWeight"
+                    Value="Medium" />
+            <Setter Property="TextWrapping"
+                    Value="WrapWithOverflow" />
+            <Setter Property="Margin"
+                    Value="0,0,0,24"></Setter>
+        </Style>
+        <Style x:Key="DetailsSectionText"
+               TargetType="TextBlock">
+            <Setter Property="Margin"
+                    Value="0,0,0,24"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="24,0,24,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="88" />
+            <RowDefinition Height="auto" />
             <RowDefinition />
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <TextBlock Text="Mneme Note"
-                   VerticalAlignment="Center" />
+                   Style="{StaticResource NoteTypeText}" />
         <StackPanel Grid.Row="1">
-            <TextBlock Margin="0,0,0,50"
-                       Style="{StaticResource MainHeaderFont}"
-                       Text="{Binding Title}"
-                       TextWrapping="WrapWithOverflow" />
-            <TextBlock Margin="0,0,0,20"
-                       Style="{StaticResource DefaultHeaderFont}"
+            <TextBlock Style="{StaticResource NoteTitleText}"
+                       Text="{Binding Title}" />
+            <TextBlock Style="{StaticResource SectionTitleText}"
                        Text="Details" />
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -36,33 +77,31 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBlock Margin="0,0,0,20"
+                <TextBlock Style="{StaticResource DetailsSectionText}"
                            Text="Source" />
                 <TextBlock Grid.Column="1"
                            Text="{Binding Source}" />
-                <TextBlock Margin="0,0,0,20"
+                <TextBlock Style="{StaticResource DetailsSectionText}"
                            Grid.Row="1"
                            Text="Source details" />
                 <TextBlock Grid.Column="1"
                            Grid.Row="1"
                            Text="{Binding SourceDetails}" />
-                <TextBlock Margin="0,0,0,20"
+                <TextBlock Style="{StaticResource DetailsSectionText}"
                            Grid.Row="2"
                            Text="Note details" />
                 <TextBlock Grid.Column="1"
                            Grid.Row="2"
                            Text="{Binding NoteDetails}" />
-                <TextBlock Margin="0,0,0,20"
+                <TextBlock Style="{StaticResource DetailsSectionText}"
                            Grid.Row="3"
                            Text="Creation date" />
                 <TextBlock Grid.Column="1"
                            Grid.Row="3"
                            Text="{Binding CreationDate, StringFormat=d}" />
             </Grid>
-            <TextBlock Margin="0,20,0,10"
-                       Style="{StaticResource DefaultHeaderFont}"
-                       Text="Note"
-                       TextWrapping="Wrap" />
+            <TextBlock Style="{StaticResource SectionTitleText}"
+                       Text="Note" />
             <TextBlock Text="{Binding Note}" />
         </StackPanel>
         <Button Grid.Row="2"
