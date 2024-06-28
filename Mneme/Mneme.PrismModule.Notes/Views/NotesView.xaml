@@ -63,13 +63,14 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch" />
             <StackPanel Margin="0,0,24,0">
-                <DockPanel>
+                <Grid>
                     <TextBlock Style="{StaticResource ViewTitle}"
                                Text="Notes" />
                     <Button HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
                             Command="{Binding OpenNewNoteViewCommand}"
                             Content="+ New Note" />
-                </DockPanel>
+                </Grid>
                 <TextBlock Text="{Binding NotesPreview.Count, StringFormat='Returned {0} notes.'}" />
                 <Grid>
                     <materialDesign:PackIcon Margin="24,0,-160,0"

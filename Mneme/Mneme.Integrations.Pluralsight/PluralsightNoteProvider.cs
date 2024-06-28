@@ -16,23 +16,30 @@ namespace Mneme.Integrations.Pluralsight
 			if (string.IsNullOrEmpty(path))
 				return ret;
 			Notes.Clear();
-			using (var reader = new StreamReader(path))
+			try
 			{
-				_ = reader.ReadLine();
-
-				while (!reader.EndOfStream)
+				using (var reader = new StreamReader(path))
 				{
-					string line = reader.ReadLine();
-					string separator = @""",""";
-					string[] values = line.Split(separator);
-					//remove "
-					values[0] = values[0][1..];
-					values[5] = values[5][..^1];
-					ret.Add(BuildFromCsvLine(values));
+					_ = reader.ReadLine();
+
+					while (!reader.EndOfStream)
+					{
+						string line = reader.ReadLine();
+						string separator = @""",""";
+						string[] values = line.Split(separator);
+						//remove "
+						values[0] = values[0][1..];
+						values[5] = values[5][..^1];
+						ret.Add(BuildFromCsvLine(values));
+					}
 				}
+				Notes = ret;
+				return ret;
 			}
-			Notes = ret;
-			return ret;
+			catch (Exception)
+			{
+				return ret;
+			}
 		}
 
 		private PluralsightNote BuildFromCsvLine(string[] values)
