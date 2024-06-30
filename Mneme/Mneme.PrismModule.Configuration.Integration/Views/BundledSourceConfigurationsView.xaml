@@ -30,7 +30,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center"
-                       Margin="0,64,0,64"
+                       Margin="0,64,0,128"
                        FontWeight="Bold"
                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"
                        Text="Integrate with external systems" />
