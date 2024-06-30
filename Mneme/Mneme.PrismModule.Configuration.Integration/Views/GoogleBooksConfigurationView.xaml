@@ -8,22 +8,53 @@
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="TitleText"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="30"></Setter>
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"></Setter>
+            <Setter Property="FontWeight"
+                    Value="Bold"></Setter>
+            <Setter Property="Margin"
+                    Value="0,0,0,32"></Setter>
+        </Style>
+        <Style x:Key="SectionText"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="16"></Setter>
+            <Setter Property="FontWeight"
+                    Value="SemiBold"></Setter>
+        </Style>
+        <Style x:Key="StatusText"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="14"></Setter>
+            <Setter Property="Margin"
+                    Value="8,2,0,0"></Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock FontSize="20" FontWeight="Bold">Google Books Configuration</TextBlock>
-        <TextBlock  Margin="0,16,0,0" Grid.Row="1" FontSize="16" TextWrapping="Wrap">
-            You will be asked to login to your Google account to allow Mneme to access your Google Books library. Just click Sources or Notes tab. For now it is recommended to login to the account, even if there are no notes at all.<LineBreak /><LineBreak />
-            If you want to change your Google account, open a folder %AppData%\Google.Apis.Auth and delete the file stored there.
-        </TextBlock>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <TextBlock Text="Status: "></TextBlock>
-            <TextBlock Text="{Binding Status}"></TextBlock>
+        <TextBlock Style="{StaticResource TitleText}">Google Books Configuration</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Text="Status: "
+                       Style="{StaticResource SectionText}"></TextBlock>
+            <TextBlock Text="{Binding Status}" Style="{StaticResource StatusText}"></TextBlock>
         </StackPanel>
-        <Button Grid.Row="3" Content="Connect" Command="{Binding ConnectCommand}" VerticalAlignment="Top" ></Button>
+        <StackPanel Orientation="Horizontal"
+                    Margin="0,32,0,0"
+                    Grid.Row="2">
+            <Button Content="Connect"
+                    Command="{Binding ConnectCommand}"></Button>
+            <Button Margin="16,0,0,0"
+                    Content="Disconnect"
+                    Command="{Binding DisconnectCommand}"></Button>
+        </StackPanel>
     </Grid>
 </UserControl>
