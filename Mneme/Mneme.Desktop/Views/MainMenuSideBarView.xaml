@@ -9,7 +9,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <Style BasedOn="{StaticResource MaterialDesignHeaderedContentControl}" TargetType="TabItem">
-            <Setter Property="Margin" Value="10,8,10,0" />
+            <Setter Property="Margin" Value="0,8,0,0" />
             <Setter Property="Width" Value="200" />
         </Style>
         <Style TargetType="HeaderedContentControl">
@@ -19,6 +19,8 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="Background" Value="White" />
             <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="Padding"
+                    Value="24,0,0,0" />
         </Style>
     </UserControl.Resources>
     <Grid Background="White"
