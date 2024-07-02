@@ -62,7 +62,9 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			this.repository = repository;
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
-			CreateTestCommand = new DelegateCommand(CreateTest);
+			CreateTestCommand = new DelegateCommand(CreateTest, () => !(string.IsNullOrWhiteSpace(Question) || string.IsNullOrWhiteSpace(Answer)))
+				.ObservesProperty(() => Question)
+				.ObservesProperty(() => Answer);
 
 		}
 		public void OnNavigatedTo(NavigationContext navigationContext)
