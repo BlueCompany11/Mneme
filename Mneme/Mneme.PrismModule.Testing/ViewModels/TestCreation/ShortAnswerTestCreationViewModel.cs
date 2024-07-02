@@ -62,9 +62,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			this.repository = repository;
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
-			CreateTestCommand = new DelegateCommand(CreateTest, () => !(string.IsNullOrWhiteSpace(Question) || string.IsNullOrWhiteSpace(Answer)))
-				.ObservesProperty(() => Question)
-				.ObservesProperty(() => Answer);
+			CreateTestCommand = new DelegateCommand(CreateTest);
 
 		}
 		public void OnNavigatedTo(NavigationContext navigationContext)
@@ -87,6 +85,13 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 
 		private void CreateTest()
 		{
+			var validation = !string.IsNullOrWhiteSpace(Question) && !string.IsNullOrWhiteSpace(Answer);
+			if (!validation)
+			{
+				snackbarMessageQueue.Enqueue("Question and answer cannot be empty");
+				return;
+			}
+
 			int importance = testImportanceMapper.Map(SelectedImportanceOption);
 			var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
 			repository.CreateTest(test);
