@@ -22,29 +22,15 @@
         <StackPanel>
             <TextBlock Style="{StaticResource Labels}"
                        Text="Question" />
-            <TextBox Style="{StaticResource TestInput}">
-                <TextBox.Text>
-                    <Binding Path="Question"
-                             UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <rules:FieldIsRequiredRule ValidatesOnTargetUpdated="True" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
+            <TextBox Style="{StaticResource TestInput}"
+                     Text="{Binding Question}">
             </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <TextBlock Style="{StaticResource Labels}"
                        Text="Answer" />
-            <TextBox Style="{StaticResource TestInput}">
-                <TextBox.Text>
-                    <Binding Path="Answer"
-                             UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <rules:FieldIsRequiredRule ValidatesOnTargetUpdated="True" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
+            <TextBox Style="{StaticResource TestInput}"
+                     Text="{Binding Answer}">
             </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="2">
