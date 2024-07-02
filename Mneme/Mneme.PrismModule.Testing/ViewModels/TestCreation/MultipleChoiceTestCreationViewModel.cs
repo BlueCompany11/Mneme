@@ -93,6 +93,17 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 
 		private void CreateTest()
 		{
+			var validations = !string.IsNullOrWhiteSpace(Question);
+			for (int i = 0 ; i < amountOfAnswers ; i++)
+			{
+				if(Checks[i])
+					validations = validations && !string.IsNullOrWhiteSpace(Texts[i]);
+			}
+			if (!validations)
+			{
+				snackbarMessageQueue.Enqueue("Question and correct answers are required");
+				return;
+			}
 			int importance = testImportanceMapper.Map(SelectedImportanceOption);
 			var answers = new List<TestMultipleChoice>();
 			for (int i = 0 ; i < amountOfAnswers ; i++)
