@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MaterialDesignThemes.Wpf;
@@ -81,6 +82,12 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 
 		private void CreateTest()
 		{
+			var validation = ClozeDeletions.Count > 0;
+			if(!validation)
+			{
+				snackbarMessageQueue.Enqueue("Add cloze deletion first.");
+				return;
+			}
 			int importance = testImportanceMapper.Map(SelectedImportanceOption);
 			var testClozeDeletion = new TestClozeDeletion
 			{
@@ -95,6 +102,12 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		}
 		public void MarkClozeDeletion(int start, int end)
 		{
+			var validation = start < end && start >= 0 && end <= Text.Length;
+			if (!validation)
+			{
+				snackbarMessageQueue.Enqueue("Marked text is invalid.");
+				return;
+			}
 			freezeText = true;
 			string text = Text[start..end];
 			ClozeDeletionDataStructures.Add(new ClozeDeletionDataStructure { Start = start, End = end });
