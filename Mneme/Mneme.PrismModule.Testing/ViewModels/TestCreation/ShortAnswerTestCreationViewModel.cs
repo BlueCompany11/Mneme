@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DryIoc;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model.Interfaces;
 using Mneme.Model.Notes;
@@ -10,11 +11,13 @@ using Mneme.Testing.TestCreation;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 {
-	public class ShortAnswerTestCreationViewModel : BindableBase, INavigationAware
+	public class ShortAnswerTestCreationViewModel : BindableBase, INavigationAware, IDialogAware
 	{
+		bool editMode;
 		private string question;
 		public string Question
 		{
@@ -52,6 +55,10 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
+		//id for a test
+		private string oldQuestion;
+
+		public event Action<IDialogResult> RequestClose;
 
 		private Note Note { get; set; }
 		public ShortAnswerTestCreationViewModel(ShortAnswerNoteTestVisitor shortAnswerNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
@@ -70,6 +77,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			Note = navigationContext.Parameters.GetValue<Note>("note");
 			var data = Note.Accept(shortAnswerNoteTestVisitor) as ShortAnswerNoteData;
 			Question = data.Question;
+			editMode = false;
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -83,19 +91,62 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		}
 		public DelegateCommand CreateTestCommand { get; set; }
 
+		public string Title => "Edit";
+
 		private void CreateTest()
+		{
+			if (!Validate())
+				return;
+			int importance = testImportanceMapper.Map(SelectedImportanceOption);
+			if (editMode)
+			{
+				var test = repository.GetShortAnswerTest(oldQuestion);
+				test.Question = Question;
+				test.Answer = Answer;
+				test.Hint = Hint;
+				test.Importance = importance;
+				repository.EditTest(test);
+				snackbarMessageQueue.Enqueue("Test updated");
+				RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+			}
+			else
+			{
+				var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
+				repository.CreateTest(test);
+				snackbarMessageQueue.Enqueue("Test created");
+			}
+		}
+
+		private bool Validate()
 		{
 			var validation = !string.IsNullOrWhiteSpace(Question) && !string.IsNullOrWhiteSpace(Answer);
 			if (!validation)
 			{
 				snackbarMessageQueue.Enqueue("Question and answer cannot be empty");
-				return;
+				return false;
 			}
+			return true;
+		}
 
-			int importance = testImportanceMapper.Map(SelectedImportanceOption);
-			var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
-			repository.CreateTest(test);
-			snackbarMessageQueue.Enqueue("Test created");
+		public bool CanCloseDialog()
+		{
+			return true;
+		}
+
+		public void OnDialogClosed()
+		{
+			
+		}
+
+		public void OnDialogOpened(IDialogParameters parameters)
+		{
+			parameters.TryGetValue("test", out TestShortAnswer test);
+			Question = test.Question;
+			Answer = test.Answer;
+			Hint = test.Hint;
+			SelectedImportanceOption = testImportanceMapper.Map(test.Importance);
+			oldQuestion = Question;
+			editMode = true;
 		}
 	}
 }

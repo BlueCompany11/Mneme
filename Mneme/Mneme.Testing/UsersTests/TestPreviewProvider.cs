@@ -6,14 +6,12 @@ namespace Mneme.Testing.UsersTests
 {
 	public class TestPreviewProvider
 	{
-		private readonly TestingContext testingContext;
 		private readonly TestTypeProvider testTypeProvider;
 		private readonly SpaceRepetition spaceRepetition;
 
 		private Queue<TestDataPreview> Tests { get; set; }
 		public TestPreviewProvider(TestTypeProvider testTypeProvider, SpaceRepetition spaceRepetition)
 		{
-			this.testingContext = new();
 			this.testTypeProvider = testTypeProvider;
 			this.spaceRepetition = spaceRepetition;
 		}
@@ -24,6 +22,7 @@ namespace Mneme.Testing.UsersTests
 
 		private Queue<TestDataPreview> GetAllTests()
 		{
+			using var testingContext = new TestingContext();
 			var ret = new Queue<TestDataPreview>();
 			var shortAnswers = testingContext.TestShortAnswers.ToList();
 			var multipleChoice = testingContext.TestMultipleChoices.ToList();
@@ -45,6 +44,7 @@ namespace Mneme.Testing.UsersTests
 		}
 		public Queue<IUserTest> GetTestsForToday()
 		{
+			using var testingContext = new TestingContext();
 			var ret = new Queue<IUserTest>();
 			var shortAnswers = testingContext.TestShortAnswers.ToList();
 			var multipleChoice = testingContext.TestMultipleChoices.ToList();
