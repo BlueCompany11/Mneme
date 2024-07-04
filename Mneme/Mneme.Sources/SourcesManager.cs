@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mneme.Core;
+using Mneme.Integrations.Contracts;
+using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model.Sources;
 
 namespace Mneme.Sources
@@ -7,9 +9,9 @@ namespace Mneme.Sources
 	public class SourcesManager : IDisposable
 	{
 		private readonly IBundledIntegrationFacades integration;
-		private readonly IMnemeIntegrationFacade mnemeIntegration;
+		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 
-		public SourcesManager(IBundledIntegrationFacades integration, IMnemeIntegrationFacade mnemeIntegration)
+		public SourcesManager(IBundledIntegrationFacades integration, IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
 		{
 			this.integration = integration;
 			this.mnemeIntegration = mnemeIntegration;
@@ -18,7 +20,7 @@ namespace Mneme.Sources
 		{
 			try
 			{
-				await mnemeIntegration.DeleteSource(source.Id);
+				await mnemeIntegration.DeleteSource(source.Id, default);
 				return true;
 			}
 			catch (DbUpdateException)
@@ -47,7 +49,7 @@ namespace Mneme.Sources
 
 		public async Task<IReadOnlyList<SourcePreview>> GetSourcesPreviewAsync(CancellationToken ct = default)
 		{
-			return (await integration.GetSources(ct)).Select(x => SourcePreview.CreateFromSource(x)).ToList();
+			return (await integration.GetSources(true, ct)).Select(x => SourcePreview.CreateFromSource(x)).ToList();
 		}
 
 		public void Dispose()

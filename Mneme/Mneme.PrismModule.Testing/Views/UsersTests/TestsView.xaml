@@ -47,8 +47,6 @@
                                             Binding="{Binding Title}" />
                         <DataGridTextColumn Header="Type"
                                             Binding="{Binding Type}" />
-                        <DataGridTextColumn Header="Status"
-                                            Binding="{Binding Status}" />
                         <DataGridTextColumn Header="Created"
                                             Binding="{Binding CreationTime}" />
                         <DataGridTemplateColumn>
