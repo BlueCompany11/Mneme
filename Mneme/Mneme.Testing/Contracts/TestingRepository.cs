@@ -82,5 +82,29 @@ namespace Mneme.Testing.Contracts
 			using var context = new TestingContext();
 			return context.TestShortAnswers.First(t => t.Question == title);
 		}
+
+		public void RemoveTest(TestClozeDeletion test)
+		{
+			using var context = new TestingContext();
+			var toRemove = context.ClozeDeletionDataStructure.Where(x => x.TestClozeDeletionId == test.Id).ToList();
+			context.ClozeDeletionDataStructure.RemoveRange(toRemove);
+			context.Remove(test);
+			context.SaveChanges();
+		}
+
+		public void RemoveTest(TestMultipleChoices test)
+		{
+			using var context = new TestingContext();
+			context.TestMultipleChoice.RemoveRange(test.Answers);
+			context.Remove(test);
+			context.SaveChanges();
+		}
+
+		public void RemoveTest(TestShortAnswer test)
+		{
+			using var context = new TestingContext();
+			context.Remove(test);
+			context.SaveChanges();
+		}
 	}
 }

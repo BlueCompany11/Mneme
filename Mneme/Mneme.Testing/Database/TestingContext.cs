@@ -11,5 +11,6 @@ namespace Mneme.Testing.Database
 		public DbSet<TestClozeDeletion> TestClozeDeletions { get; set; }
 		public DbSet<TestInfo> TestInfos { get; set; }
 		public DbSet<TestMultipleChoice> TestMultipleChoice { get; set; }
+		public DbSet<ClozeDeletionDataStructure> ClozeDeletionDataStructure { get; set; }
 	}
 }

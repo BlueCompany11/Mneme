@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using DryIoc;
+using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model.Sources;
@@ -79,14 +81,28 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 				{
 					Tests?.Clear();
 					Tests = new ObservableCollection<TestDataPreview>(testPreviewProvider.GetTests());
-					RaisePropertyChanged(nameof(Tests));
 				}
 			});
 		}
 
 		private void DeleteTest(TestDataPreview test)
 		{
-			
+			if (test.Type == testTypeProvider.MultipleChoice)
+			{
+				var t = repository.GetMultipleChoicesTest(test.Title);
+				repository.RemoveTest(t);
+			}
+			else if (test.Type == testTypeProvider.ShortAnswer)
+			{
+				var t = repository.GetShortAnswerTest(test.Title);
+				repository.RemoveTest(t);
+			}
+			else if(test.Type == testTypeProvider.ClozeDeletion)
+			{
+				var t = repository.GetClozeDeletionTest(test.Title);
+				repository.RemoveTest(t);
+			}
+			Tests.Remove(test);
 		}
 
 		public void OnNavigatedTo(NavigationContext navigationContext)
