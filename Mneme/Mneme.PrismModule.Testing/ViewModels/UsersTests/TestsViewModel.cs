@@ -45,7 +45,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			this.repository = repository;
 			StartTestingCommand = new DelegateCommand(StartTesting);
 			DeleteTestCommand = new DelegateCommand<TestDataPreview>(DeleteTest);
-			EditTestCommand = new DelegateCommand<TestDataPreview>(EditTest);
+			EditTestCommand = new DelegateCommand<TestDataPreview>(EditTest, x=> !(x?.Type == testTypeProvider.ClozeDeletion));
 		}
 
 
