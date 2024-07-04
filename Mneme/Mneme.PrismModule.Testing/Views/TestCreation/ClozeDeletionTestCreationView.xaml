@@ -65,6 +65,6 @@
                 Grid.ColumnSpan="2"
                 HorizontalAlignment="Right"
                 Command="{Binding CreateTestCommand}"
-                Content="Create" />
+                Content="Save" />
     </Grid>
 </UserControl>
