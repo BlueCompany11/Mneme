@@ -1,4 +1,5 @@
 ﻿using Mneme.Core;
+using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
 
 namespace Mneme.Sources
@@ -6,9 +7,9 @@ namespace Mneme.Sources
 	public class MnemeSourceManager : IDisposable
 	{
 		private readonly IBundledIntegrationFacades integration;
-		private readonly IMnemeIntegrationFacade mnemeIntegration;
+		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 
-		public MnemeSourceManager(IBundledIntegrationFacades integration, IMnemeIntegrationFacade mnemeIntegration)
+		public MnemeSourceManager(IBundledIntegrationFacades integration, IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
 		{
 			this.integration = integration;
 			this.mnemeIntegration = mnemeIntegration;
@@ -17,13 +18,23 @@ namespace Mneme.Sources
 		public async Task<MnemeSource?> SaveMnemeSource(string sourceTitle, string details, CancellationToken ct)
 		{
 			var source = new MnemeSource { Title = sourceTitle, Details = details, Active = true, IntegrationId = MnemeSource.GenerateIntegrationId(sourceTitle, details) };
-			var success = await mnemeIntegration.Create(source, ct);
-			return success ? source : null;
+			try
+			{
+				await mnemeIntegration.CreateSource(source);
+				return await mnemeIntegration.GetSource(source.IntegrationId, ct);
+			}
+			catch(Exception)
+			{
+				return null;
+			}
 		}
 
 		public async Task <MnemeSource?> UpdateMnemeSource(string id, string title, string details, CancellationToken ct)
 		{
-			await mnemeIntegration.UpdateSource(id, title, details);
+			var existingSource = await mnemeIntegration.GetSource(id, ct);
+			existingSource.Title = title;
+			existingSource.Details = details;
+			await mnemeIntegration.UpdateSource(existingSource, ct);
 			return (MnemeSource)await integration.GetSource(id, MnemeSource.Type);
 		}
 
