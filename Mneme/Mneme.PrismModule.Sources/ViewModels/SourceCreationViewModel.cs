@@ -67,7 +67,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 		}
 		private async Task Update()
 		{
-			sourceToEdit = SourcePreview.CreateFromSource(await manager.UpdateMnemeSource(sourceToEdit.Id, sourceToEdit.Title, sourceToEdit.Details, default));
+			sourceToEdit = SourcePreview.CreateFromSource(await manager.UpdateMnemeSource(sourceToEdit.Id, SourceTitle, Details, default));
 			var parameters = new DialogParameters
 				{
 					{ "source", sourceToEdit }
