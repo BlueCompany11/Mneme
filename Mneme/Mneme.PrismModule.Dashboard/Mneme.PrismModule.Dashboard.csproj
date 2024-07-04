@@ -8,5 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mneme.Dashboard\Mneme.Dashboard.csproj" />
+    <ProjectReference Include="..\Mneme.PrismModule.Integration.Facade\Mneme.PrismModule.Integration.Facade.csproj" />
   </ItemGroup>
 </Project>
