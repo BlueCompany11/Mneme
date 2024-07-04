@@ -15,6 +15,7 @@ namespace Mneme.PrismModule.Integration.Facade
 		{
 			containerRegistry.Register<IBundledIntegrationFacades, BundledIntegrationFacades>(); 
 			containerRegistry.Register<IMnemeIntegrationFacade, MnemeIntegrationFacade>();
+			containerRegistry.RegisterSingleton<DatabaseMigrations>();
 		}
 	}
 }

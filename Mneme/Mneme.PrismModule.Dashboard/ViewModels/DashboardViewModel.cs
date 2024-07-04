@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Mneme.Dashboard;
+using Mneme.PrismModule.Integration.Facade;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -12,6 +14,8 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 	{
 		private CancellationTokenSource cts;
 		private readonly StatisticsProvider statistics;
+		private readonly DatabaseMigrations migrations;
+
 		public DelegateCommand LoadDataCommand { get; }
 
 		private int activeSourcesAmount;
@@ -44,18 +48,24 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 			set => SetProperty(ref mostRecentNote, value);
 		}
 
-		public DashboardViewModel(StatisticsProvider statistics)
+		public DashboardViewModel(StatisticsProvider statistics, DatabaseMigrations migrations)
 		{
 			this.statistics = statistics;
+			this.migrations = migrations;
 			LoadDataCommand = new DelegateCommand(LoadDataHandler);
 		}
 
 		private async void LoadDataHandler()
 		{
-			ActiveSourcesAmount = await statistics.GetKnownSourcesCount();
-			ActiveNotesAmount = await statistics.GetKnownNotesCount();
-			MostRecentSource = await statistics.GetMostRecentSource();
-			MostRecentNote = await statistics.GetMostRecentNote();
+			try
+			{
+				await LoadData(default);
+			}
+			catch(Microsoft.Data.Sqlite.SqliteException)
+			{
+				await migrations.MigrateDatabase();
+				await LoadData(default);
+			}
 		}
 
 		private async Task LoadData(CancellationToken ct)
