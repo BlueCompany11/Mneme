@@ -105,6 +105,6 @@
         <Button Grid.Row="3"
                 HorizontalAlignment="Right"
                 Command="{Binding CreateTestCommand}"
-                Content="Create" />
+                Content="Save" />
     </Grid>
 </UserControl>
