@@ -10,11 +10,14 @@ using Mneme.Testing.TestCreation;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 
 namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 {
-	public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAware
+	public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAware, IDialogAware
 	{
+		bool editMode;
+		string oldQuestion;
 		private readonly int amountOfAnswers = 6;
 		private string question;
 		public string Question
@@ -54,6 +57,8 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
 
+		public event Action<IDialogResult> RequestClose;
+
 		public MultipleChoiceTestCreationViewModel(MultipleChoiceNoteTestVisitor multipleChoiceNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
@@ -78,6 +83,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			Note = navigationContext.Parameters.GetValue<Note>("note");
 			var data = Note.Accept(multipleChoiceNoteTestVisitor) as MultipleChoiceNoteData;
 			Question = data.Question;
+			editMode = false;
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -91,28 +97,77 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		}
 		public DelegateCommand CreateTestCommand { get; set; }
 
+		public string Title => "Edit";
+
 		private void CreateTest()
+		{
+			if (!Validate())
+				return;
+			if (editMode)
+			{
+				var test = repository.GetMultipleChoicesTest(oldQuestion);
+				test.Question = Question;
+				test.Answers.Clear();
+				for (int i = 0 ; i < amountOfAnswers ; i++)
+				{
+					test.Answers.Add(new TestMultipleChoice { Answer = Texts[i], IsCorrect = Checks[i] });
+				}
+				test.Importance = testImportanceMapper.Map(SelectedImportanceOption);
+				repository.EditTest(test);
+				snackbarMessageQueue.Enqueue("Test updated");
+				RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+			}
+			else
+			{
+				int importance = testImportanceMapper.Map(SelectedImportanceOption);
+				var answers = new List<TestMultipleChoice>();
+				for (int i = 0 ; i < amountOfAnswers ; i++)
+				{
+					answers.Add(new TestMultipleChoice { Answer = Texts[i], IsCorrect = Checks[i] });
+				}
+				var test = new TestMultipleChoices { Question = Question, Answers = answers, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
+				repository.CreateTest(test);
+				snackbarMessageQueue.Enqueue("Test created");
+			}
+		}
+
+		private bool Validate()
 		{
 			var validations = !string.IsNullOrWhiteSpace(Question);
 			for (int i = 0 ; i < amountOfAnswers ; i++)
 			{
-				if(Checks[i])
+				if (Checks[i])
 					validations = validations && !string.IsNullOrWhiteSpace(Texts[i]);
 			}
 			if (!validations)
 			{
 				snackbarMessageQueue.Enqueue("Question and correct answers are required");
-				return;
 			}
-			int importance = testImportanceMapper.Map(SelectedImportanceOption);
-			var answers = new List<TestMultipleChoice>();
+			return validations;
+		}
+
+		public bool CanCloseDialog()
+		{
+			return true;
+		}
+
+		public void OnDialogClosed()
+		{
+			
+		}
+
+		public void OnDialogOpened(IDialogParameters parameters)
+		{
+			parameters.TryGetValue("test", out TestMultipleChoices test);
+			Question = test.Question;
 			for (int i = 0 ; i < amountOfAnswers ; i++)
 			{
-				answers.Add(new TestMultipleChoice { Answer = Texts[i], IsCorrect = Checks[i] });
+				Texts[i] = test.Answers[i].Answer;
+				Checks[i] = test.Answers[i].IsCorrect;
 			}
-			var test = new TestMultipleChoices { Question = Question, Answers = answers, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
-			repository.CreateTest(test);
-			snackbarMessageQueue.Enqueue("Test created");
+			SelectedImportanceOption = testImportanceMapper.Map(test.Importance);
+			editMode = true;
+			oldQuestion = Question;
 		}
 	}
 }
