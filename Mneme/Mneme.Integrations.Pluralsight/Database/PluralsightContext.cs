@@ -17,6 +17,7 @@ namespace Mneme.Integrations.Pluralsight.Database
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.HasKey(e => e.Id);
 				entity.HasIndex(e => e.IntegrationId).IsUnique();
+				entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
 			});
 
 			modelBuilder.Entity<PluralsightNote>(entity =>
@@ -25,6 +26,7 @@ namespace Mneme.Integrations.Pluralsight.Database
 				entity.HasKey(e => e.Id);
 				entity.HasOne(e => e.Source);
 				entity.HasIndex(e => e.IntegrationId).IsUnique();
+				entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
 			});
 		}
 	}

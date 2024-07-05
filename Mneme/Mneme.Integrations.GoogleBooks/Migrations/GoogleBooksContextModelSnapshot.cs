@@ -64,6 +64,9 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("IntegrationId")
                         .HasColumnType("TEXT");
 

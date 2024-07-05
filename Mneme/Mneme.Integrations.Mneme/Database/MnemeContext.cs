@@ -15,6 +15,7 @@ namespace Mneme.Integrations.Mneme.Database
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.HasKey(e => e.Id);
 				entity.HasIndex(e => e.IntegrationId).IsUnique();
+				entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
 			});
 
 			modelBuilder.Entity<MnemeNote>(entity =>
@@ -23,6 +24,7 @@ namespace Mneme.Integrations.Mneme.Database
 				entity.HasKey(e => e.Id);
 				entity.HasOne(e => e.Source);
 				entity.HasIndex(e => e.IntegrationId).IsUnique();
+				entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
 			});
 		}
 	}
