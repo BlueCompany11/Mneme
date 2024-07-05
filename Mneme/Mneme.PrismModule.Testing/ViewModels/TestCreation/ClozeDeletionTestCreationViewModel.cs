@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MaterialDesignThemes.Wpf;
-using Mneme.Model.Interfaces;
 using Mneme.Model.Notes;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
@@ -61,16 +60,14 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private List<ClozeDeletionDataStructure> ClozeDeletionDataStructures { get; set; }
 		private Note Note { get; set; }
 		public DelegateCommand CreateTestCommand { get; set; }
-		private readonly INoteTestVisitor clozeDeletionNoteTestVisitor;
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
 		private bool freezeText;
 
-		public ClozeDeletionTestCreationViewModel(ClozeDeletionNoteTestVisitor clozeDeletionNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
+		public ClozeDeletionTestCreationViewModel(TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			ClozeDeletions = [];
-			this.clozeDeletionNoteTestVisitor = clozeDeletionNoteTestVisitor;
 			this.testImportanceMapper = testImportanceMapper;
 			this.snackbarMessageQueue = snackbarMessageQueue;
 			this.repository = repository;
@@ -117,9 +114,8 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		{
 			ClearTextFromUi?.Invoke();
 			Note = navigationContext.Parameters.GetValue<Note>("note");
-			var data = Note.Accept(clozeDeletionNoteTestVisitor) as ClozeDeletionNoteData;
 			freezeText = false;
-			Text = data.Text;
+			Text = Note.Content;
 			ClozeDeletions.Clear();
 		}
 

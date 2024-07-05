@@ -1,5 +1,4 @@
 ﻿using System;
-using Mneme.Model.Interfaces;
 
 namespace Mneme.Model.Notes
 {
@@ -14,7 +13,5 @@ namespace Mneme.Model.Notes
 		public required string Path { get; init; }
 		public DateTime CreationTime { get; init; }
 		public required string Content { get; init; }
-		public abstract INoteTest Accept(INoteTestVisitor visitor);
-
 	}
 }

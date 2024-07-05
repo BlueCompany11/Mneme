@@ -32,10 +32,6 @@ namespace Mneme.PrismModule.Testing
 			containerRegistry.RegisterForNavigation<ClozeDeletionTestView>();
 			containerRegistry.RegisterForNavigation<TestingView>();
 
-			containerRegistry.Register<ClozeDeletionNoteTestVisitor>();
-			containerRegistry.Register<MultipleChoiceNoteTestVisitor>();
-			containerRegistry.Register<ShortAnswerNoteTestVisitor>();
-
 			containerRegistry.Register<TestPreviewProvider>();
 			containerRegistry.Register<TestTypeProvider>();
 			containerRegistry.Register<ClozeTestTextHelper>();

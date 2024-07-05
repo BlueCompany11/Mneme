@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using MaterialDesignThemes.Wpf;
-using Mneme.Model.Interfaces;
 using Mneme.Model.Notes;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
-using Mneme.Testing.Database;
 using Mneme.Testing.TestCreation;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -52,18 +50,17 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			get => selectedImportanceOption;
 			set => SetProperty(ref selectedImportanceOption, value);
 		}
-		private readonly INoteTestVisitor multipleChoiceNoteTestVisitor;
+
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
 
 		public event Action<IDialogResult> RequestClose;
 
-		public MultipleChoiceTestCreationViewModel(MultipleChoiceNoteTestVisitor multipleChoiceNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
+		public MultipleChoiceTestCreationViewModel(TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
-			this.multipleChoiceNoteTestVisitor = multipleChoiceNoteTestVisitor;
 			this.testImportanceMapper = testImportanceMapper;
 			this.snackbarMessageQueue = snackbarMessageQueue;
 			this.repository = repository;
@@ -81,8 +78,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			Note = navigationContext.Parameters.GetValue<Note>("note");
-			var data = Note.Accept(multipleChoiceNoteTestVisitor) as MultipleChoiceNoteData;
-			Question = data.Question;
+			Question = Note.Title;
 			editMode = false;
 		}
 

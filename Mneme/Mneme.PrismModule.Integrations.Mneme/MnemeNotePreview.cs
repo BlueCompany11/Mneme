@@ -1,6 +1,5 @@
 ﻿using System;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Interfaces;
 
 namespace Mneme.PrismModule.Integrations.Mneme
 {

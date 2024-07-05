@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using DryIoc;
 using MaterialDesignThemes.Wpf;
-using Mneme.Model.Interfaces;
 using Mneme.Model.Notes;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
-using Mneme.Testing.Database;
 using Mneme.Testing.TestCreation;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -51,7 +48,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			get => selectedImportanceOption;
 			set => SetProperty(ref selectedImportanceOption, value);
 		}
-		private readonly INoteTestVisitor shortAnswerNoteTestVisitor;
+
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
@@ -61,9 +58,8 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		public event Action<IDialogResult> RequestClose;
 
 		private Note Note { get; set; }
-		public ShortAnswerTestCreationViewModel(ShortAnswerNoteTestVisitor shortAnswerNoteTestVisitor, TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
+		public ShortAnswerTestCreationViewModel(TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
-			this.shortAnswerNoteTestVisitor = shortAnswerNoteTestVisitor;
 			this.testImportanceMapper = testImportanceMapper;
 			this.snackbarMessageQueue = snackbarMessageQueue;
 			this.repository = repository;
@@ -75,8 +71,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			Note = navigationContext.Parameters.GetValue<Note>("note");
-			var data = Note.Accept(shortAnswerNoteTestVisitor) as ShortAnswerNoteData;
-			Question = data.Question;
+			Question = Note.Title;
 			editMode = false;
 		}
 
