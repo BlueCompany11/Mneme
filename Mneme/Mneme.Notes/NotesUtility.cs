@@ -26,9 +26,9 @@ namespace Mneme.Notes
 		{
 			return await integration.GetNotes(false, ct);
 		}
-		public async Task DeleteNote(NotePreview preview)
+		public async Task DeleteNote(Note note)
 		{
-			await mnemeIntegration.DeleteNote(preview.BaseNote.IntegrationId, default);
+			await mnemeIntegration.DeleteNote(note.Id, default);
 		}
 	}
 }

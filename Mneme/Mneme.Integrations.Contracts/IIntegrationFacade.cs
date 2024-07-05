@@ -14,7 +14,7 @@ namespace Mneme.Integrations.Contracts
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		Task DeleteNote(string id, CancellationToken ct);
+		Task DeleteNote(int id, CancellationToken ct);
 		Task CreateSource(S source);
 		Task CreateNote(N note);
 		Task<IReadOnlyList<S>> GetActiveSources(CancellationToken ct);
@@ -24,6 +24,6 @@ namespace Mneme.Integrations.Contracts
 		Task<IReadOnlyList<N>> GetNotes(CancellationToken ct);
 		Task<IReadOnlyList<N>> GetKnownNotes(bool activeOnly, CancellationToken ct);
 		Task<S> GetSource(int id, CancellationToken ct);
-		Task<N> GetNote(string id, CancellationToken ct);
+		Task<N> GetNote(int id, CancellationToken ct);
 	}
 }

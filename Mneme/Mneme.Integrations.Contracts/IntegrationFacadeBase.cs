@@ -22,9 +22,9 @@ namespace Mneme.Integrations.Contracts
 
 		protected abstract T CreateContext();
 
-		public virtual Task DeleteNote(string id, CancellationToken ct)
+		public virtual Task DeleteNote(int id, CancellationToken ct)
 		{
-			var entity = context.Set<N>().First(x => x.IntegrationId == id);
+			var entity = context.Set<N>().First(x => x.Id == id);
 			context.Set<N>().Remove(entity);
 			context.SaveChanges();
 			return Task.CompletedTask;
@@ -48,9 +48,9 @@ namespace Mneme.Integrations.Contracts
 			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct);
 		}
 
-		public virtual Task<N> GetNote(string id, CancellationToken ct)
+		public virtual Task<N> GetNote(int id, CancellationToken ct)
 		{
-			return Task.FromResult(context.Set<N>().First(x => x.IntegrationId == id));
+			return Task.FromResult(context.Set<N>().First(x => x.Id == id));
 		}
 
 		public virtual async Task<IReadOnlyList<N>> GetNotes(CancellationToken ct)

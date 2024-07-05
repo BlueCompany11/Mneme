@@ -111,10 +111,10 @@
                                                Text="{Binding Title}"
                                                TextTrimming="CharacterEllipsis" />
                                     <TextBlock Margin="0,5,0,0"
-                                               Text="{Binding Note}"
+                                               Text="{Binding Content}"
                                                TextTrimming="CharacterEllipsis" />
                                     <TextBlock Margin="0,8,0,0"
-                                               Text="{Binding Date}" />
+                                               Text="{Binding CreationTime}" />
                                 </StackPanel>
                                 <Button Width="24"
                                         Height="24"
