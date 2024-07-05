@@ -23,13 +23,13 @@ namespace Mneme.Sources
 				await mnemeIntegration.CreateSource(source);
 				return await mnemeIntegration.GetSource(source.Id, ct);
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				return null;
 			}
 		}
 
-		public async Task <MnemeSource?> UpdateMnemeSource(int id, string title, string details, CancellationToken ct)
+		public async Task<MnemeSource?> UpdateMnemeSource(int id, string title, string details, CancellationToken ct)
 		{
 			var existingSource = await mnemeIntegration.GetSource(id, ct);
 			existingSource.Title = title;

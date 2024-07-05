@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Mneme.Dashboard;
 using Mneme.PrismModule.Integration.Facade;
@@ -61,7 +59,7 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 			{
 				await LoadData(default);
 			}
-			catch(Microsoft.Data.Sqlite.SqliteException)
+			catch (Microsoft.Data.Sqlite.SqliteException)
 			{
 				await migrations.MigrateDatabase();
 				await LoadData(default);
@@ -107,7 +105,7 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 				{
 					await LoadData(cts.Token);
 				}
-				catch(TaskCanceledException) { }
+				catch (TaskCanceledException) { }
 			}
 		}
 	}

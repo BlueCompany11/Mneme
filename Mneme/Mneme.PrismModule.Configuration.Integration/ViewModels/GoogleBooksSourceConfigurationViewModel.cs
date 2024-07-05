@@ -1,6 +1,5 @@
 ﻿using System;
 using MaterialDesignThemes.Wpf;
-using Mneme.Integrations.GoogleBooks.Authorization;
 using Mneme.PrismModule.Configuration.Integration.BusinessLogic;
 using Prism.Commands;
 using Prism.Events;
@@ -25,11 +24,11 @@ namespace Mneme.PrismModule.Configuration.Integration.ViewModels
 			get => status;
 			set => SetProperty(ref status, value);
 		}
-		
+
 		public DelegateCommand ConnectCommand { get; set; }
 		public DelegateCommand DisconnectCommand { get; set; }
 
-		public GoogleBooksSourceConfigurationViewModel(IEventAggregator eventAggregator, GoogleBooksConnector connector,  ISnackbarMessageQueue queue) : base(eventAggregator)
+		public GoogleBooksSourceConfigurationViewModel(IEventAggregator eventAggregator, GoogleBooksConnector connector, ISnackbarMessageQueue queue) : base(eventAggregator)
 		{
 			SourceName = "Google Books";
 			Format1 = ".epub";
@@ -49,7 +48,7 @@ namespace Mneme.PrismModule.Configuration.Integration.ViewModels
 				queue.Enqueue("Connection with Google Books account established.");
 				Status = "Connected";
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				Status = "Unable to connect";
 				queue.Enqueue("Failed to connect to Google Books.");

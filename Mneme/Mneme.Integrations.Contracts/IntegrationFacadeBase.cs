@@ -75,7 +75,7 @@ namespace Mneme.Integrations.Contracts
 
 		public virtual async Task<IReadOnlyList<S>> GetKnownSources(bool onlyActive, CancellationToken ct)
 		{
-			return await context.Set<S>().Where(x=>x.Active).ToListAsync(ct);
+			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct);
 		}
 
 		public virtual Task CreateSource(S source)

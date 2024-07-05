@@ -149,7 +149,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 
 		public void OnDialogClosed()
 		{
-			
+
 		}
 
 		public void OnDialogOpened(IDialogParameters parameters)

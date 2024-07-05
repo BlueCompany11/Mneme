@@ -5,9 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Integrations.Pluralsight.Contract;
 using Mneme.Model;
 using Mneme.Notes;
 using Mneme.PrismModule.Integration.Facade;
@@ -135,7 +133,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				{ "note", SelectedNote }
 			};
 			navigator.NavigateToPreview(SelectedNote, para, RegionNames.NoteRegion);
-			
+
 		}
 		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{

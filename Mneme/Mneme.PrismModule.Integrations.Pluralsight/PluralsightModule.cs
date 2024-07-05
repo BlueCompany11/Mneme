@@ -1,11 +1,9 @@
-﻿using Mneme.Integrations.Pluralsight;
-using System.ComponentModel;
+﻿using Mneme.Integrations.Contracts;
+using Mneme.Integrations.Pluralsight;
+using Mneme.Integrations.Pluralsight.Contract;
 using Mneme.PrismModule.Integrations.Pluralsight.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
-using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Integrations.Contracts;
 
 namespace Mneme.PrismModule.Integrations.Pluralsight
 {

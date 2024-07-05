@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Mneme.Model.TestCreation
+﻿namespace Mneme.Model.TestCreation
 {
 	public class TestClozeDeletion : IUserTest
 	{

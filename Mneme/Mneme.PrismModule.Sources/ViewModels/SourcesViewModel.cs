@@ -43,7 +43,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			get => sources;
 			set => SetProperty(ref sources, value);
 		}
-		
+
 		private bool sourcesListEmpty;
 		public bool SourcesListEmpty
 		{
@@ -85,7 +85,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 
 		private async void DeleteSource(Source source)
 		{
-			if (await manager.DeleteSource(source)) 
+			if (await manager.DeleteSource(source))
 			{
 				Sources.Remove(source);
 				RaisePropertyChanged(nameof(SourcesListEmpty));

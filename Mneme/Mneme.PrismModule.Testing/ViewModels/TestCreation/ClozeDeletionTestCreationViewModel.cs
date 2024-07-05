@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
-using Mneme.Testing.Database;
 using Mneme.Testing.TestCreation;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -80,7 +78,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private void CreateTest()
 		{
 			var validation = ClozeDeletions.Count > 0;
-			if(!validation)
+			if (!validation)
 			{
 				snackbarMessageQueue.Enqueue("Add cloze deletion first.");
 				return;

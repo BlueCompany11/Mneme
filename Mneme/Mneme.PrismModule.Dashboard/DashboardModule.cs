@@ -2,7 +2,6 @@
 using Mneme.PrismModule.Dashboard.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
 
 namespace Mneme.PrismModule.Dashboard
 {

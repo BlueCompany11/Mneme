@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
 using DryIoc;
 using MaterialDesignThemes.Wpf;
-using Mneme.Core;
 using Mneme.Desktop.Views;
 using Mneme.PrismModule.Configuration.Integration;
 using Mneme.PrismModule.Dashboard;
@@ -49,8 +47,8 @@ namespace Mneme.Desktop
 			moduleCatalog.AddModule<PluralsightModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<TestingModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<IntegrationModule>(InitializationMode.WhenAvailable);
-			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable); 
-			moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable); 
+			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable);
+			moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<IntegrationBaseModule>(InitializationMode.WhenAvailable);
 		}
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using Mneme.Model.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;

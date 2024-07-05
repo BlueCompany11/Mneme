@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Apis.Books.v1.Data;
-using Microsoft.VisualBasic;
-using Mneme.Core;
+﻿using Mneme.Core;
 using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model;

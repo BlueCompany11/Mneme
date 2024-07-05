@@ -8,7 +8,7 @@ namespace Mneme.Views.Base
 	{
 		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
 		{
-			if(value == null)
+			if (value == null)
 				return new ValidationResult(false, $"Field is required");
 			if (value is Source)
 				return ValidationResult.ValidResult;

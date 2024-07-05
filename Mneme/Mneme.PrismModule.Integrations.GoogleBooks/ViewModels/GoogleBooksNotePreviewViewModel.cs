@@ -1,7 +1,6 @@
 ﻿using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Model;
 using Mneme.PrismModule.Integrations.Base;
-using Mneme.Views.Base;
 using Prism.Regions;
 
 namespace Mneme.PrismModule.Integrations.GoogleBooks.ViewModels
@@ -57,7 +56,7 @@ namespace Mneme.PrismModule.Integrations.GoogleBooks.ViewModels
 
 		protected override Note BaseNote { get; set; }
 
-		public GoogleBooksNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
+		public GoogleBooksNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) { }
 
 		private void GoogleBooksNotePreviewUpdate()
 		{
