@@ -23,17 +23,17 @@ namespace Mneme.Testing.Contracts
 		public void CreateTest(TestMultipleChoices test)
 		{
 			using var context = new TestingContext();
+			test.Answers.ForEach(x => x.Test = test);
 			context.Add(test);
+			context.AddRange(test.Answers);
 			context.SaveChanges();
 		}
-
 		public void CreateTest(TestShortAnswer test)
 		{
 			using var context = new TestingContext();
 			context.Add(test);
 			context.SaveChanges();
 		}
-
 		public void EditTest(TestClozeDeletion test)
 		{
 			using var context = new TestingContext();
@@ -44,7 +44,7 @@ namespace Mneme.Testing.Contracts
 		public void EditTest(TestMultipleChoices test)
 		{
 			using var context = new TestingContext();
-			var answersToRemove = context.TestMultipleChoice.Where(a => a.TestMultipleChoicesId == test.Id).ToList();
+			var answersToRemove = context.TestMultipleChoice.Where(a => a.TestId == test.Id).ToList();
 			context.TestMultipleChoice.RemoveRange(answersToRemove);
 			context.AddRange(test.Answers);
 			context.Update(test);
@@ -73,7 +73,7 @@ namespace Mneme.Testing.Contracts
 		{
 			using var context = new TestingContext();
 			var test = context.TestMultipleChoices.First(t => t.Question == title);
-			test.Answers = context.TestMultipleChoice.Where(a => a.TestMultipleChoicesId == test.Id).ToList();
+			test.Answers = context.TestMultipleChoice.Where(a => a.TestId == test.Id).ToList();
 			return test;
 		}
 

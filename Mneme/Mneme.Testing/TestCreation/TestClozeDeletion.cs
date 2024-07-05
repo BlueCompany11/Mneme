@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Mneme.Model.TestCreation
 {
-	public class TestMultipleChoices : IUserTest
+	public class TestClozeDeletion : IUserTest
 	{
-		public string NoteId { get; set; }
+		public int NoteId { get; set; }
 		public int Id { get; set; }
-		public string Question { get; set; }
-		public List<TestMultipleChoice> Answers { get; set; } = new ();
+		public string Text { get; set; }
 		public int Importance { get; set; }
+		public List<ClozeDeletionDataStructure> ClozeDeletionDataStructures { get; set; }
 		public DateTime Created { get; set; }
 		public TestInfo TestInfo { get; set; } = new TestInfo();
 	}

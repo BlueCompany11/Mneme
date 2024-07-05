@@ -106,7 +106,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			}
 			else
 			{
-				var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
+				var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Note.Id };
 				repository.CreateTest(test);
 				snackbarMessageQueue.Enqueue("Test created");
 			}

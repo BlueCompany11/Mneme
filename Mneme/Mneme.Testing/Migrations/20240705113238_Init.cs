@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Mneme.Testing.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,11 +31,11 @@ namespace Mneme.Testing.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    NoteId = table.Column<string>(type: "TEXT", nullable: true),
-                    Text = table.Column<string>(type: "TEXT", nullable: true),
+                    NoteId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Text = table.Column<string>(type: "TEXT", nullable: false),
                     Importance = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    TestInfoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TestInfoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,8 @@ namespace Mneme.Testing.Migrations
                         name: "FK_TestClozeDeletions_TestInfos_TestInfoId",
                         column: x => x.TestInfoId,
                         principalTable: "TestInfos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,11 +54,11 @@ namespace Mneme.Testing.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    NoteId = table.Column<string>(type: "TEXT", nullable: true),
-                    Question = table.Column<string>(type: "TEXT", nullable: true),
+                    NoteId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Question = table.Column<string>(type: "TEXT", nullable: false),
                     Importance = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    TestInfoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TestInfoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +67,8 @@ namespace Mneme.Testing.Migrations
                         name: "FK_TestMultipleChoices_TestInfos_TestInfoId",
                         column: x => x.TestInfoId,
                         principalTable: "TestInfos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,13 +77,13 @@ namespace Mneme.Testing.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    NoteId = table.Column<string>(type: "TEXT", nullable: true),
-                    Question = table.Column<string>(type: "TEXT", nullable: true),
-                    Answer = table.Column<string>(type: "TEXT", nullable: true),
+                    NoteId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Question = table.Column<string>(type: "TEXT", nullable: false),
+                    Answer = table.Column<string>(type: "TEXT", nullable: false),
                     Hint = table.Column<string>(type: "TEXT", nullable: true),
                     Importance = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    TestInfoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TestInfoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,7 +92,8 @@ namespace Mneme.Testing.Migrations
                         name: "FK_TestShortAnswers_TestInfos_TestInfoId",
                         column: x => x.TestInfoId,
                         principalTable: "TestInfos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,7 +104,7 @@ namespace Mneme.Testing.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Start = table.Column<int>(type: "INTEGER", nullable: false),
                     End = table.Column<int>(type: "INTEGER", nullable: false),
-                    TestClozeDeletionId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TestClozeDeletionId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +113,8 @@ namespace Mneme.Testing.Migrations
                         name: "FK_ClozeDeletionDataStructure_TestClozeDeletions_TestClozeDeletionId",
                         column: x => x.TestClozeDeletionId,
                         principalTable: "TestClozeDeletions",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,13 +123,20 @@ namespace Mneme.Testing.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Answer = table.Column<string>(type: "TEXT", nullable: true),
+                    Answer = table.Column<string>(type: "TEXT", nullable: false),
                     IsCorrect = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TestId = table.Column<int>(type: "INTEGER", nullable: false),
                     TestMultipleChoicesId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TestMultipleChoice", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestMultipleChoice_TestMultipleChoices_TestId",
+                        column: x => x.TestId,
+                        principalTable: "TestMultipleChoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TestMultipleChoice_TestMultipleChoices_TestMultipleChoicesId",
                         column: x => x.TestMultipleChoicesId,
@@ -142,6 +153,11 @@ namespace Mneme.Testing.Migrations
                 name: "IX_TestClozeDeletions_TestInfoId",
                 table: "TestClozeDeletions",
                 column: "TestInfoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestMultipleChoice_TestId",
+                table: "TestMultipleChoice",
+                column: "TestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TestMultipleChoice_TestMultipleChoicesId",

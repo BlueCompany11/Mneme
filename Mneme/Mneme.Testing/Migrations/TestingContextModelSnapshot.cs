@@ -29,7 +29,7 @@ namespace Mneme.Testing.Migrations
                     b.Property<int>("Start")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TestClozeDeletionId")
+                    b.Property<int>("TestClozeDeletionId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -51,13 +51,14 @@ namespace Mneme.Testing.Migrations
                     b.Property<int>("Importance")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("NoteId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("NoteId")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TestInfoId")
+                    b.Property<int>("TestInfoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -91,15 +92,21 @@ namespace Mneme.Testing.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Answer")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCorrect")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TestId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("TestMultipleChoicesId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TestId");
 
                     b.HasIndex("TestMultipleChoicesId");
 
@@ -118,13 +125,14 @@ namespace Mneme.Testing.Migrations
                     b.Property<int>("Importance")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("NoteId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("NoteId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Question")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TestInfoId")
+                    b.Property<int>("TestInfoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -141,6 +149,7 @@ namespace Mneme.Testing.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Answer")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
@@ -152,13 +161,14 @@ namespace Mneme.Testing.Migrations
                     b.Property<int>("Importance")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("NoteId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("NoteId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Question")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TestInfoId")
+                    b.Property<int>("TestInfoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -172,30 +182,44 @@ namespace Mneme.Testing.Migrations
                 {
                     b.HasOne("Mneme.Model.TestCreation.TestClozeDeletion", null)
                         .WithMany("ClozeDeletionDataStructures")
-                        .HasForeignKey("TestClozeDeletionId");
+                        .HasForeignKey("TestClozeDeletionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Mneme.Model.TestCreation.TestClozeDeletion", b =>
                 {
                     b.HasOne("Mneme.Model.TestCreation.TestInfo", "TestInfo")
                         .WithMany()
-                        .HasForeignKey("TestInfoId");
+                        .HasForeignKey("TestInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TestInfo");
                 });
 
             modelBuilder.Entity("Mneme.Model.TestCreation.TestMultipleChoice", b =>
                 {
+                    b.HasOne("Mneme.Model.TestCreation.TestMultipleChoices", "Test")
+                        .WithMany()
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Mneme.Model.TestCreation.TestMultipleChoices", null)
                         .WithMany("Answers")
                         .HasForeignKey("TestMultipleChoicesId");
+
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("Mneme.Model.TestCreation.TestMultipleChoices", b =>
                 {
                     b.HasOne("Mneme.Model.TestCreation.TestInfo", "TestInfo")
                         .WithMany()
-                        .HasForeignKey("TestInfoId");
+                        .HasForeignKey("TestInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TestInfo");
                 });
@@ -204,7 +228,9 @@ namespace Mneme.Testing.Migrations
                 {
                     b.HasOne("Mneme.Model.TestCreation.TestInfo", "TestInfo")
                         .WithMany()
-                        .HasForeignKey("TestInfoId");
+                        .HasForeignKey("TestInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TestInfo");
                 });

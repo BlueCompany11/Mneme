@@ -90,7 +90,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			{
 				Text = Text,
 				Importance = importance,
-				NoteId = Note.IntegrationId,
+				NoteId = Note.Id,
 				ClozeDeletionDataStructures = ClozeDeletionDataStructures,
 				Created = DateTime.Now
 			};

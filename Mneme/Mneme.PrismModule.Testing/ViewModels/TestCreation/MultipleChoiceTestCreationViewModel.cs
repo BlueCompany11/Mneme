@@ -121,7 +121,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				{
 					answers.Add(new TestMultipleChoice { Answer = Texts[i], IsCorrect = Checks[i] });
 				}
-				var test = new TestMultipleChoices { Question = Question, Answers = answers, Importance = importance, Created = DateTime.Now, NoteId = Note.IntegrationId };
+				var test = new TestMultipleChoices { Question = Question, Answers = answers, Importance = importance, Created = DateTime.Now, NoteId = Note.Id };
 				repository.CreateTest(test);
 				snackbarMessageQueue.Enqueue("Test created");
 			}
