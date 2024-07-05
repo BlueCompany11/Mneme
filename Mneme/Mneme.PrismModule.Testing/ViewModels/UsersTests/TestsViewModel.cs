@@ -4,7 +4,6 @@ using DryIoc;
 using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Sources;
 using Mneme.PrismModule.Testing.Views.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.Contracts;

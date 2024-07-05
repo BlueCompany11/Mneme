@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.Views.Base
 {

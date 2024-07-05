@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mneme.Model.Sources
+namespace Mneme.Model
 {
 	public abstract class Source
 	{

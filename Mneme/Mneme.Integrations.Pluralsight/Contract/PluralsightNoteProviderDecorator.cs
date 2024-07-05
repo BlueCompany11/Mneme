@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mneme.Integrations.Pluralsight.Database;
-using Mneme.Model.Notes;
+using Mneme.Model;
 
 namespace Mneme.Integrations.Pluralsight.Contract
 {

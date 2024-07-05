@@ -8,8 +8,7 @@ using Mneme.Integrations.Contracts;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Notes;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.PrismModule.Integration.Facade
 {

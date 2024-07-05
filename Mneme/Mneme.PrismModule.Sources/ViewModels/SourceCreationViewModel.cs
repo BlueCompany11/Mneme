@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
-using Mneme.Model.Sources;
+using Mneme.Model;
 using Mneme.Sources;
 using Prism.Commands;
 using Prism.Mvvm;

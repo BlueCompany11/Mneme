@@ -1,5 +1,4 @@
-﻿using Mneme.Model.Notes;
-using Mneme.Model.Sources;
+﻿using Mneme.Model;
 
 namespace Mneme.Integrations.Contracts
 {

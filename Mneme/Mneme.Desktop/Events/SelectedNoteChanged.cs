@@ -1,4 +1,4 @@
-﻿using Mneme.Model.Notes;
+﻿using Mneme.Model;
 using Prism.Events;
 
 namespace Mneme.Desktop.Events

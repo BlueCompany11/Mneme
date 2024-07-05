@@ -4,7 +4,7 @@ using MaterialDesignThemes.Wpf;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Notes;
+using Mneme.Model;
 using Mneme.PrismModule.Integration.Facade;
 using Mneme.Views.Base;
 using Prism.Mvvm;

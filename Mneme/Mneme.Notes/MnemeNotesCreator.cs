@@ -1,7 +1,7 @@
 ﻿using Mneme.Core;
 using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.Notes
 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Sources;
+using Mneme.Model;
 using Mneme.PrismModule.Sources.Views;
 using Mneme.Sources;
 using Prism.Commands;

@@ -1,4 +1,4 @@
-﻿using Mneme.Model.Sources;
+﻿using Mneme.Model;
 
 namespace Mneme.Integrations.Pluralsight.Contract
 {

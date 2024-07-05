@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Mneme.Model.Notes;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.Core
 {

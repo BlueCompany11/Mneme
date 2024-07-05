@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mneme.Model.Notes
+namespace Mneme.Model
 {
 	public abstract class Note
 	{

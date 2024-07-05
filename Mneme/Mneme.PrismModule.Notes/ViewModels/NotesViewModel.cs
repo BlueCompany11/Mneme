@@ -8,7 +8,7 @@ using System.Windows.Data;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Notes;
+using Mneme.Model;
 using Mneme.Notes;
 using Mneme.PrismModule.Integration.Facade;
 using Mneme.PrismModule.Notes.Views;

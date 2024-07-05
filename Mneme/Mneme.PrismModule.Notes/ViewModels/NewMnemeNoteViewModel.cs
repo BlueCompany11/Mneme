@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
-using Mneme.Model.Sources;
+using Mneme.Model;
 using Mneme.Notes;
 using Mneme.PrismModule.Notes.Views;
 using Mneme.Views.Base;

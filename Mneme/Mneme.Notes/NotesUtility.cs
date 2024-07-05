@@ -8,7 +8,7 @@ using Microsoft.VisualBasic;
 using Mneme.Core;
 using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Notes;
+using Mneme.Model;
 
 namespace Mneme.Notes
 {

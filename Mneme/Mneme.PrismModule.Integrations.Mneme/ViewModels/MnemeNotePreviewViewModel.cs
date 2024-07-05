@@ -1,6 +1,6 @@
 ﻿using System;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Notes;
+using Mneme.Model;
 using Mneme.PrismModule.Integrations.Base;
 using Prism.Regions;
 

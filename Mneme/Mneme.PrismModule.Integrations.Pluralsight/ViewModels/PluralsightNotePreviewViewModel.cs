@@ -1,5 +1,5 @@
 ﻿using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Notes;
+using Mneme.Model;
 using Mneme.PrismModule.Integrations.Base;
 using Mneme.Views.Base;
 using Prism.Regions;
