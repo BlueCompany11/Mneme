@@ -34,6 +34,7 @@ namespace Mneme.Sources
 			var existingSource = await mnemeIntegration.GetSource(id, ct);
 			existingSource.Title = title;
 			existingSource.Details = details;
+			existingSource.IntegrationId = MnemeSource.GenerateIntegrationId(title, details); //important to remember to update the IntegrationId
 			await mnemeIntegration.UpdateSource(existingSource, ct);
 			return (MnemeSource)await integration.GetSource(id, MnemeSource.Type);
 		}
