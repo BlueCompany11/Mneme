@@ -30,9 +30,9 @@ namespace Mneme.Integrations.Contracts
 			return Task.CompletedTask;
 		}
 
-		public virtual Task DeleteSource(string id, CancellationToken ct)
+		public virtual Task DeleteSource(int id, CancellationToken ct)
 		{
-			var entity = context.Set<S>().First(x => x.IntegrationId == id);
+			var entity = context.Set<S>().First(x => x.Id == id);
 			context.Set<S>().Remove(entity);
 			context.SaveChanges();
 			return Task.CompletedTask;
@@ -64,9 +64,9 @@ namespace Mneme.Integrations.Contracts
 			//TODO activeOnly
 		}
 
-		public virtual Task<S> GetSource(string id, CancellationToken ct)
+		public virtual Task<S> GetSource(int id, CancellationToken ct)
 		{
-			return Task.FromResult(context.Set<S>().First(x => x.IntegrationId == id));
+			return Task.FromResult(context.Set<S>().First(x => x.Id == id));
 		}
 
 		public virtual async Task<IReadOnlyList<S>> GetSources(CancellationToken ct)

@@ -12,7 +12,7 @@ namespace Mneme.Model.Sources
 		public required string Title { get; set; }
 		public DateTime Created { get; } = DateTime.Now;
 		public required bool Active { get; set; }
-		public abstract string TypeToString();
 		public abstract string GetDetails();
+		public abstract string TextType { get; }
 	}
 }

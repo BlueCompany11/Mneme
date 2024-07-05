@@ -31,7 +31,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			this.pluralsightIntegration = pluralsightIntegration;
 		}
 
-		public async Task ActivateSource(string id, string type, CancellationToken ct = default)
+		public async Task ActivateSource(int id, string type, CancellationToken ct = default)
 		{
 			if (type == GoogleBooksSource.Type)
 			{
@@ -112,7 +112,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			return ret;
 		}
 
-		public async Task IgnoreSource(string id, string type, CancellationToken ct = default)
+		public async Task IgnoreSource(int id, string type, CancellationToken ct = default)
 		{
 			if (type == GoogleBooksSource.Type)
 			{
@@ -134,7 +134,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			}
 		}
 
-		public async Task<Source> GetSource(string id, string type, CancellationToken ct)
+		public async Task<Source> GetSource(int id, string type, CancellationToken ct)
 		{
 			if (type == GoogleBooksSource.Type)
 				return await googleBooksIntegration.GetSource(id, ct);

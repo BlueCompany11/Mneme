@@ -5,7 +5,7 @@ namespace Mneme.Integrations.Mneme.Contract
 	public class MnemeSource : Source
 	{
 		public static string GenerateIntegrationId(string title, string details) => $"{title} {details}";
-		public override string TypeToString() => Type;
+		public override string TextType => Type;
 
 		public override string GetDetails()
 		{

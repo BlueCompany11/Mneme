@@ -16,7 +16,7 @@ namespace Mneme.Sources
 			this.integration = integration;
 			this.mnemeIntegration = mnemeIntegration;
 		}
-		public async Task<bool> DeleteSource(SourcePreview source)
+		public async Task<bool> DeleteSource(Source source)
 		{
 			try
 			{
@@ -28,28 +28,26 @@ namespace Mneme.Sources
 				return false;
 			}
 		}
-		public async Task<SourcePreview> IgnoreSource(SourcePreview source)
+		public async Task<Source> IgnoreSource(Source source)
 		{
-			await integration.IgnoreSource(source.Id, source.TypeOfSource);
-			var updatedSource = await integration.GetSource(source.Id, source.TypeOfSource);
-			return SourcePreview.CreateFromSource(updatedSource);
+			await integration.IgnoreSource(source.Id, source.TextType);
+			return await integration.GetSource(source.Id, source.TextType);
 		}
 
-		public async Task<SourcePreview> ActivateSource(SourcePreview source)
+		public async Task<Source> ActivateSource(Source source)
 		{
-			await integration.ActivateSource(source.Id, source.TypeOfSource);
-			var updatedSource = await integration.GetSource(source.Id, source.TypeOfSource);
-			return SourcePreview.CreateFromSource(updatedSource);
+			await integration.ActivateSource(source.Id, source.TextType);
+			return await integration.GetSource(source.Id, source.TextType);
 		}
 
-		public async Task<IReadOnlyList<SourcePreview>> GetKnownSourcesPreviewAsync(bool onlyActive = false, CancellationToken ct = default)
+		public async Task<IReadOnlyList<Source>> GetKnownSourcesPreviewAsync(bool onlyActive = false, CancellationToken ct = default)
 		{
-			return (await integration.GetKnownSources(onlyActive, ct)).Select(x => SourcePreview.CreateFromSource(x)).ToList();
+			return (await integration.GetKnownSources(onlyActive, ct)).ToList();
 		}
 
-		public async Task<IReadOnlyList<SourcePreview>> GetSourcesPreviewAsync(CancellationToken ct = default)
+		public async Task<IReadOnlyList<Source>> GetSourcesPreviewAsync(CancellationToken ct = default)
 		{
-			return (await integration.GetSources(true, ct)).Select(x => SourcePreview.CreateFromSource(x)).ToList();
+			return (await integration.GetSources(true, ct)).ToList();
 		}
 
 		public void Dispose()

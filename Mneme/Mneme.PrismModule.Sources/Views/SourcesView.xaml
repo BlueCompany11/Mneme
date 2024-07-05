@@ -44,11 +44,11 @@
                               Source="{Binding Sources}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription Converter="{StaticResource DateToDayConverter}"
-                                          PropertyName="Date" />
+                                          PropertyName="Created" />
             </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.SortDescriptions>
                 <componentmodel:SortDescription Direction="Descending"
-                                                PropertyName="Date" />
+                                                PropertyName="Created" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Style x:Key="SourceDetails"
@@ -134,7 +134,7 @@
                                 <TextBlock Style="{StaticResource SourceDetails}"
                                            Text="{Binding Details}" />
                                 <TextBlock Style="{StaticResource SourceDetails}"
-                                           Text="{Binding TypeOfSource}" />
+                                           Text="{Binding TextType}" />
                             </StackPanel>
                             <StackPanel Grid.Column="1"
                                         HorizontalAlignment="Right"
@@ -142,7 +142,7 @@
                                 <materialDesign:PackIcon Kind="ArchiveOutline"
                                                          ToolTip="Ignored"
                                                          VerticalAlignment="Center"
-                                                         Visibility="{Binding IsActive, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+                                                         Visibility="{Binding Active, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
                                 <materialDesign:PopupBox>
                                     <StackPanel>
                                         <Button Command="{Binding DataContext.IgnoreSourceCommand, ElementName=SourceViewRoot}"

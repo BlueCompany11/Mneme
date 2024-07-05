@@ -10,7 +10,7 @@ namespace Mneme.Views.Base
 		{
 			if(value == null)
 				return new ValidationResult(false, $"Field is required");
-			if (value is SourcePreview)
+			if (value is Source)
 				return ValidationResult.ValidResult;
 			if (((string)value).Length == 0)
 				return new ValidationResult(false, $"Field is required");

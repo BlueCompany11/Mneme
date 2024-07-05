@@ -17,15 +17,15 @@ namespace Mneme.PrismModule.Sources.ViewModels
 {
 	internal class SourcesViewModel : BindableBase, INavigationAware
 	{
-		private ObservableCollection<SourcePreview> sources;
+		private ObservableCollection<Source> sources;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly IDialogService dialogService;
 		private readonly SourcesManager manager;
 		private CancellationTokenSource cts;
 		private string searchedPhrase;
-		private List<SourcePreview> allSourcesPreview;
-		private SourcePreview selectedSource;
-		public SourcePreview SelectedSource
+		private List<Source> allSourcesPreview;
+		private Source selectedSource;
+		public Source SelectedSource
 		{
 			get => selectedSource;
 			set => SetProperty(ref selectedSource, value);
@@ -38,7 +38,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			set => SetProperty(ref isLoading, value);
 		}
 
-		public ObservableCollection<SourcePreview> Sources
+		public ObservableCollection<Source> Sources
 		{
 			get => sources;
 			set => SetProperty(ref sources, value);
@@ -57,15 +57,15 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			this.snackbarMessageQueue = snackbarMessageQueue;
 			this.dialogService = dialogService;
 			this.manager = manager;
-			IgnoreSourceCommand = new DelegateCommand<SourcePreview>(IgnoreSource, (x) => x?.IsActive ?? false);
-			ActivateSourceCommand = new DelegateCommand<SourcePreview>(ActivateSource, (x) => !x?.IsActive ?? false);
-			DeleteSourceCommand = new DelegateCommand<SourcePreview>(DeleteSource);
-			EditSourceCommand = new DelegateCommand<SourcePreview>(EditSource, (x) => x?.TypeOfSource == MnemeSource.Type);
+			IgnoreSourceCommand = new DelegateCommand<Source>(IgnoreSource, (x) => x?.Active ?? false);
+			ActivateSourceCommand = new DelegateCommand<Source>(ActivateSource, (x) => !x?.Active ?? false);
+			DeleteSourceCommand = new DelegateCommand<Source>(DeleteSource);
+			EditSourceCommand = new DelegateCommand<Source>(EditSource, (x) => x?.TextType == MnemeSource.Type);
 			ShowDialogCreateSourceCommand = new DelegateCommand(CreateSource);
 			IsLoading = true;
 		}
 
-		private void EditSource(SourcePreview source)
+		private void EditSource(Source source)
 		{
 			var param = new DialogParameters
 			{
@@ -75,7 +75,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			{
 				if (result.Result == ButtonResult.OK)
 				{
-					var editedSource = result.Parameters.GetValue<SourcePreview>("source");
+					var editedSource = result.Parameters.GetValue<Source>("source");
 					Sources.Remove(source);
 					Sources.Add(editedSource);
 					SelectedSource = editedSource;
@@ -83,7 +83,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			});
 		}
 
-		private async void DeleteSource(SourcePreview source)
+		private async void DeleteSource(Source source)
 		{
 			if (await manager.DeleteSource(source)) 
 			{
@@ -94,7 +94,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				snackbarMessageQueue.Enqueue("Could not delete source. Some related data to this source still exists.");
 		}
 
-		private async void IgnoreSource(SourcePreview source)
+		private async void IgnoreSource(Source source)
 		{
 			var updatedSource = await manager.IgnoreSource(source);
 			Sources.Remove(source);
@@ -102,7 +102,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			SelectedSource = updatedSource;
 		}
 
-		private async void ActivateSource(SourcePreview source)
+		private async void ActivateSource(Source source)
 		{
 			var updatedSource = await manager.ActivateSource(source);
 			Sources.Remove(source);
@@ -110,10 +110,10 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			SelectedSource = updatedSource;
 		}
 
-		public DelegateCommand<SourcePreview> IgnoreSourceCommand { get; set; }
-		public DelegateCommand<SourcePreview> ActivateSourceCommand { get; set; }
-		public DelegateCommand<SourcePreview> EditSourceCommand { get; set; }
-		public DelegateCommand<SourcePreview> DeleteSourceCommand { get; set; }
+		public DelegateCommand<Source> IgnoreSourceCommand { get; set; }
+		public DelegateCommand<Source> ActivateSourceCommand { get; set; }
+		public DelegateCommand<Source> EditSourceCommand { get; set; }
+		public DelegateCommand<Source> DeleteSourceCommand { get; set; }
 		public DelegateCommand ShowDialogCreateSourceCommand { get; }
 
 		private void CreateSource()
@@ -123,9 +123,8 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				if (result.Result == ButtonResult.OK)
 				{
 					var source = result.Parameters.GetValue<MnemeSource>("source");
-					var preview = SourcePreview.CreateFromSource(source);
-					Sources.Add(preview);
-					allSourcesPreview.Add(preview);
+					Sources.Add(source);
+					allSourcesPreview.Add(source);
 					RaisePropertyChanged(nameof(SourcesListEmpty));
 				}
 			});
@@ -139,11 +138,11 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				SetProperty(ref searchedPhrase, value);
 				if (searchedPhrase.Length > 2)
 				{
-					Sources = new ObservableCollection<SourcePreview>(allSourcesPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.TypeOfSource.ToLower() == searchedPhrase.ToLower()));
+					Sources = new ObservableCollection<Source>(allSourcesPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.TextType.ToLower() == searchedPhrase.ToLower()));
 				}
 				else if (Sources.Count != allSourcesPreview.Count)
 				{
-					Sources = new ObservableCollection<SourcePreview>(allSourcesPreview);
+					Sources = new ObservableCollection<Source>(allSourcesPreview);
 				}
 			}
 		}
@@ -155,7 +154,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				IsLoading = true;
 				await Task.Run(async () =>
 				{
-					IEnumerable<SourcePreview> sourcesPreview = [];
+					IEnumerable<Source> sourcesPreview = [];
 					try
 					{
 						sourcesPreview = await manager.GetSourcesPreviewAsync(cts.Token);
@@ -168,7 +167,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 						{
 							Sources.Add(source);
 						}
-						allSourcesPreview = new List<SourcePreview>(Sources);
+						allSourcesPreview = new List<Source>(Sources);
 						IsLoading = false;
 						RaisePropertyChanged(nameof(SourcesListEmpty));
 					});

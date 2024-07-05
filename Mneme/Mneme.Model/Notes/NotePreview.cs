@@ -9,7 +9,6 @@ namespace Mneme.Model.Notes
 		public string Title { get; set; }
 		public string Note { get; set; }
 		public DateTime Date { get; set; }
-		public List<string> Tags { get; set; }
 		public Note BaseNote { get; init; }
 		public static NotePreview CreateFromNote(Note note)
 		{
@@ -19,7 +18,6 @@ namespace Mneme.Model.Notes
 				Date = note.CreationTime,
 				Note = note.Content,
 				Title = note.Title,
-				Tags = [],
 				BaseNote = note
 			};
 		}

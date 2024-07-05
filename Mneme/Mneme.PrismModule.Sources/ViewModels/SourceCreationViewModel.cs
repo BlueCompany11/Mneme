@@ -14,7 +14,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 		private ISnackbarMessageQueue snackbarMessageQueue { get; }
 		public DelegateCommand CreateCommand { get; private set; }
 
-		private SourcePreview sourceToEdit;
+		private Source sourceToEdit;
 
 		private string sourceTitle;
 		public string SourceTitle
@@ -67,7 +67,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 		}
 		private async Task Update()
 		{
-			sourceToEdit = SourcePreview.CreateFromSource(await manager.UpdateMnemeSource(sourceToEdit.Id, SourceTitle, Details, default));
+			sourceToEdit = await manager.UpdateMnemeSource(sourceToEdit.Id, SourceTitle, Details, default);
 			var parameters = new DialogParameters
 				{
 					{ "source", sourceToEdit }
@@ -96,10 +96,10 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				title = "Source creation";
 				return;
 			}
-			sourceToEdit = parameters.GetValue<SourcePreview>("source");
+			sourceToEdit = parameters.GetValue<Source>("source");
 			title = "Source edition";
 			SourceTitle = sourceToEdit.Title;
-			Details = sourceToEdit.Details;
+			Details = sourceToEdit.GetDetails();
 		}
 	}
 }
