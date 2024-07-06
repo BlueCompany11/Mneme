@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Mneme.Core;
@@ -8,8 +7,7 @@ using Mneme.Integrations.Contracts;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Notes;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.PrismModule.Integration.Facade
 {
@@ -31,7 +29,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			this.pluralsightIntegration = pluralsightIntegration;
 		}
 
-		public async Task ActivateSource(string id, string type, CancellationToken ct = default)
+		public async Task ActivateSource(int id, string type, CancellationToken ct = default)
 		{
 			if (type == GoogleBooksSource.Type)
 			{
@@ -112,7 +110,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			return ret;
 		}
 
-		public async Task IgnoreSource(string id, string type, CancellationToken ct = default)
+		public async Task IgnoreSource(int id, string type, CancellationToken ct = default)
 		{
 			if (type == GoogleBooksSource.Type)
 			{
@@ -134,7 +132,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			}
 		}
 
-		public async Task<Source> GetSource(string id, string type, CancellationToken ct)
+		public async Task<Source> GetSource(int id, string type, CancellationToken ct)
 		{
 			if (type == GoogleBooksSource.Type)
 				return await googleBooksIntegration.GetSource(id, ct);

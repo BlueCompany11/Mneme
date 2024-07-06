@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using DryIoc;
-using System.Windows.Controls;
-using MaterialDesignThemes.Wpf;
-using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Sources;
 using Mneme.PrismModule.Testing.Views.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.Contracts;
@@ -47,7 +42,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			this.repository = repository;
 			StartTestingCommand = new DelegateCommand(StartTesting);
 			DeleteTestCommand = new DelegateCommand<TestDataPreview>(DeleteTest);
-			EditTestCommand = new DelegateCommand<TestDataPreview>(EditTest, x=> !(x?.Type == testTypeProvider.ClozeDeletion));
+			EditTestCommand = new DelegateCommand<TestDataPreview>(EditTest, x => !(x?.Type == testTypeProvider.ClozeDeletion));
 		}
 
 
@@ -61,13 +56,13 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			var page = "";
 			IDialogParameters parameters = new DialogParameters();
 
-			if(test.Type == testTypeProvider.MultipleChoice)
+			if (test.Type == testTypeProvider.MultipleChoice)
 			{
 				page = nameof(MultipleChoiceTestCreationView);
 				var t = repository.GetMultipleChoicesTest(test.Title);
 				parameters.Add("test", t);
 			}
-			else if(test.Type == testTypeProvider.ShortAnswer)
+			else if (test.Type == testTypeProvider.ShortAnswer)
 			{
 				page = nameof(ShortAnswerTestCreationView);
 				var t = repository.GetShortAnswerTest(test.Title);
@@ -97,7 +92,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 				var t = repository.GetShortAnswerTest(test.Title);
 				repository.RemoveTest(t);
 			}
-			else if(test.Type == testTypeProvider.ClozeDeletion)
+			else if (test.Type == testTypeProvider.ClozeDeletion)
 			{
 				var t = repository.GetClozeDeletionTest(test.Title);
 				repository.RemoveTest(t);

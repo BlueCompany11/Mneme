@@ -1,12 +1,8 @@
-﻿using Mneme.DataAccess;
+﻿using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Integrations.Mneme;
-using System.ComponentModel;
 using Mneme.PrismModule.Integrations.Mneme.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
-using Mneme.Integrations.Contracts;
 
 namespace Mneme.PrismModule.Integrations.Mneme
 {

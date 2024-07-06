@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Mneme.Integrations.Mneme.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,6 +20,7 @@ namespace Mneme.Integrations.Mneme.Migrations
                     Details = table.Column<string>(type: "TEXT", nullable: true),
                     IntegrationId = table.Column<string>(type: "TEXT", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "GETDATE()"),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -37,7 +38,7 @@ namespace Mneme.Integrations.Mneme.Migrations
                     IntegrationId = table.Column<string>(type: "TEXT", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     Path = table.Column<string>(type: "TEXT", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "GETDATE()"),
                     Content = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>

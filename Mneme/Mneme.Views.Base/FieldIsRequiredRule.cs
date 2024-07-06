@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.Views.Base
 {
@@ -8,9 +8,9 @@ namespace Mneme.Views.Base
 	{
 		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
 		{
-			if(value == null)
+			if (value == null)
 				return new ValidationResult(false, $"Field is required");
-			if (value is SourcePreview)
+			if (value is Source)
 				return ValidationResult.ValidResult;
 			if (((string)value).Length == 0)
 				return new ValidationResult(false, $"Field is required");

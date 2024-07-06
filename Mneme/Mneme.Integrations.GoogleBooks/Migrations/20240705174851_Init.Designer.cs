@@ -2,22 +2,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Mneme.Integrations.Mneme.Database;
+using Mneme.Integrations.GoogleBooks.Database;
 
 #nullable disable
 
-namespace Mneme.Integrations.Mneme.Migrations
+namespace Mneme.Integrations.GoogleBooks.Migrations
 {
-    [DbContext(typeof(MnemeContext))]
-    partial class MnemeContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(GoogleBooksContext))]
+    [Migration("20240705174851_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
-            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
+            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,17 +30,19 @@ namespace Mneme.Integrations.Mneme.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreationTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("IntegrationId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NoteType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Path")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("SourceId")
+                    b.Property<int>("SourceId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
@@ -50,10 +55,10 @@ namespace Mneme.Integrations.Mneme.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("MnemeNotes");
+                    b.ToTable("GoogleBooksNotes");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeSource", b =>
+            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,11 +68,6 @@ namespace Mneme.Integrations.Mneme.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Details")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("IntegrationId")
@@ -81,14 +81,16 @@ namespace Mneme.Integrations.Mneme.Migrations
                     b.HasIndex("IntegrationId")
                         .IsUnique();
 
-                    b.ToTable("MnemeSources");
+                    b.ToTable("GoogleBooksSources");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
+            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
                 {
-                    b.HasOne("Mneme.Integrations.Mneme.Contract.MnemeSource", "Source")
+                    b.HasOne("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", "Source")
                         .WithMany()
-                        .HasForeignKey("SourceId");
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Source");
                 });

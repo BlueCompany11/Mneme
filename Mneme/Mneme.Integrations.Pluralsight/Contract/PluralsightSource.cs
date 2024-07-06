@@ -1,4 +1,4 @@
-﻿using Mneme.Model.Sources;
+﻿using Mneme.Model;
 
 namespace Mneme.Integrations.Pluralsight.Contract
 {
@@ -16,16 +16,11 @@ namespace Mneme.Integrations.Pluralsight.Contract
 			details = pluralsightNote.Path;
 		}
 
-		public override string TypeToString()
-		{
-			return Type;
-		}
-
 		public override string GetDetails()
 		{
 			return details;
 		}
-
+		public override string TextType => Type;
 		public static string Type => "Pluralsight";
 	}
 }

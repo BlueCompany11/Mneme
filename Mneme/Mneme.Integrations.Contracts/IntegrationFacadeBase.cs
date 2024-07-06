@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mneme.DataAccess;
-using Mneme.Model.Notes;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.Integrations.Contracts
 {
@@ -22,17 +21,17 @@ namespace Mneme.Integrations.Contracts
 
 		protected abstract T CreateContext();
 
-		public virtual Task DeleteNote(string id, CancellationToken ct)
+		public virtual Task DeleteNote(int id, CancellationToken ct)
 		{
-			var entity = context.Set<N>().First(x => x.IntegrationId == id);
+			var entity = context.Set<N>().First(x => x.Id == id);
 			context.Set<N>().Remove(entity);
 			context.SaveChanges();
 			return Task.CompletedTask;
 		}
 
-		public virtual Task DeleteSource(string id, CancellationToken ct)
+		public virtual Task DeleteSource(int id, CancellationToken ct)
 		{
-			var entity = context.Set<S>().First(x => x.IntegrationId == id);
+			var entity = context.Set<S>().First(x => x.Id == id);
 			context.Set<S>().Remove(entity);
 			context.SaveChanges();
 			return Task.CompletedTask;
@@ -48,9 +47,9 @@ namespace Mneme.Integrations.Contracts
 			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct);
 		}
 
-		public virtual Task<N> GetNote(string id, CancellationToken ct)
+		public virtual Task<N> GetNote(int id, CancellationToken ct)
 		{
-			return Task.FromResult(context.Set<N>().First(x => x.IntegrationId == id));
+			return Task.FromResult(context.Set<N>().First(x => x.Id == id));
 		}
 
 		public virtual async Task<IReadOnlyList<N>> GetNotes(CancellationToken ct)
@@ -64,9 +63,9 @@ namespace Mneme.Integrations.Contracts
 			//TODO activeOnly
 		}
 
-		public virtual Task<S> GetSource(string id, CancellationToken ct)
+		public virtual Task<S> GetSource(int id, CancellationToken ct)
 		{
-			return Task.FromResult(context.Set<S>().First(x => x.IntegrationId == id));
+			return Task.FromResult(context.Set<S>().First(x => x.Id == id));
 		}
 
 		public virtual async Task<IReadOnlyList<S>> GetSources(CancellationToken ct)
@@ -76,7 +75,7 @@ namespace Mneme.Integrations.Contracts
 
 		public virtual async Task<IReadOnlyList<S>> GetKnownSources(bool onlyActive, CancellationToken ct)
 		{
-			return await context.Set<S>().Where(x=>x.Active).ToListAsync(ct);
+			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct);
 		}
 
 		public virtual Task CreateSource(S source)

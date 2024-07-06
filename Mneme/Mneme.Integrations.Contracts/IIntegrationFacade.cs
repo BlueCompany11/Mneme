@@ -1,5 +1,4 @@
-﻿using Mneme.Model.Notes;
-using Mneme.Model.Sources;
+﻿using Mneme.Model;
 
 namespace Mneme.Integrations.Contracts
 {
@@ -7,14 +6,14 @@ namespace Mneme.Integrations.Contracts
 		where S : Source
 		where N : Note
 	{
-		Task DeleteSource(string id, CancellationToken ct);
+		Task DeleteSource(int id, CancellationToken ct);
 		Task UpdateSource(S source, CancellationToken ct);
 		/// <summary>
 		/// Only Mneme note can be deleted.
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		Task DeleteNote(string id, CancellationToken ct);
+		Task DeleteNote(int id, CancellationToken ct);
 		Task CreateSource(S source);
 		Task CreateNote(N note);
 		Task<IReadOnlyList<S>> GetActiveSources(CancellationToken ct);
@@ -23,7 +22,7 @@ namespace Mneme.Integrations.Contracts
 		Task<IReadOnlyList<N>> GetActiveNotes(CancellationToken ct);
 		Task<IReadOnlyList<N>> GetNotes(CancellationToken ct);
 		Task<IReadOnlyList<N>> GetKnownNotes(bool activeOnly, CancellationToken ct);
-		Task<S> GetSource(string id, CancellationToken ct);
-		Task<N> GetNote(string id, CancellationToken ct);
+		Task<S> GetSource(int id, CancellationToken ct);
+		Task<N> GetNote(int id, CancellationToken ct);
 	}
 }

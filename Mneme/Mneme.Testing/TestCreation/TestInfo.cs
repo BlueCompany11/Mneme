@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mneme.Model.TestCreation
+﻿namespace Mneme.Model.TestCreation
 {
 	public class TestInfo
 	{

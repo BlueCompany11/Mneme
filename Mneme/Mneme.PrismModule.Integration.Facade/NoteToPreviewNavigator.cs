@@ -1,11 +1,10 @@
 ﻿using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Integrations.Pluralsight.Contract;
-using Mneme.Model.Notes;
+using Mneme.Model;
 using Mneme.PrismModule.Integrations.GoogleBooks.Views;
 using Mneme.PrismModule.Integrations.Mneme.Views;
 using Mneme.PrismModule.Integrations.Pluralsight.Views;
-using Mneme.Views.Base;
 using Prism.Regions;
 
 namespace Mneme.PrismModule.Integration.Facade

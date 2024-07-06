@@ -1,6 +1,6 @@
 ﻿using System;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Notes;
+using Mneme.Model;
 using Mneme.PrismModule.Integrations.Base;
 using Prism.Regions;
 
@@ -51,7 +51,7 @@ namespace Mneme.PrismModule.Integrations.Mneme.ViewModels
 		}
 		protected override Note BaseNote { get; set; }
 
-		public MnemeNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) {}
+		public MnemeNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) { }
 		protected override void LoadNote()
 		{
 			notePreview = MnemeNotePreview.CreateFromNote((MnemeNote)BaseNote);

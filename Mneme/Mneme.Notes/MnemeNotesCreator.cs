@@ -1,7 +1,6 @@
-﻿using Mneme.Core;
-using Mneme.Integrations.Contracts;
+﻿using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.Notes
 {
@@ -13,17 +12,17 @@ namespace Mneme.Notes
 		{
 			this.mnemeIntegration = mnemeIntegration;
 		}
-		public async Task<MnemeNote> SaveMnemeNote(SourcePreview sourcePreview, string content, string title, string path, CancellationToken ct)
+		public async Task<MnemeNote> SaveMnemeNote(Source source, string content, string title, string path, CancellationToken ct)
 		{
-			var newSource = (await mnemeIntegration.GetSource(sourcePreview.Id, ct));
+			var newSource = (await mnemeIntegration.GetSource(source.Id, ct));
 			var note = new MnemeNote() { IntegrationId = Guid.NewGuid().ToString(), Content = content, Title = title, Path = path, CreationTime = DateTime.Now, Source = newSource };
 			await mnemeIntegration.CreateNote(note);
 			return note;
 		}
 
-		public async Task<IReadOnlyList<SourcePreview>> GetSourcesPreviews(CancellationToken ct)
+		public async Task<IReadOnlyList<Source>> GetSourcesPreviews(CancellationToken ct)
 		{
-			return (await mnemeIntegration.GetActiveSources(ct)).Where(x => x.TypeToString() == MnemeSource.Type).Select(x => SourcePreview.CreateFromSource(x)).ToList();
+			return (await mnemeIntegration.GetActiveSources(ct)).ToList();
 		}
 	}
 }

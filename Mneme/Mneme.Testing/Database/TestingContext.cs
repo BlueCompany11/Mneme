@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mneme.DataAccess;
-using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model.TestCreation;
 
 namespace Mneme.Testing.Database

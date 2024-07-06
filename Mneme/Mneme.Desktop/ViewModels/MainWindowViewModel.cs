@@ -7,7 +7,7 @@ namespace Mneme.Desktop.ViewModels
 	{
 		public ISnackbarMessageQueue SnackbarMessageQueue { get; }
 
-		public MainWindowViewModel( ISnackbarMessageQueue snackbarMessageQueue)
+		public MainWindowViewModel(ISnackbarMessageQueue snackbarMessageQueue)
 		{
 			SnackbarMessageQueue = snackbarMessageQueue;
 		}

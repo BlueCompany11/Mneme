@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
-using Mneme.Model.Sources;
+using Mneme.Model;
 using Mneme.Notes;
 using Mneme.PrismModule.Notes.Views;
 using Mneme.Views.Base;
@@ -17,15 +17,15 @@ namespace Mneme.PrismModule.Notes.ViewModels
 	{
 		private readonly IRegionManager regionManager;
 		private readonly MnemeNotesCreator manager;
-		private ObservableCollection<SourcePreview> sourcesPreview;
-		public ObservableCollection<SourcePreview> SourcesPreviews 
+		private ObservableCollection<Source> sourcesPreview;
+		public ObservableCollection<Source> SourcesPreviews
 		{
 			get => sourcesPreview;
 			set => SetProperty(ref sourcesPreview, value);
 		}
 
-		private SourcePreview selectedSourcePreview;
-		public SourcePreview SelectedSourcePreview
+		private Source selectedSourcePreview;
+		public Source SelectedSourcePreview
 		{
 			get => selectedSourcePreview;
 			set => SetProperty(ref selectedSourcePreview, value);
@@ -90,12 +90,12 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		{
 			await Task.Run(async () =>
 			{
-				IEnumerable<SourcePreview> sourcesPreview = [];
-				sourcesPreview = await manager.GetSourcesPreviews(default);
+				IEnumerable<Source> sources = [];
+				sources = await manager.GetSourcesPreviews(default);
 				Application.Current.Dispatcher.Invoke(() =>
 				{
 					SourcesPreviews.Clear();
-					SourcesPreviews.AddRange(sourcesPreview);
+					SourcesPreviews.AddRange(sources);
 				});
 			});
 		}

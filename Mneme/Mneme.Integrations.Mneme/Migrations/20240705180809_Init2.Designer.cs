@@ -11,8 +11,8 @@ using Mneme.Integrations.Mneme.Database;
 namespace Mneme.Integrations.Mneme.Migrations
 {
     [DbContext(typeof(MnemeContext))]
-    [Migration("20240626194620_init")]
-    partial class init
+    [Migration("20240705180809_Init2")]
+    partial class Init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,9 @@ namespace Mneme.Integrations.Mneme.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("IntegrationId")
                         .HasColumnType("TEXT");
@@ -62,6 +64,11 @@ namespace Mneme.Integrations.Mneme.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Details")
                         .HasColumnType("TEXT");

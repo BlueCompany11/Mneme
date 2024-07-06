@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Mneme.Model.Notes;
-using Mneme.Model.Sources;
+using Mneme.Model;
 
 namespace Mneme.Core
 {
 	public interface IBundledIntegrationFacades : IDisposable
 	{
-		Task ActivateSource(string id, string type, CancellationToken ct = default);
-		Task IgnoreSource(string id, string type, CancellationToken ct = default);
+		Task ActivateSource(int id, string type, CancellationToken ct = default);
+		Task IgnoreSource(int id, string type, CancellationToken ct = default);
 		Task<IReadOnlyList<Source>> GetKnownSources(bool onlyActive = true, CancellationToken ct = default);
 		/// <summary>
 		/// Returns notes that are known to the system (checking only database)
@@ -30,6 +29,6 @@ namespace Mneme.Core
 		/// <param name="ct"></param>
 		/// <returns></returns>
 		Task<IReadOnlyList<Source>> GetSources(bool activeOnly, CancellationToken ct = default);
-		Task<Source> GetSource(string id, string type, CancellationToken ct = default);
+		Task<Source> GetSource(int id, string type, CancellationToken ct = default);
 	}
 }
