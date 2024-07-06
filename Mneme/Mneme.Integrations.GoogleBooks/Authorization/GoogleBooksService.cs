@@ -9,17 +9,14 @@ using Mneme.Integrations.GoogleBooks.Contract;
 
 namespace Mneme.Integrations.GoogleBooks.Authorization
 {
-	public class GoogleBooksService
+	public class GoogleBooksService : IDisposable
 	{
 		protected UserCredential credential;
 		protected readonly GoogleCredentialsProvider googleCredentialsProvider;
-		//TODO delete it?
 		protected string AppName => "Mneme";
 
 		private readonly string fileExtensionBlackList = ".pdf";
-
 		private readonly string mainShelfName = "My Google eBooks";
-
 		private readonly List<GoogleBooksBook> books;
 		private List<GoogleBooksAnnotation> annotations;
 		protected string[] scope => [BooksService.Scope.Books];
@@ -29,9 +26,10 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 		public GoogleBooksService(GoogleCredentialsProvider googleCredentialsProvider)
 		{
 			this.googleCredentialsProvider = googleCredentialsProvider;
-			books = [];
-			annotations = [];
+			books = new List<GoogleBooksBook>();
+			annotations = new List<GoogleBooksAnnotation>();
 		}
+
 		protected void CreateService()
 		{
 			service = new BooksService(new BaseClientService.Initializer()
@@ -47,17 +45,21 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 			if (service == null)
 				CreateService();
 		}
+
 		private void LoadCredentials()
 		{
 			if (credential != null)
 				return;
-			using Stream stream = googleCredentialsProvider.GetFileStream().Invoke();
-			credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+			using (Stream stream = googleCredentialsProvider.GetFileStream().Invoke())
+			{
+				credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
 						GoogleClientSecrets.FromStream(stream).Secrets,
 						scope,
 						Environment.UserName,
 						CancellationToken.None).Result;
+			}
 		}
+
 		private List<GoogleBooksAnnotation> ConvertAnnotations(Annotations annotations, Volume volume)
 		{
 			var ret = new List<GoogleBooksAnnotation>();
@@ -73,15 +75,21 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 
 		private async Task<List<Volume>> LoadVolumesAsync(CancellationToken ct)
 		{
-			List<Volumes> volumes = [];
+			List<Volumes> volumes = new List<Volumes>();
 			try
 			{
 				var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync(ct);
 				volumes = await GetVolumesAsync(bookshelves, ct);
 				return FilterVolumes(volumes);
 			}
-			catch (GoogleApiException) { return FilterVolumes(volumes); }
-			catch (TokenResponseException ex) when (ex.Error.Error == "invalid_grant") { return FilterVolumes(volumes); }
+			catch (GoogleApiException)
+			{
+				return FilterVolumes(volumes);
+			}
+			catch (TokenResponseException ex) when (ex.Error.Error == "invalid_grant")
+			{
+				return FilterVolumes(volumes);
+			}
 		}
 
 		private List<Volume> FilterVolumes(List<Volumes> volumes)
@@ -99,6 +107,7 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 			var volumes = await LoadVolumesAsync(ct);
 			await UpdateAnnotationsAsync(volumes, ct);
 		}
+
 		public async Task<List<GoogleBooksNote>> LoadNotes(CancellationToken ct)
 		{
 			await LoadAnnotationsAsync(ct);
@@ -166,6 +175,7 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 			}
 			return ret;
 		}
+
 		private GoogleBooksNote Convert(GoogleBooksAnnotation annotation)
 		{
 			return new GoogleBooksNote
@@ -178,6 +188,24 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 				IntegrationId = annotation.Id,
 				Source = new GoogleBooksSource { Title = annotation.BookTitle, IntegrationId = annotation.BookId, Active = true }
 			};
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (service != null)
+				{
+					service.Dispose();
+					service = null;
+				}
+			}
 		}
 	}
 }

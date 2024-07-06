@@ -5,11 +5,12 @@ using Mneme.Model;
 namespace Mneme.Integrations.Contracts
 {
 	public abstract class IntegrationFacadeBase<T, S, N> :
-		IDatabase,
-		IIntegrationFacade<S, N>
-		where T : Context
-		where S : Source
-		where N : Note
+					IDatabase,
+					IIntegrationFacade<S, N>,
+					IDisposable
+					where T : Context
+					where S : Source
+					where N : Note
 	{
 		protected readonly T context;
 		protected bool disposedValue;
@@ -104,25 +105,16 @@ namespace Mneme.Integrations.Contracts
 			if (!disposedValue)
 			{
 				if (disposing)
-					// TODO: dispose managed state (managed objects)
+				{
 					context.Dispose();
+				}
 
-				// TODO: free unmanaged resources (unmanaged objects) and override finalizer
-				// TODO: set large fields to null
 				disposedValue = true;
 			}
 		}
 
-		// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-		// ~GoogleBooksIntegrationFacadeBase()
-		// {
-		//     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-		//     Dispose(disposing: false);
-		// }
-
 		public void Dispose()
 		{
-			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 			Dispose(disposing: true);
 			GC.SuppressFinalize(this);
 		}
@@ -132,6 +124,5 @@ namespace Mneme.Integrations.Contracts
 			using var context = CreateContext();
 			await context.Database.MigrateAsync(ct);
 		}
-
 	}
 }
