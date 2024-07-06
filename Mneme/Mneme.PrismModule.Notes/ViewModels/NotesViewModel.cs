@@ -25,7 +25,6 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		private bool isLoading;
 		private Note selectedNotePreview;
 		private List<Note> Notes { get; set; }
-		private Note SelectedNote { get; set; } // TODO duplication
 		private ObservableCollection<Note> notesPreview;
 		private CancellationTokenSource cts;
 		private string searchedPhrase;
@@ -74,8 +73,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				if (selectedNotePreview != value)
 				{
 					_ = SetProperty(ref selectedNotePreview, value);
-					SelectedNote = selectedNotePreview;
-					DeleteNoteToolTip = SelectedNote?.GetType() == typeof(MnemeNote) ? "Delete note" : "Only notes created by the user can be deleted";
+					DeleteNoteToolTip = SelectedNotePreview?.GetType() == typeof(MnemeNote) ? "Delete note" : "Only notes created by the user can be deleted";
 					Navigate();
 				}
 			}
@@ -130,9 +128,9 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		private void Navigate()
 		{
 			var para = new NavigationParameters() {
-				{ "note", SelectedNote }
+				{ "note", SelectedNotePreview }
 			};
-			navigator.NavigateToPreview(SelectedNote, para, RegionNames.NoteRegion);
+			navigator.NavigateToPreview(SelectedNotePreview, para, RegionNames.NoteRegion);
 
 		}
 		public async void OnNavigatedTo(NavigationContext navigationContext)
@@ -166,7 +164,6 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			{
 				var note = (MnemeNote)navigationContext.Parameters["note"];
 				NotesPreview.Insert(0, note);
-				SelectedNote = note;
 				SelectedNotePreview = note;
 			}
 		}
