@@ -44,11 +44,11 @@
                               Source="{Binding Sources}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription Converter="{StaticResource DateToDayConverter}"
-                                          PropertyName="Created" />
+                                          PropertyName="CreationTime" />
             </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.SortDescriptions>
                 <componentmodel:SortDescription Direction="Descending"
-                                                PropertyName="Created" />
+                                                PropertyName="CreationTime" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Style x:Key="SourceDetails"
