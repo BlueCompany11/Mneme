@@ -37,7 +37,7 @@ namespace Mneme.PrismModule.Integrations.Base
 				{"note", BaseNote },
 				{"showCreateTestButton", false}
 			};
-			regionManager.RequestNavigate(RegionNames.ContentRegion, "TestCreationView", param); //TODO
+			regionManager.RequestNavigate(RegionNames.ContentRegion, "TestCreationView", param);
 		}
 		public bool IsNavigationTarget(NavigationContext navigationContext)
 		{
