@@ -7,12 +7,10 @@ namespace Mneme.Testing.Contracts
 {
 	public class TestingRepository : IDisposable
 	{
-		private readonly TestPreviewProvider provider;
 		private readonly TestingContext context;
 
-		public TestingRepository(TestPreviewProvider provider)
+		public TestingRepository()
 		{
-			this.provider = provider;
 			this.context = new();
 		}
 
@@ -45,11 +43,6 @@ namespace Mneme.Testing.Contracts
 			context.SaveChanges();
 		}
 
-		public IReadOnlyList<TestDataPreview> GetTestPreviews()
-		{
-			return provider.GetTests().ToList();
-		}
-
 		public TestMultipleChoices GetMultipleChoicesTest(string title)
 		{
 			var test = context.TestMultipleChoices.Include(t => t.Answers).First(t => t.Question == title);
@@ -59,6 +52,16 @@ namespace Mneme.Testing.Contracts
 		public TestShortAnswer GetShortAnswerTest(string title)
 		{
 			return context.TestShortAnswers.First(t => t.Question == title);
+		}
+
+		public IReadOnlyList<TestMultipleChoices> GetMultipleChoicesTests()
+		{
+			return context.TestMultipleChoices.Include(t => t.Answers).ToList();
+		}
+
+		public IReadOnlyList<TestShortAnswer> GetShortAnswerTests()
+		{
+			return context.TestShortAnswers.ToList();
 		}
 
 		public void RemoveTest(TestMultipleChoices test)

@@ -17,12 +17,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 
 		private Queue<IUserTest> UserTests { get; set; }
 		public DelegateCommand NextTestCommand { get; set; }
-		private string nextTestButtonText;
-		public string NextTestButtonText
-		{
-			get => nextTestButtonText;
-			set => SetProperty(ref nextTestButtonText, value);
-		}
+
 		private bool isNextEnabled;
 		public bool IsNextEnabled
 		{
@@ -30,11 +25,11 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			set => SetProperty(ref isNextEnabled, value);
 		}
 
-		private Visibility correctButtonVisibility;
-		public Visibility CorrectButtonVisibility
+		private bool finishedTesting;
+		public bool FinishedTesting
 		{
-			get => correctButtonVisibility;
-			set => SetProperty(ref correctButtonVisibility, value);
+			get => finishedTesting;
+			set => SetProperty(ref finishedTesting, value);
 		}
 
 		private IUserTest CurrentTest { get; set; }
@@ -43,17 +38,15 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			this.testPreviewProvider = testPreviewProvider;
 			this.regionManager = regionManager;
 			NextTestCommand = new DelegateCommand(NextTest);
-			NextTestButtonText = "Next test";
-			CorrectButtonVisibility = Visibility.Visible;
 		}
 		public void NextTest()
 		{
 			var test = CurrentTest;
-			CorrectButtonVisibility = Visibility.Hidden;
+			
 			bool isNextTest = UserTests.TryPeek(out test);
 			if (!isNextTest)
 			{
-				NextTestButtonText = "Testing finished";
+				FinishedTesting = true;
 				return;
 			}
 			CurrentTest = test;
@@ -84,6 +77,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			UserTests = testPreviewProvider.GetTestsForToday();
+			NextTest();
 		}
 
 	}

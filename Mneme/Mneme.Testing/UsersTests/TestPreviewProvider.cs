@@ -1,4 +1,5 @@
 ﻿using Mneme.Model.TestCreation;
+using Mneme.Testing.Contracts;
 using Mneme.Testing.Database;
 using Mneme.Testing.RepetitionAlgorithm;
 
@@ -8,12 +9,15 @@ namespace Mneme.Testing.UsersTests
 	{
 		private readonly TestTypeProvider testTypeProvider;
 		private readonly SpaceRepetition spaceRepetition;
+		private readonly TestingRepository repository;
 
 		private Queue<TestDataPreview> Tests { get; set; }
-		public TestPreviewProvider(TestTypeProvider testTypeProvider, SpaceRepetition spaceRepetition)
+		public TestPreviewProvider(TestTypeProvider testTypeProvider, SpaceRepetition spaceRepetition, TestingRepository repository)
 		{
 			this.testTypeProvider = testTypeProvider;
 			this.spaceRepetition = spaceRepetition;
+			this.repository = repository;
+			Tests = new();
 		}
 		public Queue<TestDataPreview> GetTests()
 		{
@@ -22,10 +26,9 @@ namespace Mneme.Testing.UsersTests
 
 		private Queue<TestDataPreview> GetAllTests()
 		{
-			using var testingContext = new TestingContext();
 			var ret = new Queue<TestDataPreview>();
-			var shortAnswers = testingContext.TestShortAnswers.ToList();
-			var multipleChoice = testingContext.TestMultipleChoices.ToList();
+			var shortAnswers = repository.GetMultipleChoicesTests();
+			var multipleChoice = repository.GetShortAnswerTests();
 			foreach (var item in shortAnswers)
 			{
 				ret.Enqueue(new TestDataPreview { Title = item.Question, CreationTime = item.Created, Type = testTypeProvider.ShortAnswer });
@@ -41,8 +44,8 @@ namespace Mneme.Testing.UsersTests
 		{
 			using var testingContext = new TestingContext();
 			var ret = new Queue<IUserTest>();
-			var shortAnswers = testingContext.TestShortAnswers.ToList();
-			var multipleChoice = testingContext.TestMultipleChoices.ToList();
+			var shortAnswers = repository.GetMultipleChoicesTests();
+			var multipleChoice = repository.GetShortAnswerTests();
 			foreach (var item in shortAnswers)
 			{
 				if (spaceRepetition.ShouldBeTested(item))
