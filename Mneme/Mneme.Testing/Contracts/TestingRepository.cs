@@ -5,103 +5,78 @@ using Mneme.Testing.UsersTests;
 
 namespace Mneme.Testing.Contracts
 {
-    public class TestingRepository : IDisposable
-    {
-        private readonly TestPreviewProvider provider;
-        private readonly TestingContext context;
+	public class TestingRepository : IDisposable
+	{
+		private readonly TestPreviewProvider provider;
+		private readonly TestingContext context;
 
-        public TestingRepository(TestPreviewProvider provider)
-        {
-            this.provider = provider;
-            this.context = new();
-        }
+		public TestingRepository(TestPreviewProvider provider)
+		{
+			this.provider = provider;
+			this.context = new();
+		}
 
-        public void CreateTest(TestClozeDeletion test)
-        {
-            context.Add(test);
-            context.SaveChanges();
-        }
+		public void CreateTest(TestMultipleChoices test)
+		{
+			test.Answers.ForEach(x => x.Test = test);
+			context.Add(test);
+			context.AddRange(test.Answers);
+			context.SaveChanges();
+		}
 
-        public void CreateTest(TestMultipleChoices test)
-        {
-            test.Answers.ForEach(x => x.Test = test);
-            context.Add(test);
-            context.AddRange(test.Answers);
-            context.SaveChanges();
-        }
+		public void CreateTest(TestShortAnswer test)
+		{
+			context.Add(test);
+			context.SaveChanges();
+		}
 
-        public void CreateTest(TestShortAnswer test)
-        {
-            context.Add(test);
-            context.SaveChanges();
-        }
+		public void EditTest(TestMultipleChoices test)
+		{
+			var answersToRemove = context.TestMultipleChoice.Where(a => a.TestId == test.Id).ToList();
+			context.TestMultipleChoice.RemoveRange(answersToRemove);
+			context.AddRange(test.Answers);
+			context.Update(test);
+			context.SaveChanges();
+		}
 
-        public void EditTest(TestClozeDeletion test)
-        {
-            context.Update(test);
-            context.SaveChanges();
-        }
+		public void EditTest(TestShortAnswer test)
+		{
+			context.Update(test);
+			context.SaveChanges();
+		}
 
-        public void EditTest(TestMultipleChoices test)
-        {
-            var answersToRemove = context.TestMultipleChoice.Where(a => a.TestId == test.Id).ToList();
-            context.TestMultipleChoice.RemoveRange(answersToRemove);
-            context.AddRange(test.Answers);
-            context.Update(test);
-            context.SaveChanges();
-        }
+		public IReadOnlyList<TestDataPreview> GetTestPreviews()
+		{
+			return provider.GetTests().ToList();
+		}
 
-        public void EditTest(TestShortAnswer test)
-        {
-            context.Update(test);
-            context.SaveChanges();
-        }
+		public TestMultipleChoices GetMultipleChoicesTest(string title)
+		{
+			var test = context.TestMultipleChoices.Include(t => t.Answers).First(t => t.Question == title);
+			return test;
+		}
 
-        public IReadOnlyList<TestDataPreview> GetTestPreviews()
-        {
-            return provider.GetTests().ToList();
-        }
+		public TestShortAnswer GetShortAnswerTest(string title)
+		{
+			return context.TestShortAnswers.First(t => t.Question == title);
+		}
 
-        public TestClozeDeletion GetClozeDeletionTest(string title)
-        {
-            return context.TestClozeDeletions.First(t => t.Text == title);
-        }
+		public void RemoveTest(TestMultipleChoices test)
+		{
+			context.TestMultipleChoice.RemoveRange(test.Answers);
+			context.Remove(test);
+			context.SaveChanges();
+		}
 
-        public TestMultipleChoices GetMultipleChoicesTest(string title)
-        {
-            var test = context.TestMultipleChoices.Include(t => t.Answers).First(t => t.Question == title);
-            return test;
-        }
+		public void RemoveTest(TestShortAnswer test)
+		{
+			context.Remove(test);
+			context.SaveChanges();
+		}
 
-        public TestShortAnswer GetShortAnswerTest(string title)
-        {
-            return context.TestShortAnswers.First(t => t.Question == title);
-        }
-
-        public void RemoveTest(TestClozeDeletion test)
-        {
-            var toRemove = context.ClozeDeletionDataStructure.Where(x => x.TestClozeDeletionId == test.Id).ToList();
-            context.ClozeDeletionDataStructure.RemoveRange(toRemove);
-            context.Remove(test);
-            context.SaveChanges();
-        }
-
-        public void RemoveTest(TestMultipleChoices test)
-        {
-            context.TestMultipleChoice.RemoveRange(test.Answers);
-            context.Remove(test);
-            context.SaveChanges();
-        }
-
-        public void RemoveTest(TestShortAnswer test)
-        {
-            context.Remove(test);
-            context.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            context.Dispose();
-        }
-    }
+		public void Dispose()
+		{
+			context.Dispose();
+		}
+	}
 }

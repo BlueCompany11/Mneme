@@ -70,10 +70,6 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			{
 				regionManager.RequestNavigate(RegionNames.TestingRegion, nameof(MultipleAnswersTestView), param);
 			}
-			else if (CurrentTest is TestClozeDeletion)
-			{
-				regionManager.RequestNavigate(RegionNames.TestingRegion, nameof(ClozeDeletionTestView), param);
-			}
 		}
 		public bool IsNavigationTarget(NavigationContext navigationContext)
 		{
