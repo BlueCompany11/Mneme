@@ -92,11 +92,6 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 				var t = repository.GetShortAnswerTest(test.Title);
 				repository.RemoveTest(t);
 			}
-			else if (test.Type == testTypeProvider.ClozeDeletion)
-			{
-				var t = repository.GetClozeDeletionTest(test.Title);
-				repository.RemoveTest(t);
-			}
 			Tests.Remove(test);
 		}
 

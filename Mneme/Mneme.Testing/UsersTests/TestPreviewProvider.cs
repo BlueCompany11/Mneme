@@ -26,7 +26,6 @@ namespace Mneme.Testing.UsersTests
 			var ret = new Queue<TestDataPreview>();
 			var shortAnswers = testingContext.TestShortAnswers.ToList();
 			var multipleChoice = testingContext.TestMultipleChoices.ToList();
-			var clozeDeletions = testingContext.TestClozeDeletions.ToList();
 			foreach (var item in shortAnswers)
 			{
 				ret.Enqueue(new TestDataPreview { Title = item.Question, CreationTime = item.Created, Type = testTypeProvider.ShortAnswer });
@@ -34,10 +33,6 @@ namespace Mneme.Testing.UsersTests
 			foreach (var item in multipleChoice)
 			{
 				ret.Enqueue(new TestDataPreview { Title = item.Question, CreationTime = item.Created, Type = testTypeProvider.MultipleChoice });
-			}
-			foreach (var item in clozeDeletions)
-			{
-				ret.Enqueue(new TestDataPreview { Title = item.Text, CreationTime = item.Created, Type = testTypeProvider.ClozeDeletion });
 			}
 			Tests = ret;
 			return ret;
@@ -48,18 +43,12 @@ namespace Mneme.Testing.UsersTests
 			var ret = new Queue<IUserTest>();
 			var shortAnswers = testingContext.TestShortAnswers.ToList();
 			var multipleChoice = testingContext.TestMultipleChoices.ToList();
-			var clozeDeletions = testingContext.TestClozeDeletions.ToList();
 			foreach (var item in shortAnswers)
 			{
 				if (spaceRepetition.ShouldBeTested(item))
 					ret.Enqueue(item);
 			}
 			foreach (var item in multipleChoice)
-			{
-				if (spaceRepetition.ShouldBeTested(item))
-					ret.Enqueue(item);
-			}
-			foreach (var item in clozeDeletions)
 			{
 				if (spaceRepetition.ShouldBeTested(item))
 					ret.Enqueue(item);

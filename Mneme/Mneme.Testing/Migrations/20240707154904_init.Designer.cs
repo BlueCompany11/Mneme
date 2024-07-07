@@ -11,65 +11,14 @@ using Mneme.Testing.Database;
 namespace Mneme.Testing.Migrations
 {
     [DbContext(typeof(TestingContext))]
-    [Migration("20240705113238_Init")]
-    partial class Init
+    [Migration("20240707154904_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
-
-            modelBuilder.Entity("Mneme.Model.TestCreation.ClozeDeletionDataStructure", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("End")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Start")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TestClozeDeletionId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TestClozeDeletionId");
-
-                    b.ToTable("ClozeDeletionDataStructure");
-                });
-
-            modelBuilder.Entity("Mneme.Model.TestCreation.TestClozeDeletion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Importance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NoteId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TestInfoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TestInfoId");
-
-                    b.ToTable("TestClozeDeletions");
-                });
 
             modelBuilder.Entity("Mneme.Model.TestCreation.TestInfo", b =>
                 {
@@ -123,7 +72,9 @@ namespace Mneme.Testing.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<int>("Importance")
                         .HasColumnType("INTEGER");
@@ -156,7 +107,9 @@ namespace Mneme.Testing.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Hint")
                         .HasColumnType("TEXT");
@@ -179,26 +132,6 @@ namespace Mneme.Testing.Migrations
                     b.HasIndex("TestInfoId");
 
                     b.ToTable("TestShortAnswers");
-                });
-
-            modelBuilder.Entity("Mneme.Model.TestCreation.ClozeDeletionDataStructure", b =>
-                {
-                    b.HasOne("Mneme.Model.TestCreation.TestClozeDeletion", null)
-                        .WithMany("ClozeDeletionDataStructures")
-                        .HasForeignKey("TestClozeDeletionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Mneme.Model.TestCreation.TestClozeDeletion", b =>
-                {
-                    b.HasOne("Mneme.Model.TestCreation.TestInfo", "TestInfo")
-                        .WithMany()
-                        .HasForeignKey("TestInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TestInfo");
                 });
 
             modelBuilder.Entity("Mneme.Model.TestCreation.TestMultipleChoice", b =>
@@ -236,11 +169,6 @@ namespace Mneme.Testing.Migrations
                         .IsRequired();
 
                     b.Navigation("TestInfo");
-                });
-
-            modelBuilder.Entity("Mneme.Model.TestCreation.TestClozeDeletion", b =>
-                {
-                    b.Navigation("ClozeDeletionDataStructures");
                 });
 
             modelBuilder.Entity("Mneme.Model.TestCreation.TestMultipleChoices", b =>

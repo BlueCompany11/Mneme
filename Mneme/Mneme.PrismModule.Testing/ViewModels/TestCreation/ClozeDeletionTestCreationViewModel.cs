@@ -19,14 +19,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		public string Text
 		{
 			get => text;
-			set
-			{
-				if (!freezeText)
-				{
-					_ = SetProperty(ref text, value);
-					AddText?.Invoke();
-				}
-			}
+			set => SetProperty(ref text, value);
 		}
 		private ObservableCollection<string> clozeDeletions;
 		public ObservableCollection<string> ClozeDeletions
@@ -54,14 +47,12 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			get => selectedImportanceOption;
 			set => SetProperty(ref selectedImportanceOption, value);
 		}
-
-		private List<ClozeDeletionDataStructure> ClozeDeletionDataStructures { get; set; }
+		List<TestShortAnswer> tests;
 		private Note Note { get; set; }
 		public DelegateCommand CreateTestCommand { get; set; }
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
-		private bool freezeText;
 
 		public ClozeDeletionTestCreationViewModel(TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
 		{
@@ -72,7 +63,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
 			CreateTestCommand = new DelegateCommand(CreateTest);
-			ClozeDeletionDataStructures = [];
+			tests = new();
 		}
 
 		private void CreateTest()
@@ -84,16 +75,12 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				return;
 			}
 			int importance = testImportanceMapper.Map(SelectedImportanceOption);
-			var testClozeDeletion = new TestClozeDeletion
+			foreach (var test in tests)
 			{
-				Text = Text,
-				Importance = importance,
-				NoteId = Note.Id,
-				ClozeDeletionDataStructures = ClozeDeletionDataStructures,
-				Created = DateTime.Now
-			};
-			repository.CreateTest(testClozeDeletion);
-			snackbarMessageQueue.Enqueue("Test created");
+				repository.CreateTest(test);
+			}
+			var message = tests.Count == 1 ? "Test created" : "Tests created";
+			snackbarMessageQueue.Enqueue(message);
 		}
 		public void MarkClozeDeletion(int start, int end)
 		{
@@ -103,16 +90,15 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				snackbarMessageQueue.Enqueue("Marked text is invalid.");
 				return;
 			}
-			freezeText = true;
-			string text = Text[start..end];
-			ClozeDeletionDataStructures.Add(new ClozeDeletionDataStructure { Start = start, End = end });
-			ClozeDeletions.Add(text);
+			string answer = Text[start..end];
+			var question = Text[..start] + "_____" + Text[end..];
+			tests.Add(new TestShortAnswer { Question = question, Answer = answer, Importance = 0, Created = DateTime.Now, NoteId = Note.Id });
+			ClozeDeletions.Add(answer);
+			Text = Note.Content;
 		}
 		public void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			ClearTextFromUi?.Invoke();
 			Note = navigationContext.Parameters.GetValue<Note>("note");
-			freezeText = false;
 			Text = Note.Content;
 			ClozeDeletions.Clear();
 		}
@@ -126,7 +112,5 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		{
 
 		}
-		public event Action ClearTextFromUi;
-		public event Action AddText;
 	}
 }

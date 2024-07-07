@@ -29,18 +29,13 @@
             <TextBlock Margin="0,16,0,0"
                        Style="{StaticResource Labels}"
                        Text="Text" />
-            <RichTextBox x:Name="textRichTextBox"
-                         MaxWidth="500"
-                         HorizontalAlignment="Left"
-                         AcceptsReturn="False"
-                         IsReadOnly="True"
-                         VerticalScrollBarVisibility="Auto">
-                <FlowDocument PageHeight="180">
-                    <Paragraph Name="TextParagraph">
-                        <Run Text="{Binding Text}" />
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
+            <TextBox x:Name="textRichTextBox"
+                     MaxWidth="500"
+                     HorizontalAlignment="Left"
+                     AcceptsReturn="False"
+                     VerticalScrollBarVisibility="Auto"
+                     Text="{Binding Text}">
+            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="1"
                     Grid.Column="1">

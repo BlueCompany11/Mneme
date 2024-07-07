@@ -8,10 +8,8 @@ namespace Mneme.Testing.Database
 	{
 		public DbSet<TestShortAnswer> TestShortAnswers { get; set; }
 		public DbSet<TestMultipleChoices> TestMultipleChoices { get; set; }
-		public DbSet<TestClozeDeletion> TestClozeDeletions { get; set; }
 		public DbSet<TestInfo> TestInfos { get; set; }
 		public DbSet<TestMultipleChoice> TestMultipleChoice { get; set; }
-		public DbSet<ClozeDeletionDataStructure> ClozeDeletionDataStructure { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -20,6 +18,7 @@ namespace Mneme.Testing.Database
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.HasKey(e => e.Id);
 				entity.HasOne(e => e.TestInfo);
+				entity.Property(e => e.Created).HasDefaultValueSql("CURRENT_TIMESTAMP");
 			});
 			modelBuilder.Entity<TestMultipleChoices>(entity =>
 			{
@@ -27,6 +26,7 @@ namespace Mneme.Testing.Database
 				entity.HasKey(e => e.Id);
 				entity.HasOne(e => e.TestInfo);
 				entity.HasMany(e => e.Answers);
+				entity.Property(e => e.Created).HasDefaultValueSql("CURRENT_TIMESTAMP");
 			});
 			modelBuilder.Entity<TestMultipleChoice>(entity =>
 			{
@@ -38,13 +38,6 @@ namespace Mneme.Testing.Database
 			{
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.HasKey(e => e.Id);
-			});
-			modelBuilder.Entity<TestClozeDeletion>(entity =>
-			{
-				entity.Property(e => e.Id).ValueGeneratedOnAdd();
-				entity.HasKey(e => e.Id);
-				entity.HasOne(e => e.TestInfo);
-				entity.HasMany(e => e.ClozeDeletionDataStructures);
 			});
 		}
 	}

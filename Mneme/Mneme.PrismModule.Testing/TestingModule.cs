@@ -32,7 +32,6 @@ namespace Mneme.PrismModule.Testing
 
 			containerRegistry.Register<TestPreviewProvider>();
 			containerRegistry.Register<TestTypeProvider>();
-			containerRegistry.Register<ClozeTestTextHelper>();
 			containerRegistry.Register<TestImportanceMapper>();
 			containerRegistry.Register<Fibo>();
 			containerRegistry.Register<SpaceRepetition>();
