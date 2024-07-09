@@ -2,7 +2,7 @@
 
 namespace Mneme.Dashboard
 {
-	public class StatisticsProvider : IDisposable
+	public class StatisticsProvider
 	{
 		private readonly IBundledIntegrationFacades integration;
 
@@ -16,9 +16,5 @@ namespace Mneme.Dashboard
 		public async Task<string?> GetMostRecentSource(CancellationToken ct = default) => (await integration.GetKnownSources()).OrderBy(x => x.CreationTime).Select(x => x.Title).FirstOrDefault();
 		public async Task<string?> GetMostRecentNote(CancellationToken ct = default) => (await integration.GetKnownNotes()).OrderBy(x => x.CreationTime).Select(x => x.Title + Environment.NewLine + x.Content).FirstOrDefault();
 
-		public void Dispose()
-		{
-			integration.Dispose();
-		}
 	}
 }

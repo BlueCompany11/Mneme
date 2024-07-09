@@ -6,7 +6,7 @@ using Mneme.Model;
 
 namespace Mneme.Core
 {
-	public interface IBundledIntegrationFacades : IDisposable
+	public interface IBundledIntegrationFacades
 	{
 		Task ActivateSource(int id, string type, CancellationToken ct = default);
 		Task IgnoreSource(int id, string type, CancellationToken ct = default);

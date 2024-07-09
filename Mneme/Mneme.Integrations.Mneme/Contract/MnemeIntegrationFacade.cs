@@ -18,8 +18,8 @@ namespace Mneme.Integrations.Mneme.Contract
 		}
 		public override async Task<IReadOnlyList<MnemeNote>> GetNotes(CancellationToken ct)
 		{
-			var notes = await context.Set<MnemeNote>().Include(x => x.Source).ToListAsync(ct);
-			return notes;
+			using var context = CreateContext();
+			return await context.Set<MnemeNote>().Include(x => x.Source).ToListAsync(ct);
 		}
 	}
 }
