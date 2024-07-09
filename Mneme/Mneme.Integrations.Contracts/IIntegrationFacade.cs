@@ -2,7 +2,7 @@
 
 namespace Mneme.Integrations.Contracts
 {
-	public interface IIntegrationFacade<S, N> : IDatabase, IDisposable
+	public interface IIntegrationFacade<S, N> : IDatabase
 		where S : Source
 		where N : Note
 	{

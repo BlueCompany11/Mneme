@@ -11,7 +11,7 @@ using Mneme.Model;
 
 namespace Mneme.PrismModule.Integration.Facade
 {
-	public class BundledIntegrationFacades : IBundledIntegrationFacades, IDisposable
+	public class BundledIntegrationFacades : IBundledIntegrationFacades
 	{
 		private readonly IIntegrationFacade<GoogleBooksSource, GoogleBooksNote> googleBooksIntegration;
 		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
@@ -145,26 +145,6 @@ namespace Mneme.PrismModule.Integration.Facade
 				return await mnemeIntegration.GetSource(id, ct);
 			}
 			throw new ArgumentException("Type value didn't match to any of the source types");
-		}
-
-		protected virtual void Dispose(bool disposing)
-		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					googleBooksIntegration.Dispose();
-					mnemeIntegration.Dispose();
-					pluralsightIntegration.Dispose();
-				}
-				disposedValue = true;
-			}
-		}
-
-		public void Dispose()
-		{
-			Dispose(disposing: true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

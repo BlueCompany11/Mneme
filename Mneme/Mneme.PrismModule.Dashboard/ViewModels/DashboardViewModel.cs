@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Mneme.Dashboard;
 using Mneme.PrismModule.Integration.Facade;
@@ -68,19 +69,27 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 
 		private async Task LoadData(CancellationToken ct)
 		{
-			ActiveSourcesAmount = await statistics.GetKnownSourcesCount(ct);
-			if (ct.IsCancellationRequested)
-				return;
-			ActiveNotesAmount = await statistics.GetKnownNotesCount(ct);
-			if (ct.IsCancellationRequested)
-				return;
-			MostRecentSource = await statistics.GetMostRecentSource(ct);
-			if (ct.IsCancellationRequested)
-				return;
-			MostRecentNote = await statistics.GetMostRecentNote(ct);
-			if (ct.IsCancellationRequested)
-				return;
-			return;
+			var tasks = new List<Task>
+			{
+					Task.Run(async () =>
+					{
+							ActiveSourcesAmount = await statistics.GetKnownSourcesCount(ct);
+					}),
+					Task.Run(async () =>
+					{
+							ActiveNotesAmount = await statistics.GetKnownNotesCount(ct);
+					}),
+					Task.Run(async () =>
+					{
+							MostRecentSource = await statistics.GetMostRecentSource(ct);
+					}),
+					Task.Run(async () =>
+					{
+							MostRecentNote = await statistics.GetMostRecentNote(ct);
+					})
+			};
+
+			await Task.WhenAll(tasks);
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)

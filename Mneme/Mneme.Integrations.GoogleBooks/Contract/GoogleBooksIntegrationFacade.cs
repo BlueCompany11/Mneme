@@ -25,6 +25,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 
 		public override async Task<IReadOnlyList<GoogleBooksNote>> GetKnownNotes(bool activeOnly, CancellationToken ct)
 		{
+			using var context = CreateContext();
 			return await context.Set<GoogleBooksNote>().ToListAsync(ct);
 			//TODO activeOnly
 		}

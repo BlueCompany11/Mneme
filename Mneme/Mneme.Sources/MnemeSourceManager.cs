@@ -4,7 +4,7 @@ using Mneme.Integrations.Mneme.Contract;
 
 namespace Mneme.Sources
 {
-	public class MnemeSourceManager : IDisposable
+	public class MnemeSourceManager
 	{
 		private readonly IBundledIntegrationFacades integration;
 		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
@@ -37,11 +37,6 @@ namespace Mneme.Sources
 			existingSource.IntegrationId = MnemeSource.GenerateIntegrationId(title, details); //important to remember to update the IntegrationId
 			await mnemeIntegration.UpdateSource(existingSource, ct);
 			return (MnemeSource)await integration.GetSource(id, MnemeSource.Type);
-		}
-
-		public void Dispose()
-		{
-			integration.Dispose();
 		}
 	}
 }

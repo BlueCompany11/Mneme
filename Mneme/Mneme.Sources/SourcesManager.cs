@@ -6,7 +6,7 @@ using Mneme.Model;
 
 namespace Mneme.Sources
 {
-	public class SourcesManager : IDisposable
+	public class SourcesManager
 	{
 		private readonly IBundledIntegrationFacades integration;
 		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
@@ -48,11 +48,6 @@ namespace Mneme.Sources
 		public async Task<IReadOnlyList<Source>> GetSourcesPreviewAsync(CancellationToken ct = default)
 		{
 			return (await integration.GetSources(true, ct)).ToList();
-		}
-
-		public void Dispose()
-		{
-			integration.Dispose();
 		}
 	}
 }
