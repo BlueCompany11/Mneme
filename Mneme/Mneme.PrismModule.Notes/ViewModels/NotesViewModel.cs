@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model;
 using Mneme.Notes;
@@ -78,7 +76,6 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				}
 			}
 		}
-		private static readonly object _syncLock = new();
 
 		public DelegateCommand OpenNewNoteViewCommand { get; set; }
 		public DelegateCommand<Note> DeleteNoteCommand { get; set; }
@@ -90,28 +87,8 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			this.regionManager = regionManager;
 			this.utilty = utilty;
 			this.navigator = navigator;
-			BindingOperations.EnableCollectionSynchronization(NotesPreview, _syncLock);
 			OpenNewNoteViewCommand = new DelegateCommand(OpenNewNoteView);
 			DeleteNoteCommand = new DelegateCommand<Note>(DeleteNote, (p) => p?.GetType() == typeof(MnemeNote));
-		}
-
-		private async Task GetNotes(CancellationToken ct)
-		{
-			Notes = new List<Note>(await utilty.GetNotes(ct));
-		}
-
-		private void NotesProvider_NotesUpdated()
-		{
-			Notes = Notes.OrderByDescending(x => x.CreationTime).ToList();
-			lock (_syncLock)
-			{
-				NotesPreview.Clear();
-				foreach (var item in Notes)
-				{
-					NotesPreview.Add(item);
-				}
-				cachedNotesPreview = new List<Note>(NotesPreview);
-			}
 		}
 
 		private void OpenNewNoteView()
@@ -153,17 +130,12 @@ namespace Mneme.PrismModule.Notes.ViewModels
 							cachedNotesPreview = new List<Note>(NotesPreview);
 						}
 						catch (TaskCanceledException) { }
-						Application.Current.Dispatcher.Invoke(() =>
-						{
-							lock (_syncLock)
-							{
-								NotesPreview.Clear();
-								NotesPreview.AddRange(Notes);
-							}
-							IsLoading = false;
-						});
 					});
+					NotesPreview.Clear();
+					NotesPreview.AddRange(Notes);
+					IsLoading = false;
 				}
+				cts = null;
 			}
 
 			void ShowNewMnemeNote(NavigationContext navigationContext)
@@ -181,11 +153,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		{
 			if (navigationContext.Uri.OriginalString == nameof(NewMnemeNoteView))
 				return;
-			try
-			{
-				cts?.Cancel();
-			}
-			catch (System.ObjectDisposedException) { }
+			cts?.Cancel();
 		}
 	}
 }
