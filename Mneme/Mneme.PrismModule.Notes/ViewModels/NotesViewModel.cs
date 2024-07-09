@@ -148,12 +148,18 @@ namespace Mneme.PrismModule.Notes.ViewModels
 					{
 						try
 						{
-							await GetNotes(cts.Token);
+							Notes = new List<Note>(await utilty.GetNotes(cts.Token));
+							Notes = Notes.OrderByDescending(x => x.CreationTime).ToList();
+							cachedNotesPreview = new List<Note>(NotesPreview);
 						}
 						catch (TaskCanceledException) { }
 						Application.Current.Dispatcher.Invoke(() =>
 						{
-							NotesProvider_NotesUpdated();
+							lock (_syncLock)
+							{
+								NotesPreview.Clear();
+								NotesPreview.AddRange(Notes);
+							}
 							IsLoading = false;
 						});
 					});
