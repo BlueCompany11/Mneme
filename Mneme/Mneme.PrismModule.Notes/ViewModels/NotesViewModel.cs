@@ -121,20 +121,20 @@ namespace Mneme.PrismModule.Notes.ViewModels
 				using (cts = new CancellationTokenSource())
 				{
 					IsLoading = true;
-					await Task.Run(async () =>
+					var getNotesTask = utilty.GetNotes(cts.Token);
+					var completedTask = await Task.WhenAny(getNotesTask, Task.Delay(Timeout.Infinite, cts.Token));
+
+					if (completedTask == getNotesTask)
 					{
-						try
-						{
-							Notes = new List<Note>(await utilty.GetNotes(cts.Token));
-							Notes = Notes.OrderByDescending(x => x.CreationTime).ToList();
-							cachedNotesPreview = new List<Note>(NotesPreview);
-						}
-						catch (TaskCanceledException) { }
-					});
-					NotesPreview.Clear();
-					NotesPreview.AddRange(Notes);
-					IsLoading = false;
+						Notes = new List<Note>(getNotesTask.Result);
+						Notes = Notes.OrderByDescending(x => x.CreationTime).ToList();
+						cachedNotesPreview = new List<Note>(NotesPreview);
+					}
 				}
+
+				NotesPreview.Clear();
+				NotesPreview.AddRange(Notes);
+				IsLoading = false;
 				cts = null;
 			}
 

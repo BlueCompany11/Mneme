@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows;
 using Mneme.PrismModule.Testing.Views.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.Contracts;
@@ -95,10 +97,13 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			Tests.Remove(test);
 		}
 
-		public void OnNavigatedTo(NavigationContext navigationContext)
+		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			Tests?.Clear();
-			Tests = new ObservableCollection<TestDataPreview>(testPreviewProvider.GetTests());
+			await Task.Run(() => { 
+				var tests = testPreviewProvider.GetTests();
+				Application.Current.Dispatcher.Invoke(() => Tests = new ObservableCollection<TestDataPreview>(tests));
+			});
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)
