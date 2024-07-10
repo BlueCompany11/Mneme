@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Mneme.Model.TestCreation;
@@ -15,6 +16,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 	{
 		private readonly TestPreviewProvider testPreviewProvider;
 		private readonly IRegionManager regionManager;
+		private CancellationTokenSource cts;
 
 		private Queue<IUserTest> UserTests { get; set; }
 		public DelegateCommand NextTestCommand { get; set; }
@@ -43,7 +45,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		public void NextTest()
 		{
 			var test = CurrentTest;
-			
+
 			bool isNextTest = UserTests.TryPeek(out test);
 			if (!isNextTest)
 			{
@@ -54,7 +56,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			CurrentTest.Tested(true);
 			var param = new NavigationParameters()
 			{
-				{ "test", UserTests.Dequeue() }
+					{ "test", UserTests.Dequeue() }
 			};
 			if (CurrentTest is TestShortAnswer)
 			{
@@ -72,16 +74,23 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-
+			if(UserTests.Count > 0)
+			{
+				cts?.Cancel();
+			}
 		}
 
 		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			await Task.Run(() =>
+			using (cts = new CancellationTokenSource())
 			{
-				UserTests = testPreviewProvider.GetTestsForToday();
-				NextTest();
-			});
+				await Task.Run(() =>
+				{
+					UserTests = testPreviewProvider.GetTestsForToday();
+					NextTest();
+				}, cts.Token);
+			}
+			cts = null;
 		}
 	}
 }

@@ -153,7 +153,8 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		{
 			if (navigationContext.Uri.OriginalString == nameof(NewMnemeNoteView))
 				return;
-			cts?.Cancel();
+			if(Notes.Count != 0)
+				cts?.Cancel();
 		}
 	}
 }
