@@ -174,7 +174,8 @@ namespace Mneme.PrismModule.Sources.ViewModels
 
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-			cts?.Cancel();
+			if(Sources.Count != 0)
+				cts?.Cancel();
 		}
 	}
 }

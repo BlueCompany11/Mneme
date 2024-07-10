@@ -99,6 +99,8 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
+			if (MostRecentSource == default || MostRecentNote == default)
+				return;
 			cts?.Cancel();
 		}
 
