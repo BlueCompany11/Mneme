@@ -20,13 +20,13 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 		}
 		public override async Task<IReadOnlyList<GoogleBooksNote>> GetNotes(CancellationToken ct)
 		{
-			return await noteProvider.GetNotesAsync(ct);
+			return await noteProvider.GetNotesAsync(ct).ConfigureAwait(false);
 		}
 
 		public override async Task<IReadOnlyList<GoogleBooksNote>> GetKnownNotes(bool activeOnly, CancellationToken ct)
 		{
 			using var context = CreateContext();
-			return await context.Set<GoogleBooksNote>().ToListAsync(ct);
+			return await context.Set<GoogleBooksNote>().ToListAsync(ct).ConfigureAwait(false);
 			//TODO activeOnly
 		}
 	}

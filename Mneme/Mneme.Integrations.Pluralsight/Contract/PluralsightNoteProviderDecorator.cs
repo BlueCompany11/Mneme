@@ -21,10 +21,10 @@ namespace Mneme.Integrations.Pluralsight.Contract
 			using var pluralsightContext = new PluralsightContext();
 			if (pluralsightNoteProvider.TryOpen(pluralsightConfigProvider.Config.FilePath, out var note))
 			{
-				await AddNewSources(note, pluralsightContext, ct);
-				_ = await pluralsightContext.SaveChangesAsync(ct);
+				await AddNewSources(note, pluralsightContext, ct).ConfigureAwait(false);
+				_ = await pluralsightContext.SaveChangesAsync(ct).ConfigureAwait(false);
 				AddNewNotes(note, pluralsightContext);
-				_ = await pluralsightContext.SaveChangesAsync(ct);
+				_ = await pluralsightContext.SaveChangesAsync(ct).ConfigureAwait(false);
 			}
 			foreach (var item in pluralsightContext.PluralsightNotes.Where(x => x.Source.Active))
 			{
@@ -36,7 +36,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 		private async Task AddNewSources(List<PluralsightNote> notes, PluralsightContext pluralsightContext, CancellationToken ct)
 		{
 			var uniqueSources = notes.GroupBy(x => x.Source.IntegrationId).Select(x => x.First().Source).ToList();
-			var existingSources = await pluralsightContext.PluralsightSources.ToListAsync(ct);
+			var existingSources = await pluralsightContext.PluralsightSources.ToListAsync(ct).ConfigureAwait(false);
 			foreach (var source in uniqueSources)
 			{
 				var existingSource = existingSources.FirstOrDefault(x => x.IntegrationId == source.IntegrationId);

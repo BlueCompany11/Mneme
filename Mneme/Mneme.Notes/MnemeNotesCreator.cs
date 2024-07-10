@@ -16,13 +16,13 @@ namespace Mneme.Notes
 		{
 			var newSource = (await mnemeIntegration.GetSource(source.Id, ct));
 			var note = new MnemeNote() { IntegrationId = Guid.NewGuid().ToString(), Content = content, Title = title, Path = path, CreationTime = DateTime.Now, Source = newSource };
-			await mnemeIntegration.CreateNote(note);
+			await mnemeIntegration.CreateNote(note).ConfigureAwait(false);
 			return note;
 		}
 
 		public async Task<IReadOnlyList<Source>> GetSourcesPreviews(CancellationToken ct)
 		{
-			return (await mnemeIntegration.GetActiveSources(ct)).ToList();
+			return (await mnemeIntegration.GetActiveSources(ct).ConfigureAwait(false)).ToList();
 		}
 	}
 }

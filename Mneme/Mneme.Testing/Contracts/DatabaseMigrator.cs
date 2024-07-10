@@ -9,7 +9,7 @@ namespace Mneme.Testing.Contracts
 		public async Task MigrateDatabase(CancellationToken ct)
 		{
 			using var context = new TestingContext();
-			await context.Database.MigrateAsync(ct);
+			await context.Database.MigrateAsync(ct).ConfigureAwait(false);
 		}
 	}
 }

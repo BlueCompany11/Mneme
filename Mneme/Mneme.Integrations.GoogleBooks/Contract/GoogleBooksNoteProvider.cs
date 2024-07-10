@@ -24,7 +24,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 			{
 				return ret;
 			}
-			var notes = await googleBooksService.LoadNotes(ct);
+			var notes = await googleBooksService.LoadNotes(ct).ConfigureAwait(false);
 			if (ct.IsCancellationRequested)
 				return ret;
 			//add sources
@@ -35,7 +35,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 
 			using var googleBooksContext = new GoogleBooksContext();
 			//check if new sources are in database
-			var existingSources = await googleBooksContext.GoogleBooksSources.ToListAsync(ct);
+			var existingSources = await googleBooksContext.GoogleBooksSources.ToListAsync(ct).ConfigureAwait(false);
 			foreach (var existingSource in existingSources)
 			{
 				if (uniqueSources.ContainsKey(existingSource.IntegrationId))
@@ -43,7 +43,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 			}
 
 			googleBooksContext.AddRange(uniqueSources.Values);
-			await googleBooksContext.SaveChangesAsync(ct);
+			await googleBooksContext.SaveChangesAsync(ct).ConfigureAwait(false);
 			foreach (var entity in notes)
 			{
 				var note = googleBooksContext.GoogleBooksNotes.FirstOrDefault(x => x.IntegrationId == entity.IntegrationId);
@@ -54,7 +54,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 					googleBooksContext.Update(entity);
 				}
 			}
-			_ = await googleBooksContext.SaveChangesAsync(ct);
+			_ = await googleBooksContext.SaveChangesAsync(ct).ConfigureAwait(false);
 			foreach (var item in googleBooksContext.GoogleBooksNotes.Where(x => x.Source.Active))
 			{
 				ret.Add(item);

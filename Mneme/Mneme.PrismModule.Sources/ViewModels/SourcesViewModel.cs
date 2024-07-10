@@ -159,7 +159,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				{
 					Sources.Clear();
 					Sources.AddRange(getSourcesTask.Result);
-					allSourcesPreview = new List<Source>(Sources);//todo
+					allSourcesPreview = new List<Source>(Sources);
 					IsLoading = false;
 					RaisePropertyChanged(nameof(SourcesListEmpty));
 				}

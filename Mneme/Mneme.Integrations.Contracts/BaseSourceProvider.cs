@@ -26,7 +26,7 @@ namespace Mneme.Integrations.Contracts
 		public async Task<List<Source>> GetSourcesAsync(bool onlyActive, CancellationToken ct)
 		{
 			var ret = new List<Source>();
-			var fromAccount = await GetSourcesFromAccountAsync(ct);
+			var fromAccount = await GetSourcesFromAccountAsync(ct).ConfigureAwait(false);
 			var fromDatabase = GetSourcesFromDatabase();
 			var unique = FindUnique(fromAccount, fromDatabase);
 			AddSources(unique);
@@ -37,14 +37,14 @@ namespace Mneme.Integrations.Contracts
 			return ret;
 		}
 
-		public async Task<List<Source>> GetKnownSourcesAsync(bool onlyActive, CancellationToken cancellationToken)
+		public Task<List<Source>> GetKnownSourcesAsync(bool onlyActive, CancellationToken cancellationToken)
 		{
 			var ret = new List<Source>();
 			var fromDatabase = GetSourcesFromDatabase();
 			if (onlyActive)
 				fromDatabase = fromDatabase.Where(x => x.Active).ToList();
 			ret.AddRange(fromDatabase);
-			return ret;
+			return Task.FromResult(ret);
 		}
 	}
 }

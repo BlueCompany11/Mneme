@@ -11,7 +11,7 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 {
 	public class GoogleBooksService : IDisposable
 	{
-		protected UserCredential credential;
+		protected UserCredential? credential;
 		protected readonly GoogleCredentialsProvider googleCredentialsProvider;
 		protected string AppName => "Mneme";
 
@@ -21,7 +21,7 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 		private List<GoogleBooksAnnotation> annotations;
 		protected string[] scope => [BooksService.Scope.Books];
 
-		private BooksService service;
+		private BooksService? service;
 
 		public GoogleBooksService(GoogleCredentialsProvider googleCredentialsProvider)
 		{
@@ -78,8 +78,9 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 			List<Volumes> volumes = new List<Volumes>();
 			try
 			{
-				var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync(ct);
-				volumes = await GetVolumesAsync(bookshelves, ct);
+				var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync(ct).ConfigureAwait(false)
+					;
+				volumes = await GetVolumesAsync(bookshelves, ct).ConfigureAwait(false);
 				return FilterVolumes(volumes);
 			}
 			catch (GoogleApiException)
@@ -104,13 +105,13 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 
 		private async Task LoadAnnotationsAsync(CancellationToken ct)
 		{
-			var volumes = await LoadVolumesAsync(ct);
-			await UpdateAnnotationsAsync(volumes, ct);
+			var volumes = await LoadVolumesAsync(ct).ConfigureAwait(false);
+			await UpdateAnnotationsAsync(volumes, ct).ConfigureAwait(false);
 		}
 
 		public async Task<List<GoogleBooksNote>> LoadNotes(CancellationToken ct)
 		{
-			await LoadAnnotationsAsync(ct);
+			await LoadAnnotationsAsync(ct).ConfigureAwait(false);
 			var ret = new List<GoogleBooksNote>();
 			foreach (var a in annotations)
 				ret.Add(Convert(a));
@@ -134,7 +135,7 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 					request.PageToken = pageToken;
 					try
 					{
-						var annotations = await request.ExecuteAsync(ct);
+						var annotations = await request.ExecuteAsync(ct).ConfigureAwait(false);
 						ret.AddRange(ConvertAnnotations(annotations, vol));
 						pageToken = annotations.NextPageToken;
 					}
@@ -162,7 +163,7 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 					{
 						do
 						{
-							result = await request.ExecuteAsync(ct);
+							result = await request.ExecuteAsync(ct).ConfigureAwait(false);
 							ret.Add(result);
 							request.StartIndex += result.Items?.Count;
 						} while (result.TotalItems > request.StartIndex);
@@ -200,11 +201,8 @@ namespace Mneme.Integrations.GoogleBooks.Authorization
 		{
 			if (disposing)
 			{
-				if (service != null)
-				{
-					service.Dispose();
-					service = null;
-				}
+				service?.Dispose();
+				service = null;
 			}
 		}
 	}

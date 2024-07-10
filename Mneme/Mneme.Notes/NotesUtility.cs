@@ -17,11 +17,11 @@ namespace Mneme.Notes
 		}
 		public async Task<IReadOnlyList<Note>> GetNotes(CancellationToken ct)
 		{
-			return await integration.GetNotes(false, ct);
+			return await integration.GetNotes(false, ct).ConfigureAwait(false);
 		}
 		public async Task DeleteNote(Note note)
 		{
-			await mnemeIntegration.DeleteNote(note.Id, default);
+			await mnemeIntegration.DeleteNote(note.Id, default).ConfigureAwait(false);
 		}
 	}
 }

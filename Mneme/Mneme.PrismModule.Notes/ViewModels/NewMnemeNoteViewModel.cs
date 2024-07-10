@@ -91,7 +91,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			await Task.Run(async () =>
 			{
 				IEnumerable<Source> sources = [];
-				sources = await manager.GetSourcesPreviews(default);
+				sources = await manager.GetSourcesPreviews(default).ConfigureAwait(false);
 				Application.Current.Dispatcher.Invoke(() =>
 				{
 					SourcesPreviews.Clear();
