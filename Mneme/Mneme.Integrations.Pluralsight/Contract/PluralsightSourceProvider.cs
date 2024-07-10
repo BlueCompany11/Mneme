@@ -20,7 +20,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 
 		protected async override Task<List<PluralsightSource>> GetSourcesFromAccountAsync(CancellationToken ct)
 		{
-			var notes = await pluralsightNoteProvider.GetNotesAsync(ct);
+			var notes = await pluralsightNoteProvider.GetNotesAsync(ct).ConfigureAwait(false);
 			notes = notes.GroupBy(x => x.Title).Select(x => x.First()).ToList();
 			var ret = new List<PluralsightSource>();
 			foreach (PluralsightNote item in notes)

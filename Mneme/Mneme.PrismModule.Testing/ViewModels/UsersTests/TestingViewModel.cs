@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using Mneme.Model.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
@@ -74,11 +75,13 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 
 		}
 
-		public void OnNavigatedTo(NavigationContext navigationContext)
+		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			UserTests = testPreviewProvider.GetTestsForToday();
-			NextTest();
+			await Task.Run(() =>
+			{
+				UserTests = testPreviewProvider.GetTestsForToday();
+				NextTest();
+			});
 		}
-
 	}
 }

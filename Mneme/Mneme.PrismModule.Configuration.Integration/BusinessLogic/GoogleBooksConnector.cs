@@ -4,7 +4,7 @@ using Mneme.Integrations.GoogleBooks.Authorization;
 
 namespace Mneme.PrismModule.Configuration.Integration.BusinessLogic
 {
-	public class GoogleBooksConnector
+	public class GoogleBooksConnector:IDisposable
 	{
 		private readonly GoogleBooksService service;
 
@@ -31,6 +31,11 @@ namespace Mneme.PrismModule.Configuration.Integration.BusinessLogic
 			{
 				return false;
 			}
+		}
+
+		public void Dispose()
+		{
+			service.Dispose();
 		}
 	}
 }

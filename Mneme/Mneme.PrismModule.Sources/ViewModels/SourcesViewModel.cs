@@ -152,27 +152,19 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			using (cts = new CancellationTokenSource())
 			{
 				IsLoading = true;
-				await Task.Run(async () =>
+				var getSourcesTask = manager.GetSourcesPreviewAsync(cts.Token);
+				var completedTask = await Task.WhenAny(getSourcesTask, Task.Delay(Timeout.Infinite, cts.Token));
+
+				if (completedTask == getSourcesTask)
 				{
-					IEnumerable<Source> sourcesPreview = [];
-					try
-					{
-						sourcesPreview = await manager.GetSourcesPreviewAsync(cts.Token);
-					}
-					catch (TaskCanceledException) { }
-					Application.Current.Dispatcher.Invoke(() =>
-					{
-						Sources.Clear();
-						foreach (var source in sourcesPreview)
-						{
-							Sources.Add(source);
-						}
-						allSourcesPreview = new List<Source>(Sources);
-						IsLoading = false;
-						RaisePropertyChanged(nameof(SourcesListEmpty));
-					});
-				});
+					Sources.Clear();
+					Sources.AddRange(getSourcesTask.Result);
+					allSourcesPreview = new List<Source>(Sources);
+					IsLoading = false;
+					RaisePropertyChanged(nameof(SourcesListEmpty));
+				}
 			}
+			cts = null;
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -182,11 +174,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-			try
-			{
-				cts?.Cancel();
-			}
-			catch (System.ObjectDisposedException) { }
+			cts?.Cancel();
 		}
 	}
 }

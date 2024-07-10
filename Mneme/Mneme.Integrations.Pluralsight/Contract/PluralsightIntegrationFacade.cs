@@ -22,7 +22,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 		public override async Task<IReadOnlyList<PluralsightNote>> GetNotes(CancellationToken ct)
 		{
 			var ret = new List<PluralsightNote>();
-			foreach (var note in await noteProvider.GetNotesAsync(ct))
+			foreach (var note in await noteProvider.GetNotesAsync(ct).ConfigureAwait(false))
 			{
 				ret.Add((PluralsightNote)note);
 			}
@@ -31,7 +31,7 @@ namespace Mneme.Integrations.Pluralsight.Contract
 		public override async Task<IReadOnlyList<PluralsightSource>> GetSources(CancellationToken ct)
 		{
 			var ret = new List<PluralsightSource>();
-			foreach (var note in await pluralsightSourceProvider.GetSourcesAsync(false, ct))
+			foreach (var note in await pluralsightSourceProvider.GetSourcesAsync(false, ct).ConfigureAwait(false))
 			{
 				ret.Add((PluralsightSource)note);
 			}

@@ -31,7 +31,7 @@ namespace Mneme.Integrations.GoogleBooks.Contract
 			{
 				return ret;
 			}
-			var annotations = await googleBooksService.LoadNotes(ct);
+			var annotations = await googleBooksService.LoadNotes(ct).ConfigureAwait(false);
 			annotations = annotations.GroupBy(x => x.Source.IntegrationId).Select(x => x.First()).ToList();
 			foreach (var item in annotations)
 			{

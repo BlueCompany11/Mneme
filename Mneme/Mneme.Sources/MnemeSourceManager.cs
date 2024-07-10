@@ -20,8 +20,8 @@ namespace Mneme.Sources
 			var source = new MnemeSource { Title = sourceTitle, Details = details, Active = true, IntegrationId = MnemeSource.GenerateIntegrationId(sourceTitle, details) };
 			try
 			{
-				await mnemeIntegration.CreateSource(source);
-				return await mnemeIntegration.GetSource(source.Id, ct);
+				await mnemeIntegration.CreateSource(source).ConfigureAwait(false);
+				return await mnemeIntegration.GetSource(source.Id, ct).ConfigureAwait(false);
 			}
 			catch (Exception)
 			{
@@ -31,12 +31,12 @@ namespace Mneme.Sources
 
 		public async Task<MnemeSource?> UpdateMnemeSource(int id, string title, string details, CancellationToken ct)
 		{
-			var existingSource = await mnemeIntegration.GetSource(id, ct);
+			var existingSource = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 			existingSource.Title = title;
 			existingSource.Details = details;
 			existingSource.IntegrationId = MnemeSource.GenerateIntegrationId(title, details); //important to remember to update the IntegrationId
-			await mnemeIntegration.UpdateSource(existingSource, ct);
-			return (MnemeSource)await integration.GetSource(id, MnemeSource.Type);
+			await mnemeIntegration.UpdateSource(existingSource, ct).ConfigureAwait(false);
+			return (MnemeSource)await integration.GetSource(id, MnemeSource.Type).ConfigureAwait(false);
 		}
 	}
 }

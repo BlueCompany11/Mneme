@@ -33,21 +33,21 @@ namespace Mneme.PrismModule.Integration.Facade
 		{
 			if (type == GoogleBooksSource.Type)
 			{
-				var source = await googleBooksIntegration.GetSource(id, ct);
+				var source = await googleBooksIntegration.GetSource(id, ct).ConfigureAwait(false);
 				source.Active = true;
-				await googleBooksIntegration.UpdateSource(source, ct);
+				await googleBooksIntegration.UpdateSource(source, ct).ConfigureAwait(false);
 			}
 			else if (type == MnemeSource.Type)
 			{
-				var source = await mnemeIntegration.GetSource(id, ct);
+				var source = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 				source.Active = true;
-				await mnemeIntegration.UpdateSource(source, ct);
+				await mnemeIntegration.UpdateSource(source, ct).ConfigureAwait(false);
 			}
 			else if (type == PluralsightSource.Type)
 			{
-				var source = await mnemeIntegration.GetSource(id, ct);
+				var source = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 				source.Active = true;
-				await mnemeIntegration.UpdateSource(source, ct);
+				await mnemeIntegration.UpdateSource(source, ct).ConfigureAwait(false);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			var mnemeTask = mnemeIntegration.GetNotes(ct);
 			var pluralsightTask = pluralsightIntegration.GetNotes(ct);
 
-			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask);
+			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
 			var ret = new List<Note>();
 			ret.AddRange(await googleBooksTask);
@@ -72,7 +72,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			var mnemeTask = mnemeIntegration.GetSources(ct);
 			var pluralsightTask = pluralsightIntegration.GetSources(ct);
 
-			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask);
+			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
 			var ret = new List<Source>();
 			ret.AddRange(await googleBooksTask);
@@ -86,7 +86,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			var mnemeTask = mnemeIntegration.GetKnownSources(onlyActive, ct);
 			var pluralsightTask = pluralsightIntegration.GetKnownSources(onlyActive, ct);
 
-			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask);
+			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
 			var ret = new List<Source>();
 			ret.AddRange(await googleBooksTask);
@@ -101,7 +101,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			var mnemeTask = mnemeIntegration.GetKnownNotes(onlyActive, ct);
 			var pluralsightTask = pluralsightIntegration.GetKnownNotes(onlyActive, ct);
 
-			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask);
+			await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
 			var ret = new List<Note>();
 			ret.AddRange(await googleBooksTask);
@@ -114,35 +114,35 @@ namespace Mneme.PrismModule.Integration.Facade
 		{
 			if (type == GoogleBooksSource.Type)
 			{
-				var source = await googleBooksIntegration.GetSource(id, ct);
+				var source = await googleBooksIntegration.GetSource(id, ct).ConfigureAwait(false);
 				source.Active = false;
-				await googleBooksIntegration.UpdateSource(source, ct);
+				await googleBooksIntegration.UpdateSource(source, ct).ConfigureAwait(false);
 			}
 			else if (type == MnemeSource.Type)
 			{
-				var source = await mnemeIntegration.GetSource(id, ct);
+				var source = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 				source.Active = false;
-				await mnemeIntegration.UpdateSource(source, ct);
+				await mnemeIntegration.UpdateSource(source, ct).ConfigureAwait(false);
 			}
 			else if (type == PluralsightSource.Type)
 			{
-				var source = await mnemeIntegration.GetSource(id, ct);
+				var source = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 				source.Active = false;
-				await mnemeIntegration.UpdateSource(source, ct);
+				await mnemeIntegration.UpdateSource(source, ct).ConfigureAwait(false);
 			}
 		}
 
 		public async Task<Source> GetSource(int id, string type, CancellationToken ct)
 		{
 			if (type == GoogleBooksSource.Type)
-				return await googleBooksIntegration.GetSource(id, ct);
+				return await googleBooksIntegration.GetSource(id, ct).ConfigureAwait(false);
 			else if (type == MnemeSource.Type)
 			{
-				return await mnemeIntegration.GetSource(id, ct);
+				return await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 			}
 			else if (type == PluralsightSource.Type)
 			{
-				return await mnemeIntegration.GetSource(id, ct);
+				return await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 			}
 			throw new ArgumentException("Type value didn't match to any of the source types");
 		}

@@ -99,23 +99,21 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-			try
-			{
-				cts?.Cancel();
-			}
-			catch (System.ObjectDisposedException) { }
+			cts?.Cancel();
 		}
 
 		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			using (cts = new CancellationTokenSource())
 			{
-				try
+				var loadData = LoadData(cts.Token);
+				var completedTask = await Task.WhenAny(loadData, Task.Delay(Timeout.Infinite, cts.Token));
+				if(completedTask == loadData)
 				{
-					await LoadData(cts.Token);
+					await loadData;
 				}
-				catch (TaskCanceledException) { }
 			}
+			cts = null;
 		}
 	}
 }

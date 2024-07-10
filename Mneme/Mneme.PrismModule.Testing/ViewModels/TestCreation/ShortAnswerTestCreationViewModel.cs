@@ -52,7 +52,6 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
-		//id for a test
 		private string oldQuestion;
 
 		public event Action<IDialogResult> RequestClose;

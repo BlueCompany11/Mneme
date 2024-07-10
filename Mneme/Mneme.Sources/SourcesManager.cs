@@ -20,7 +20,7 @@ namespace Mneme.Sources
 		{
 			try
 			{
-				await mnemeIntegration.DeleteSource(source.Id, default);
+				await mnemeIntegration.DeleteSource(source.Id, default).ConfigureAwait(false);
 				return true;
 			}
 			catch (DbUpdateException)
@@ -30,24 +30,24 @@ namespace Mneme.Sources
 		}
 		public async Task<Source> IgnoreSource(Source source)
 		{
-			await integration.IgnoreSource(source.Id, source.TextType);
-			return await integration.GetSource(source.Id, source.TextType);
+			await integration.IgnoreSource(source.Id, source.TextType).ConfigureAwait(false);
+			return await integration.GetSource(source.Id, source.TextType).ConfigureAwait(false);
 		}
 
 		public async Task<Source> ActivateSource(Source source)
 		{
-			await integration.ActivateSource(source.Id, source.TextType);
-			return await integration.GetSource(source.Id, source.TextType);
+			await integration.ActivateSource(source.Id, source.TextType).ConfigureAwait(false);
+			return await integration.GetSource(source.Id, source.TextType).ConfigureAwait(false);
 		}
 
 		public async Task<IReadOnlyList<Source>> GetKnownSourcesPreviewAsync(bool onlyActive = false, CancellationToken ct = default)
 		{
-			return (await integration.GetKnownSources(onlyActive, ct)).ToList();
+			return (await integration.GetKnownSources(onlyActive, ct).ConfigureAwait(false)).ToList();
 		}
 
 		public async Task<IReadOnlyList<Source>> GetSourcesPreviewAsync(CancellationToken ct = default)
 		{
-			return (await integration.GetSources(true, ct)).ToList();
+			return (await integration.GetSources(true, ct).ConfigureAwait(false)).ToList();
 		}
 	}
 }

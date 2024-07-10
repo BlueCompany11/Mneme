@@ -37,13 +37,13 @@ namespace Mneme.Integrations.Contracts
 		public virtual async Task<IReadOnlyList<N>> GetActiveNotes(CancellationToken ct)
 		{
 			using var context = CreateContext();
-			return await context.Set<N>().ToListAsync(ct);
+			return await context.Set<N>().ToListAsync(ct).ConfigureAwait(false);
 		}
 
 		public virtual async Task<IReadOnlyList<S>> GetActiveSources(CancellationToken ct)
 		{
 			using var context = CreateContext();
-			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct);
+			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct).ConfigureAwait(false);
 		}
 
 		public virtual Task<N> GetNote(int id, CancellationToken ct)
@@ -55,13 +55,13 @@ namespace Mneme.Integrations.Contracts
 		public virtual async Task<IReadOnlyList<N>> GetNotes(CancellationToken ct)
 		{
 			using var context = CreateContext();
-			return await context.Set<N>().ToListAsync(ct);
+			return await context.Set<N>().ToListAsync(ct).ConfigureAwait(false);
 		}
 
 		public virtual async Task<IReadOnlyList<N>> GetKnownNotes(bool activeOnly, CancellationToken ct)
 		{
 			using var context = CreateContext();
-			return await context.Set<N>().ToListAsync(ct);
+			return await context.Set<N>().ToListAsync(ct).ConfigureAwait(false);
 			//TODO activeOnly
 		}
 
@@ -74,13 +74,13 @@ namespace Mneme.Integrations.Contracts
 		public virtual async Task<IReadOnlyList<S>> GetSources(CancellationToken ct)
 		{
 			using var context = CreateContext();
-			return await context.Set<S>().ToListAsync(ct);
+			return await context.Set<S>().ToListAsync(ct).ConfigureAwait(false);
 		}
 
 		public virtual async Task<IReadOnlyList<S>> GetKnownSources(bool onlyActive, CancellationToken ct)
 		{
 			using var context = CreateContext();
-			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct);
+			return await context.Set<S>().Where(x => x.Active).ToListAsync(ct).ConfigureAwait(false);
 		}
 
 		public virtual Task CreateSource(S source)
@@ -110,7 +110,7 @@ namespace Mneme.Integrations.Contracts
 		public async Task MigrateDatabase(CancellationToken ct = default)
 		{
 			using var context = CreateContext();
-			await context.Database.MigrateAsync(ct);
+			await context.Database.MigrateAsync(ct).ConfigureAwait(false);
 		}
 	}
 }
