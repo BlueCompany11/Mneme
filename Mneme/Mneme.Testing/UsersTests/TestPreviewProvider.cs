@@ -27,8 +27,8 @@ namespace Mneme.Testing.UsersTests
 		private Queue<TestDataPreview> GetAllTests()
 		{
 			var ret = new Queue<TestDataPreview>();
-			var shortAnswers = repository.GetMultipleChoicesTests();
-			var multipleChoice = repository.GetShortAnswerTests();
+			var shortAnswers = repository.GetShortAnswerTests();
+			var multipleChoice = repository.GetMultipleChoicesTests();
 			foreach (var item in shortAnswers)
 			{
 				ret.Enqueue(new TestDataPreview { Title = item.Question, CreationTime = item.Created, Type = testTypeProvider.ShortAnswer });
@@ -44,8 +44,8 @@ namespace Mneme.Testing.UsersTests
 		{
 			using var testingContext = new TestingContext();
 			var ret = new Queue<IUserTest>();
-			var shortAnswers = repository.GetMultipleChoicesTests();
-			var multipleChoice = repository.GetShortAnswerTests();
+			var shortAnswers = repository.GetShortAnswerTests();
+			var multipleChoice = repository.GetMultipleChoicesTests();
 			foreach (var item in shortAnswers)
 			{
 				if (spaceRepetition.ShouldBeTested(item))
