@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Mneme.Model;
 using Mneme.Model.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.UsersTests;
@@ -87,7 +88,10 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 				await Task.Run(() =>
 				{
 					UserTests = testPreviewProvider.GetTestsForToday();
-					NextTest();
+					Application.Current.Dispatcher.Invoke(() =>
+					{
+						NextTest();
+					});
 				}, cts.Token);
 			}
 			cts = null;
