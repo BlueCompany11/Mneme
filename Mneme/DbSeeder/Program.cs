@@ -11,18 +11,25 @@ namespace DbSeeder
 		static void Main(string[] args)
 		{
 			var faker = new Faker();
-
 			var sources = new List<MnemeSource>();
 			var notes = new List<MnemeNote>();
 			var repository = new MnemeIntegrationFacade();
 			var testingRepository = new TestingRepository();
-			for (int i = 0 ; i < 100 ; i++)
+
+			int amountOfSources = 100;
+			int amountOfNotesPerSourceMin = 0;
+			int amountOfNotesPerSourceMax = 10;
+			int amountOfTestsPerNoteMin = 0;
+			int amountOfTestsPerNoteMax = 2;
+			int amountOfAnswersInMultipleChoiceTest = 6;
+
+			for (int i = 0 ; i < amountOfSources ; i++)
 			{
 				var source = new Faker<MnemeSource>()
-						.RuleFor(s => s.Title, f => f.Lorem.Sentence())
+						.RuleFor(s => s.Title, f => f.Random.Words())
 						.RuleFor(s => s.CreationTime, f => f.Date.Past())
 						.RuleFor(s => s.Active, f => f.Random.Bool())
-						.RuleFor(s => s.Details, f => f.Lorem.Paragraph())
+						.RuleFor(s => s.Details, f => f.Internet.Url())
 						.RuleFor(s => s.IntegrationId, (f, s) => MnemeSource.GenerateIntegrationId(s.Title, s.Details))
 						.Generate();
 				sources.Add(source);
@@ -31,15 +38,15 @@ namespace DbSeeder
 			Random random = new Random();
 			foreach (var source in sources)
 			{
-				int amountOfNotes = random.Next(0, 11);
+				int amountOfNotes = random.Next(amountOfNotesPerSourceMin, amountOfNotesPerSourceMax + 1);
 				for (int i = 0 ; i < amountOfNotes ; i++)
 				{
 					var note = new Faker<MnemeNote>()
-						.RuleFor(n => n.Title, f => f.Lorem.Sentence())
+						.RuleFor(n => n.Title, f => f.Random.Words())
 						.RuleFor(n => n.CreationTime, f => f.Date.Past())
-						.RuleFor(n => n.Content, f => f.Lorem.Paragraph())
+						.RuleFor(n => n.Content, f => f.Random.Words())
 						.RuleFor(n => n.IntegrationId, f => f.Random.Guid().ToString())
-						.RuleFor(n => n.Path, f => f.Lorem.Paragraph())
+						.RuleFor(n => n.Path, f => f.Internet.Url())
 						.RuleFor(n => n.Source, f => source)
 						.Generate();
 					notes.Add(note);
@@ -48,7 +55,7 @@ namespace DbSeeder
 			}
 			foreach (var note in notes)
 			{
-				int amountOfTests = random.Next(0, 3);
+				int amountOfTests = random.Next(amountOfTestsPerNoteMin, amountOfTestsPerNoteMax + 1);
 				for (int i = 0 ; i < amountOfTests ; i++)
 				{
 					if (random.Next(0, 2) == 0)
@@ -66,7 +73,14 @@ namespace DbSeeder
 					else
 					{
 						var answers = new List<TestMultipleChoice>();
-						for (int j = 0 ; j < 6 ; j++)
+
+						//add at least one correct answer
+						var corrcetAnswer = new Faker<TestMultipleChoice>()
+								.RuleFor(t => t.Answer, f => f.Random.Word())
+								.RuleFor(t => t.IsCorrect, f => true);
+						answers.Add(corrcetAnswer);
+
+						for (int j = 0 ; j < amountOfAnswersInMultipleChoiceTest ; j++)
 						{
 							var answer = new Faker<TestMultipleChoice>()
 								.RuleFor(t => t.Answer, f => f.Random.Word())
