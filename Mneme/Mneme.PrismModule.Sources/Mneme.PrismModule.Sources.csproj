@@ -9,5 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mneme.Sources\Mneme.Sources.csproj" />
+    <ProjectReference Include="..\Mneme.Views.Base\Mneme.Views.Base.csproj" />
   </ItemGroup>
 </Project>

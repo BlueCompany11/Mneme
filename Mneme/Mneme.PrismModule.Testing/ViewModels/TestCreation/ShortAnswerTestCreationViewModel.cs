@@ -5,6 +5,7 @@ using Mneme.Model;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.TestCreation;
+using Mneme.Testing.UsersTests;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -52,16 +53,18 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 		private readonly TestImportanceMapper testImportanceMapper;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly TestingRepository repository;
+		private readonly TestTypeProvider testTypeProvider;
 		private string oldQuestion;
 
 		public event Action<IDialogResult> RequestClose;
 
 		private Note Note { get; set; }
-		public ShortAnswerTestCreationViewModel(TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository)
+		public ShortAnswerTestCreationViewModel(TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository, TestTypeProvider testTypeProvider)
 		{
 			this.testImportanceMapper = testImportanceMapper;
 			this.snackbarMessageQueue = snackbarMessageQueue;
 			this.repository = repository;
+			this.testTypeProvider = testTypeProvider;
 			ImportanceOptions = testImportanceMapper.ImportanceOptions;
 			SelectedImportanceOption = ImportanceOptions[0];
 			CreateTestCommand = new DelegateCommand(CreateTest);
@@ -101,7 +104,11 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				test.Importance = importance;
 				repository.EditTest(test);
 				snackbarMessageQueue.Enqueue("Test updated");
-				RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+				var param = new DialogParameters
+				{
+					{ "test", new TestDataPreview { Title = test.Question, CreationTime = test.Created, Type = testTypeProvider.ShortAnswer }}
+				};
+				RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param));
 			}
 			else
 			{

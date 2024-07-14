@@ -1,29 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using MaterialDesignThemes.Wpf;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model;
 using Mneme.PrismModule.Sources.Views;
 using Mneme.Sources;
+using Mneme.Testing.UsersTests;
+using Mneme.Views.Base;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+
 namespace Mneme.PrismModule.Sources.ViewModels
 {
-	internal class SourcesViewModel : BindableBase, INavigationAware
+	internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 	{
-		private ObservableCollection<Source> sources;
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;
 		private readonly IDialogService dialogService;
 		private readonly SourcesManager manager;
 		private CancellationTokenSource cts;
-		private string searchedPhrase;
-		private List<Source> allSourcesPreview;
+
 		private Source selectedSource;
 		public Source SelectedSource
 		{
@@ -38,22 +37,14 @@ namespace Mneme.PrismModule.Sources.ViewModels
 			set => SetProperty(ref isLoading, value);
 		}
 
-		public ObservableCollection<Source> Sources
-		{
-			get => sources;
-			set => SetProperty(ref sources, value);
-		}
-
 		private bool sourcesListEmpty;
 		public bool SourcesListEmpty
 		{
-			get => Sources.Count == 0 && !isLoading;
+			get => AllItems.Count == 0 && !isLoading;
 		}
 
-		public SourcesViewModel(ISnackbarMessageQueue snackbarMessageQueue, IDialogService dialogService, SourcesManager manager)
+		public SourcesViewModel(ISnackbarMessageQueue snackbarMessageQueue, IDialogService dialogService, SourcesManager manager):base()
 		{
-			Sources = [];
-			allSourcesPreview = [];
 			this.snackbarMessageQueue = snackbarMessageQueue;
 			this.dialogService = dialogService;
 			this.manager = manager;
@@ -76,8 +67,9 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				if (result.Result == ButtonResult.OK)
 				{
 					var editedSource = result.Parameters.GetValue<Source>("source");
-					Sources.Remove(source);
-					Sources.Add(editedSource);
+					var index = AllItems.IndexOf(source);
+					AllItems.RemoveAt(index);
+					AllItems.Insert(index, editedSource);
 					SelectedSource = editedSource;
 				}
 			});
@@ -87,7 +79,7 @@ namespace Mneme.PrismModule.Sources.ViewModels
 		{
 			if (await manager.DeleteSource(source))
 			{
-				Sources.Remove(source);
+				AllItems.Remove(source);
 				RaisePropertyChanged(nameof(SourcesListEmpty));
 			}
 			else
@@ -97,16 +89,16 @@ namespace Mneme.PrismModule.Sources.ViewModels
 		private async void IgnoreSource(Source source)
 		{
 			var updatedSource = await manager.IgnoreSource(source);
-			Sources.Remove(source);
-			Sources.Add(updatedSource);
+			AllItems.Remove(source);
+			AllItems.Add(updatedSource);
 			SelectedSource = updatedSource;
 		}
 
 		private async void ActivateSource(Source source)
 		{
 			var updatedSource = await manager.ActivateSource(source);
-			Sources.Remove(source);
-			Sources.Add(updatedSource);
+			AllItems.Remove(source);
+			AllItems.Add(updatedSource);
 			SelectedSource = updatedSource;
 		}
 
@@ -123,28 +115,10 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				if (result.Result == ButtonResult.OK)
 				{
 					var source = result.Parameters.GetValue<MnemeSource>("source");
-					Sources.Add(source);
-					allSourcesPreview.Add(source);
+					AllItems.Add(source);
 					RaisePropertyChanged(nameof(SourcesListEmpty));
 				}
 			});
-		}
-
-		public string SearchedPhrase
-		{
-			get => searchedPhrase;
-			set
-			{
-				SetProperty(ref searchedPhrase, value);
-				if (searchedPhrase.Length > 2)
-				{
-					Sources = new ObservableCollection<Source>(allSourcesPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.TextType.ToLower() == searchedPhrase.ToLower()));
-				}
-				else if (Sources.Count != allSourcesPreview.Count)
-				{
-					Sources = new ObservableCollection<Source>(allSourcesPreview);
-				}
-			}
 		}
 
 		public async void OnNavigatedTo(NavigationContext navigationContext)
@@ -157,9 +131,12 @@ namespace Mneme.PrismModule.Sources.ViewModels
 
 				if (completedTask == getSourcesTask)
 				{
-					Sources.Clear();
-					Sources.AddRange(getSourcesTask.Result);
-					allSourcesPreview = new List<Source>(Sources);
+					var sources = getSourcesTask.Result;
+					if (sources.Count != AllItems.Count)
+					{
+						AllItems.Clear();
+						AllItems.AddRange(sources);
+					}
 					IsLoading = false;
 					RaisePropertyChanged(nameof(SourcesListEmpty));
 				}
@@ -174,8 +151,13 @@ namespace Mneme.PrismModule.Sources.ViewModels
 
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-			if(Sources.Count != 0)
+			if (AllItems.Count != 0)
 				cts?.Cancel();
+		}
+
+		protected override Func<Source, bool> SearchCondition()
+		{
+			return x => x.Title.ToLower().Contains(SearchedPhrase.ToLower()) || x.TextType.ToLower() == SearchedPhrase.ToLower();
 		}
 	}
 }

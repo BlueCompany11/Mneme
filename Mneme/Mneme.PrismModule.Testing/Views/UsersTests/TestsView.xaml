@@ -21,16 +21,24 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-                      Margin="0,8,0,0">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10*" />
-                        <ColumnDefinition MinWidth="150" />
+                        <ColumnDefinition />
+                        <ColumnDefinition  />
+                        <ColumnDefinition Width="250" />
                     </Grid.ColumnDefinitions>
-                    <TextBox materialDesign:HintAssist.Hint="Search"
-                             Visibility="Hidden" />
-                    <Button Grid.Column="1"
-                            Width="150"
+                    <Grid>
+                        <materialDesign:PackIcon Margin="24,0,-160,0"
+                                                 VerticalAlignment="Center"
+                                                 Kind="Magnify" />
+                        <TextBox Height="32"
+                                 Margin="0,8,0,8"
+                                 Padding="48,5,0,0"
+                                 materialDesign:HintAssist.Hint="Search by question"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 Text="{Binding SearchedPhrase, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <Button Grid.Column="2"
                             HorizontalAlignment="Right"
                             Command="{Binding StartTestingCommand}"
                             Content="Start testing" />
@@ -41,7 +49,7 @@
                           CanUserAddRows="False"
                           HeadersVisibility="All"
                           IsReadOnly="True"
-                          ItemsSource="{Binding Tests}">
+                          ItemsSource="{Binding FilteredItems}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Question"
                                             Binding="{Binding Title}" />
