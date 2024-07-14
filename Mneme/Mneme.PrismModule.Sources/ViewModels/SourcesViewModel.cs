@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
@@ -9,63 +7,13 @@ using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model;
 using Mneme.PrismModule.Sources.Views;
 using Mneme.Sources;
+using Mneme.Views.Base;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+
 namespace Mneme.PrismModule.Sources.ViewModels
 {
-	public abstract class SearchableViewModel<T> : BindableBase
-	{
-		protected SearchableViewModel()
-		{
-			searchedPhrase = string.Empty;
-			FilteredItems = new ObservableCollection<T>();
-			AllItems = new List<T>();
-		}
-		private string searchedPhrase;
-
-		public string SearchedPhrase
-		{
-			get => searchedPhrase;
-			set
-			{
-				SetProperty(ref searchedPhrase, value);
-				UpdateFilteredItems();
-			}
-		}
-		protected void UpdateFilteredItems()
-		{
-			if (searchedPhrase.Length > 2)
-			{
-				FilteredItems = new ObservableCollection<T>(AllItems.Where(SearchCondition()));
-			}
-			else if (FilteredItems.Count != AllItems.Count)
-			{
-				FilteredItems = new ObservableCollection<T>(AllItems);
-			}
-		}
-
-		protected abstract Func<T, bool> SearchCondition();
-
-		private List<T> allItems;
-		public List<T> AllItems
-		{
-			get => allItems;
-			set
-			{
-				SetProperty(ref allItems, value);
-				UpdateFilteredItems();
-			}
-		}
-		private ObservableCollection<T> filteredItems;
-		public ObservableCollection<T> FilteredItems
-		{
-			get => filteredItems;
-			set => SetProperty(ref filteredItems, value);
-		}
-	}
-
 	internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 	{
 		private readonly ISnackbarMessageQueue snackbarMessageQueue;

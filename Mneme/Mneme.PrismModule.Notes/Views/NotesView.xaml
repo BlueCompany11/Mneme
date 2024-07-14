@@ -71,7 +71,7 @@
                             Command="{Binding OpenNewNoteViewCommand}"
                             Content="+ New Note" />
                 </Grid>
-                <TextBlock Text="{Binding NotesPreview.Count, StringFormat='Returned {0} notes.'}" />
+                <TextBlock Text="{Binding FilteredItems.Count, StringFormat='Returned {0} notes.'}" />
                 <Grid>
                     <materialDesign:PackIcon Margin="24,0,-160,0"
                                              VerticalAlignment="Center"
@@ -98,7 +98,7 @@
                      HorizontalContentAlignment="Stretch"
                      BorderBrush="Transparent"
                      Grid.IsSharedSizeScope="True"
-                     ItemsSource="{Binding NotesPreview}"
+                     ItemsSource="{Binding FilteredItems}"
                      SelectedItem="{Binding SelectedNotePreview}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

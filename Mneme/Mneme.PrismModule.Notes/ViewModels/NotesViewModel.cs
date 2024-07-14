@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,29 +10,19 @@ using Mneme.PrismModule.Integration.Facade;
 using Mneme.PrismModule.Notes.Views;
 using Mneme.Views.Base;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 
 namespace Mneme.PrismModule.Notes.ViewModels
 {
-	public class NotesViewModel : BindableBase, INavigationAware
+	public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 	{
 		private readonly IRegionManager regionManager;
 		private readonly NotesUtility utilty;
 		private readonly NoteToPreviewNavigator navigator;
 		private bool isLoading;
 		private Note selectedNotePreview;
-		private List<Note> Notes { get; set; }
-		private ObservableCollection<Note> notesPreview;
 		private CancellationTokenSource cts;
-		private string searchedPhrase;
 		private string deleteNoteToolTip;
-		private List<Note> cachedNotesPreview;
-		public ObservableCollection<Note> NotesPreview
-		{
-			get => notesPreview;
-			set => SetProperty(ref notesPreview, value);
-		}
 
 		public bool IsLoading
 		{
@@ -46,23 +36,6 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			set => SetProperty(ref deleteNoteToolTip, value);
 		}
 
-		public string SearchedPhrase
-		{
-			get => searchedPhrase;
-			set
-			{
-				SetProperty(ref searchedPhrase, value);
-				if (searchedPhrase.Length > 2)
-				{
-					NotesPreview = new ObservableCollection<Note>(cachedNotesPreview.Where(x => x.Title.ToLower().Contains(searchedPhrase.ToLower()) || x.Content.ToLower().Contains(searchedPhrase.ToLower())));
-				}
-				else if (NotesPreview.Count != cachedNotesPreview.Count)
-				{
-					NotesPreview = new ObservableCollection<Note>(cachedNotesPreview);
-				}
-			}
-
-		}
 		public Note SelectedNotePreview
 		{
 			get => selectedNotePreview;
@@ -81,9 +54,6 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		public DelegateCommand<Note> DeleteNoteCommand { get; set; }
 		public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator)
 		{
-			NotesPreview = [];
-			Notes = [];
-			cachedNotesPreview = [];
 			this.regionManager = regionManager;
 			this.utilty = utilty;
 			this.navigator = navigator;
@@ -99,7 +69,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		private async void DeleteNote(Note preview)
 		{
 			await utilty.DeleteNote(preview);
-			NotesPreview.Remove(preview);
+			AllItems.Remove(preview);
 		}
 
 		private void Navigate()
@@ -126,14 +96,10 @@ namespace Mneme.PrismModule.Notes.ViewModels
 
 					if (completedTask == getNotesTask)
 					{
-						Notes = new List<Note>(getNotesTask.Result);
-						Notes = Notes.OrderByDescending(x => x.CreationTime).ToList();
-						cachedNotesPreview = new List<Note>(NotesPreview);
+						AllItems = new List<Note>(getNotesTask.Result);
+						AllItems = AllItems.OrderByDescending(x => x.CreationTime).ToList();
 					}
 				}
-
-				NotesPreview.Clear();
-				NotesPreview.AddRange(Notes);
 				IsLoading = false;
 				cts = null;
 			}
@@ -141,7 +107,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			void ShowNewMnemeNote(NavigationContext navigationContext)
 			{
 				var note = (MnemeNote)navigationContext.Parameters["note"];
-				NotesPreview.Insert(0, note);
+				AllItems.Insert(0, note);
 				SelectedNotePreview = note;
 			}
 		}
@@ -153,8 +119,13 @@ namespace Mneme.PrismModule.Notes.ViewModels
 		{
 			if (navigationContext.Uri.OriginalString == nameof(NewMnemeNoteView))
 				return;
-			if(Notes.Count != 0)
+			if(AllItems.Count != 0)
 				cts?.Cancel();
+		}
+
+		protected override Func<Note, bool> SearchCondition()
+		{
+			return x => x.Title.ToLower().Contains(SearchedPhrase.ToLower()) || x.Content.ToLower().Contains(SearchedPhrase.ToLower());
 		}
 	}
 }
