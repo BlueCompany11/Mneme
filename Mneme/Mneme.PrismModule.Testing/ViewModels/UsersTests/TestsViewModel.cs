@@ -1,41 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using Mneme.Model;
 using Mneme.PrismModule.Testing.Views.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.UsersTests;
 using Mneme.Views.Base;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 
 namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 {
-	public class TestsViewModel : BindableBase, INavigationAware
+	public class TestsViewModel : SearchableViewModel<TestDataPreview>, INavigationAware
 	{
 		private readonly TestPreviewProvider testPreviewProvider;
 		private readonly IRegionManager regionManager;
 		private readonly IDialogService dialogService;
 		private readonly TestTypeProvider testTypeProvider;
 		private readonly TestingRepository repository;
-		private ObservableCollection<TestDataPreview> tests;
 
 		public DelegateCommand StartTestingCommand { get; set; }
 		public DelegateCommand<TestDataPreview> EditTestCommand { get; set; }
 		public DelegateCommand<TestDataPreview> DeleteTestCommand { get; set; }
-		public ObservableCollection<TestDataPreview> Tests
-		{
-			get => tests;
-			set
-			{
-				tests = value;
-				RaisePropertyChanged(nameof(Tests));
-			}
-		}
-		public TestsViewModel(TestPreviewProvider testPreviewProvider, IRegionManager regionManager, IDialogService dialogService, TestTypeProvider testTypeProvider, TestingRepository repository)
+
+		public TestsViewModel(TestPreviewProvider testPreviewProvider, IRegionManager regionManager, IDialogService dialogService, TestTypeProvider testTypeProvider, TestingRepository repository) : base()
 		{
 			this.testPreviewProvider = testPreviewProvider;
 			this.regionManager = regionManager;
@@ -46,7 +38,6 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			DeleteTestCommand = new DelegateCommand<TestDataPreview>(DeleteTest);
 			EditTestCommand = new DelegateCommand<TestDataPreview>(EditTest, x => !(x?.Type == testTypeProvider.ClozeDeletion));
 		}
-
 
 		public void StartTesting()
 		{
@@ -76,8 +67,9 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			{
 				if (result.Result == ButtonResult.OK)
 				{
-					Tests?.Clear();
-					Tests = new ObservableCollection<TestDataPreview>(testPreviewProvider.GetTests());
+					var index = AllItems.IndexOf(test);
+					AllItems.RemoveAt(index);
+					AllItems.Insert(index, result.Parameters.GetValue<TestDataPreview>("test"));
 				}
 			});
 		}
@@ -94,15 +86,20 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 				var t = repository.GetShortAnswerTest(test.Title);
 				repository.RemoveTest(t);
 			}
-			Tests.Remove(test);
+			AllItems.Remove(test);
 		}
 
 		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{
-			Tests?.Clear();
 			await Task.Run(() => { 
 				var tests = testPreviewProvider.GetTests();
-				Application.Current.Dispatcher.Invoke(() => Tests = new ObservableCollection<TestDataPreview>(tests));
+				Application.Current.Dispatcher.Invoke(() => {
+					if (tests.Count != AllItems.Count)
+					{
+						AllItems.Clear();
+						AllItems.AddRange(tests);
+					}
+				}); 
 			});
 		}
 
@@ -114,6 +111,11 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
 
+		}
+
+		protected override Func<TestDataPreview, bool> SearchCondition()
+		{
+			return x => x.Title.ToLower().Contains(SearchedPhrase.ToLower());
 		}
 	}
 }

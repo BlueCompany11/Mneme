@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 
 		public DelegateCommand OpenNewNoteViewCommand { get; set; }
 		public DelegateCommand<Note> DeleteNoteCommand { get; set; }
-		public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator)
+		public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator) : base()
 		{
 			this.regionManager = regionManager;
 			this.utilty = utilty;
@@ -96,8 +97,12 @@ namespace Mneme.PrismModule.Notes.ViewModels
 
 					if (completedTask == getNotesTask)
 					{
-						AllItems = new List<Note>(getNotesTask.Result);
-						AllItems = AllItems.OrderByDescending(x => x.CreationTime).ToList();
+						var notes = getNotesTask.Result;
+						if (notes.Count != AllItems.Count)
+						{
+							AllItems.Clear();
+							AllItems.AddRange(notes.OrderBy(x => x.CreationTime));
+						}
 					}
 				}
 				IsLoading = false;
@@ -108,6 +113,7 @@ namespace Mneme.PrismModule.Notes.ViewModels
 			{
 				var note = (MnemeNote)navigationContext.Parameters["note"];
 				AllItems.Insert(0, note);
+				RaisePropertyChanged(nameof(AllItems));
 				SelectedNotePreview = note;
 			}
 		}

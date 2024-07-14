@@ -11,7 +11,8 @@ namespace Mneme.Views.Base
 		{
 			searchedPhrase = string.Empty;
 			FilteredItems = new ObservableCollection<T>();
-			AllItems = new List<T>();
+			AllItems = new ObservableCollection<T>();
+			AllItems.CollectionChanged += AllItems_CollectionChanged;
 		}
 		private string searchedPhrase;
 
@@ -21,38 +22,32 @@ namespace Mneme.Views.Base
 			set
 			{
 				SetProperty(ref searchedPhrase, value);
-				UpdateFilteredItems();
+				if (value.Length > 2)
+				{
+					UpdateFilteredItems();
+					RaisePropertyChanged(nameof(FilteredItems));
+				}
+				else
+				{
+					FilteredItems = AllItems;
+					RaisePropertyChanged(nameof(FilteredItems));
+				}
 			}
 		}
 		protected void UpdateFilteredItems()
 		{
-			if (searchedPhrase.Length > 2)
-			{
-				FilteredItems = new ObservableCollection<T>(AllItems.Where(SearchCondition()));
-			}
-			else if (FilteredItems.Count != AllItems.Count)
-			{
-				FilteredItems = new ObservableCollection<T>(AllItems);
-			}
+			FilteredItems = new ObservableCollection<T>(AllItems.Where(SearchCondition()));
 		}
 
 		protected abstract Func<T, bool> SearchCondition();
 
-		private List<T> allItems;
-		public List<T> AllItems
+		public ObservableCollection<T> AllItems { get; private set; }
+		private void AllItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
-			get => allItems;
-			set
-			{
-				SetProperty(ref allItems, value);
-				UpdateFilteredItems();
-			}
+			if (SearchedPhrase.Length == 0)
+				FilteredItems = AllItems;
+			RaisePropertyChanged(nameof(FilteredItems));
 		}
-		private ObservableCollection<T> filteredItems;
-		public ObservableCollection<T> FilteredItems
-		{
-			get => filteredItems;
-			set => SetProperty(ref filteredItems, value);
-		}
+		public ObservableCollection<T> FilteredItems { get; private set; }
 	}
 }

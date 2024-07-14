@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
@@ -7,6 +8,7 @@ using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model;
 using Mneme.PrismModule.Sources.Views;
 using Mneme.Sources;
+using Mneme.Testing.UsersTests;
 using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Regions;
@@ -65,8 +67,9 @@ namespace Mneme.PrismModule.Sources.ViewModels
 				if (result.Result == ButtonResult.OK)
 				{
 					var editedSource = result.Parameters.GetValue<Source>("source");
-					AllItems.Remove(source);
-					AllItems.Add(editedSource);
+					var index = AllItems.IndexOf(source);
+					AllItems.RemoveAt(index);
+					AllItems.Insert(index, editedSource);
 					SelectedSource = editedSource;
 				}
 			});
@@ -128,7 +131,12 @@ namespace Mneme.PrismModule.Sources.ViewModels
 
 				if (completedTask == getSourcesTask)
 				{
-					AllItems = new List<Source>(getSourcesTask.Result);
+					var sources = getSourcesTask.Result;
+					if (sources.Count != AllItems.Count)
+					{
+						AllItems.Clear();
+						AllItems.AddRange(sources);
+					}
 					IsLoading = false;
 					RaisePropertyChanged(nameof(SourcesListEmpty));
 				}
