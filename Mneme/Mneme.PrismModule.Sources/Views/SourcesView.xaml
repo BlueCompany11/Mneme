@@ -41,7 +41,7 @@
         </Style>
         <local:DateToDayConverter x:Key="DateToDayConverter" />
         <CollectionViewSource x:Key="GroupedSources"
-                              Source="{Binding Sources}">
+                              Source="{Binding FilteredItems}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription Converter="{StaticResource DateToDayConverter}"
                                           PropertyName="CreationTime" />
