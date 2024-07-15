@@ -15,7 +15,7 @@ namespace DbSeeder
 			var repository = new MnemeIntegrationFacade();
 			var testingRepository = new TestingRepository();
 
-			int amountOfSources = 100;
+			int amountOfSources = 50;
 			int amountOfNotesPerSourceMin = 0;
 			int amountOfNotesPerSourceMax = 10;
 			int amountOfTestsPerNoteMin = 0;
@@ -32,7 +32,7 @@ namespace DbSeeder
 			var fakeNote = new Faker<MnemeNote>()
 						.RuleFor(n => n.Title, f => f.Random.Words())
 						.RuleFor(n => n.CreationTime, f => f.Date.Past())
-						.RuleFor(n => n.Content, f => f.Random.Words())
+						.RuleFor(n => n.Content, f => f.Random.Words(20))
 						.RuleFor(n => n.IntegrationId, f => f.Random.Guid().ToString())
 						.RuleFor(n => n.Path, f => f.Internet.Url());
 

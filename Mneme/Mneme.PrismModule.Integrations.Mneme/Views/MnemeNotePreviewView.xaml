@@ -102,7 +102,7 @@
             </Grid>
             <TextBlock Style="{StaticResource SectionTitleText}"
                        Text="Note" />
-            <TextBlock Text="{Binding Note}" />
+            <TextBlock Text="{Binding Note}" TextWrapping="Wrap" />
         </StackPanel>
         <Button Grid.Row="2"
                 HorizontalAlignment="Right"
