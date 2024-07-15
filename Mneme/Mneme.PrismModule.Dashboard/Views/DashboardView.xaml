@@ -22,6 +22,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="372" />
@@ -46,6 +47,16 @@
                                                   Margin="24,24,0,0"
                                                   Description="{Binding MostRecentNote}"
                                                   Header="The most recently added note" />
+            <local:DashboardBadgeControl Grid.Row="3"
+                                         Grid.Column="1"
+                                         Margin="24,24,0,0"
+                                         Description="User's tests"
+                                         Header="{Binding ActiveNotesAmount}" />
+            <local:DashboardBadgeControl Grid.Row="3"
+                                         Margin="24,24,0,0"
+                                         Description="Today's tests"
+                                         Header="{Binding ActiveNotesAmount}" />
+
         </Grid>
     </Grid>
     
