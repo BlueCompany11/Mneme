@@ -47,6 +47,22 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 			set => SetProperty(ref mostRecentNote, value);
 		}
 
+		private int allTestsCount;
+
+		public int AllTestsCount
+		{
+			get => allTestsCount;
+			set => SetProperty(ref allTestsCount, value);
+		}
+
+		private int allTestsForTestingCount;
+
+		public int AllTestsForTestingCount
+		{
+			get => allTestsForTestingCount;
+			set => SetProperty(ref allTestsForTestingCount, value);
+		}
+
 		public DashboardViewModel(StatisticsProvider statistics, DatabaseMigrations migrations)
 		{
 			this.statistics = statistics;
@@ -86,6 +102,11 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 					Task.Run(async () =>
 					{
 							MostRecentNote = await statistics.GetMostRecentNote(ct);
+					}),
+					Task.Run(async () =>
+					{
+							AllTestsCount = await statistics.GetAllTestsCount(ct);
+							AllTestsForTestingCount = await statistics.GetAllTestsForTestingCount(ct); //temporary solution as the context here is shared
 					})
 			};
 

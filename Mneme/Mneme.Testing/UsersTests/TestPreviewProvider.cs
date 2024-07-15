@@ -24,7 +24,7 @@ namespace Mneme.Testing.UsersTests
 			return GetAllTests();
 		}
 
-		private Queue<TestDataPreview> GetAllTests()
+		public Queue<TestDataPreview> GetAllTests()
 		{
 			var ret = new Queue<TestDataPreview>();
 			var shortAnswers = repository.GetShortAnswerTests();
