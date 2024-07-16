@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model;
 using Mneme.Model.TestCreation;
@@ -91,8 +92,13 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				return;
 			}
 			string answer = Text[start..end];
-			var question = Text[..start] + "_____" + Text[end..];
-			tests.Add(new TestShortAnswer { Question = question, Answer = answer, Importance = 0, Created = DateTime.Now, NoteId = Note.Id });
+			var question = Text[..start] + " _____ " + Text[end..];
+			if(repository.GetShortAnswerTest(question) != null || tests.Where(x=>x.Question == question).Count() != 0)
+			{
+				snackbarMessageQueue.Enqueue("Such test already exisits.");
+				return;
+			}
+			tests.Add(new TestShortAnswer { Question = question, Answer = answer, Importance = testImportanceMapper.Map(SelectedImportanceOption), Created = DateTime.Now, NoteId = Note.Id });
 			ClozeDeletions.Add(answer);
 			Text = Note.Content;
 		}

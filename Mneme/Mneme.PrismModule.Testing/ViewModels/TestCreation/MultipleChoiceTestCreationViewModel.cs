@@ -148,8 +148,15 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			if (!validations)
 			{
 				snackbarMessageQueue.Enqueue("Question and correct answers are required");
+				return false;
 			}
-			return validations;
+			if (repository.GetMultipleChoicesTest(Question) == null)
+				return true;
+			else
+			{
+				snackbarMessageQueue.Enqueue("The question and this test type already exists.");
+				return false;
+			}
 		}
 
 		public bool CanCloseDialog()

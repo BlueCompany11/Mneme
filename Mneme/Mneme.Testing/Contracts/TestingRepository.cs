@@ -39,16 +39,16 @@ namespace Mneme.Testing.Contracts
 			context.SaveChanges();
 		}
 
-		public TestMultipleChoices GetMultipleChoicesTest(string title)
+		public TestMultipleChoices? GetMultipleChoicesTest(string title)
 		{
 			using TestingContext context = new();
-			return context.TestMultipleChoices.Include(t => t.Answers).First(t => t.Question == title);
+			return context.TestMultipleChoices.Include(t => t.Answers).FirstOrDefault(t => t.Question == title);
 		}
 
-		public TestShortAnswer GetShortAnswerTest(string title)
+		public TestShortAnswer? GetShortAnswerTest(string title)
 		{
 			using TestingContext context = new();
-			return context.TestShortAnswers.First(t => t.Question == title);
+			return context.TestShortAnswers.FirstOrDefault(t => t.Question == title);
 		}
 
 		public IReadOnlyList<TestMultipleChoices> GetMultipleChoicesTests()
