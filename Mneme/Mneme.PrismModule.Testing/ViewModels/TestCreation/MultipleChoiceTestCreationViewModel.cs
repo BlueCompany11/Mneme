@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ImTools;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model;
 using Mneme.Model.TestCreation;
@@ -136,7 +138,8 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 
 		private bool Validate()
 		{
-			var validations = !string.IsNullOrWhiteSpace(Question);
+			var validations = !string.IsNullOrWhiteSpace(Question) && Checks.Any(x => x == true);
+
 			for (int i = 0 ; i < amountOfAnswers ; i++)
 			{
 				if (Checks[i])

@@ -51,11 +51,11 @@
                                          Grid.Column="1"
                                          Margin="24,24,0,0"
                                          Description="User's tests"
-                                         Header="{Binding ActiveNotesAmount}" />
+                                         Header="{Binding AllTestsCount}" />
             <local:DashboardBadgeControl Grid.Row="3"
-                                         Margin="24,24,0,0"
+                                         Margin="0,24,0,0"
                                          Description="Today's tests"
-                                         Header="{Binding ActiveNotesAmount}" />
+                                         Header="{Binding AllTestsForTestingCount}" />
 
         </Grid>
     </Grid>

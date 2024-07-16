@@ -38,7 +38,8 @@
             </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="1"
-                    Grid.Column="1">
+                    Grid.Column="1"
+                    Margin="16,0,0,0">
             <TextBlock Margin="0,0,0,8"
                        Style="{StaticResource Labels}"
                        Text="Cloze" />

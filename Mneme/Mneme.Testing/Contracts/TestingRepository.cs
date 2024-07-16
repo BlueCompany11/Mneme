@@ -4,17 +4,11 @@ using Mneme.Testing.Database;
 
 namespace Mneme.Testing.Contracts
 {
-	public class TestingRepository : IDisposable
+	public class TestingRepository
 	{
-		private readonly TestingContext context;
-
-		public TestingRepository()
-		{
-			this.context = new();
-		}
-
 		public void CreateTest(TestMultipleChoices test)
 		{
+			using TestingContext context = new();
 			test.Answers.ForEach(x => x.Test = test);
 			context.Add(test);
 			context.AddRange(test.Answers);
@@ -23,12 +17,14 @@ namespace Mneme.Testing.Contracts
 
 		public void CreateTest(TestShortAnswer test)
 		{
+			using TestingContext context = new();
 			context.Add(test);
 			context.SaveChanges();
 		}
 
 		public void EditTest(TestMultipleChoices test)
 		{
+			using TestingContext context = new();
 			var answersToRemove = context.TestMultipleChoice.Where(a => a.TestId == test.Id).ToList();
 			context.TestMultipleChoice.RemoveRange(answersToRemove);
 			context.AddRange(test.Answers);
@@ -38,33 +34,38 @@ namespace Mneme.Testing.Contracts
 
 		public void EditTest(TestShortAnswer test)
 		{
+			using TestingContext context = new();
 			context.Update(test);
 			context.SaveChanges();
 		}
 
 		public TestMultipleChoices GetMultipleChoicesTest(string title)
 		{
-			var test = context.TestMultipleChoices.Include(t => t.Answers).First(t => t.Question == title);
-			return test;
+			using TestingContext context = new();
+			return context.TestMultipleChoices.Include(t => t.Answers).First(t => t.Question == title);
 		}
 
 		public TestShortAnswer GetShortAnswerTest(string title)
 		{
+			using TestingContext context = new();
 			return context.TestShortAnswers.First(t => t.Question == title);
 		}
 
 		public IReadOnlyList<TestMultipleChoices> GetMultipleChoicesTests()
 		{
+			using TestingContext context = new();
 			return context.TestMultipleChoices.Include(t => t.Answers).ToList();
 		}
 
 		public IReadOnlyList<TestShortAnswer> GetShortAnswerTests()
 		{
+			using TestingContext context = new();
 			return context.TestShortAnswers.ToList();
 		}
 
 		public void RemoveTest(TestMultipleChoices test)
 		{
+			using TestingContext context = new();
 			context.TestMultipleChoice.RemoveRange(test.Answers);
 			context.Remove(test);
 			context.SaveChanges();
@@ -72,13 +73,9 @@ namespace Mneme.Testing.Contracts
 
 		public void RemoveTest(TestShortAnswer test)
 		{
+			using TestingContext context = new();
 			context.Remove(test);
 			context.SaveChanges();
-		}
-
-		public void Dispose()
-		{
-			context.Dispose();
 		}
 	}
 }
