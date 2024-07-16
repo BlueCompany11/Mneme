@@ -126,7 +126,13 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 				snackbarMessageQueue.Enqueue("Question and answer cannot be empty");
 				return false;
 			}
-			return true;
+			if(repository.GetShortAnswerTest(Question) == null)
+				return true;
+			else
+			{
+				snackbarMessageQueue.Enqueue("The question and this test type already exists.");
+				return false;
+			}
 		}
 
 		public bool CanCloseDialog()
