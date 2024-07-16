@@ -106,8 +106,11 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 					Task.Run(async () =>
 					{
 							AllTestsCount = await statistics.GetAllTestsCount(ct);
-							AllTestsForTestingCount = await statistics.GetAllTestsForTestingCount(ct); //temporary solution as the context here is shared
-					})
+					}),
+					Task.Run(async () =>
+					{
+							AllTestsForTestingCount = await statistics.GetAllTestsForTestingCount(ct);
+					}),
 			};
 
 			await Task.WhenAll(tasks);

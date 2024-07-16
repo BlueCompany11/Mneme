@@ -42,7 +42,6 @@ namespace Mneme.Testing.UsersTests
 		}
 		public Queue<IUserTest> GetTestsForToday()
 		{
-			using var testingContext = new TestingContext();
 			var ret = new Queue<IUserTest>();
 			var shortAnswers = repository.GetShortAnswerTests();
 			var multipleChoice = repository.GetMultipleChoicesTests();
