@@ -24,7 +24,6 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		public string Hint { get; set; }
 
 		public string Importance { get; set; }
-		public string LastDifficulty { get; set; }
 		private TestShortAnswer Test { get; set; }
 		public ShortAnswerTestViewModel(TestImportanceMapper testImportanceMapper)
 		{

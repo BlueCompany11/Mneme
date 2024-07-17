@@ -14,19 +14,32 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ContentControl HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        prism:RegionManager.RegionName="{x:Static regions:RegionNames.TestingRegion}"
-                        Visibility="{Binding FinishedTesting, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Question}"></TextBlock>
+            <Separator Grid.Row="1"></Separator>
+            <TextBlock Grid.Row="2"
+                       Text="{Binding Answer}"
+                       Visibility="{Binding DisplayAnswer, Converter={StaticResource BooleanToVisibilityConverter}}"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1"
+              Visibility="{Binding AllowToDisplayAnswer, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button Content="Show answer"
+                    Command="{Binding ShowAnswerCommand}"></Button>
+        </Grid>
         <StackPanel Grid.Row="1"
-                    Visibility="{Binding FinishedTesting, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                    Visibility="{Binding AllowToValidateAnswer, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center">
             <Button Content="Wrong"
-                    Command="{Binding NextTestCommand}"></Button>
+                    Command="{Binding WrongAnswerCommand}"></Button>
             <Button Content="Correct"
                     Margin="16,0,0,0"
-                    Command="{Binding NextTestCommand}"></Button>
+                    Command="{Binding CorrectAnswerCommand}"></Button>
         </StackPanel>
         <TextBlock Text="Testing finished"
                    Grid.RowSpan="3"
