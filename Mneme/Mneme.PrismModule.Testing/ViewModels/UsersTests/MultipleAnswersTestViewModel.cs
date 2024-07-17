@@ -33,6 +33,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			get => correctAnswer;
 			set => SetProperty(ref correctAnswer, value);
 		}
+
 		public MultipleAnswersTestViewModel(TestImportanceMapper testImportanceMapper)
 		{
 			this.testImportanceMapper = testImportanceMapper;
@@ -54,24 +55,25 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			}
 			if (Test.Answers[1].IsCorrect)
 			{
-				CorrectAnswer += ", B";
+				CorrectAnswer += "B";
 			}
 			if (Test.Answers[2].IsCorrect)
 			{
-				CorrectAnswer += ", C";
+				CorrectAnswer += "C";
 			}
 			if (Test.Answers[3].IsCorrect)
 			{
-				CorrectAnswer += ", D";
+				CorrectAnswer += "D";
 			}
 			if (Test.Answers[4].IsCorrect)
 			{
-				CorrectAnswer += ", E";
+				CorrectAnswer += "E";
 			}
 			if (Test.Answers[5].IsCorrect)
 			{
-				CorrectAnswer += ", F";
+				CorrectAnswer += "F";
 			}
+			CorrectAnswer = string.Join(", ", CorrectAnswer.ToCharArray());
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)
