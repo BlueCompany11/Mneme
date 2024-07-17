@@ -4,12 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Mneme.Model;
 using Mneme.Model.TestCreation;
-using Mneme.PrismModule.Testing.Views.UsersTests;
-using Mneme.Testing.TestCreation;
 using Mneme.Testing.UsersTests;
-using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -109,82 +105,68 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			QuestionStage(false);
 		}
 
-		public void NextTest()
+		private void NextTest()
 		{
-			var test = CurrentTest;
-
-			bool isNextTest = UserTests.TryPeek(out test);
-			if (!isNextTest)
-			{
-				FinishedTesting = true;
-				AllowToDisplayAnswer = false;
-				AllowToValidateAnswer = false;
-				DisplayAnswer = false;
-				ShowHint = false;
+			if (CheckIfTestsAreFinished())
 				return;
-			}
-			CurrentTest = test;
-			CurrentTest.Tested(true);
-			QuestionStage(true);
-			var param = new NavigationParameters()
-						{
-								{ "test", UserTests.Dequeue() }
-						};
+			CurrentTest = UserTests.Dequeue();
+			
 			if (CurrentTest is TestShortAnswer tsa)
 			{
-				Question = tsa.Question;
-				Answer = tsa.Answer;
-				Hint = tsa.Hint;
+				MapProperties(tsa);
 			}
 			else if (CurrentTest is TestMultipleChoices tmc)
 			{
-				Question = tmc.Question;
-
-
-				List<string> Answers = new List<string>();
-				for (int i = 0 ; i < tmc.Answers.Count ; i++)
-				{
-					Answers.Add(tmc.Answers[i].Answer);
-				}
-				Hint = GenerateHint(tmc.Answers.Where(x=>!string.IsNullOrEmpty(x.Answer)));
-				var correctAnswers = tmc.Answers.Where(x => x.IsCorrect == true).ToList();
-				var correctAnswer = "";
-				if (tmc.Answers[0].IsCorrect)
-				{
-					correctAnswer = "A";
-				}
-				if (tmc.Answers[1].IsCorrect)
-				{
-					correctAnswer += "B";
-				}
-				if (tmc.Answers[2].IsCorrect)
-				{
-					correctAnswer += "C";
-				}
-				if (tmc.Answers[3].IsCorrect)
-				{
-					correctAnswer += "D";
-				}
-				if (tmc.Answers[4].IsCorrect)
-				{
-					correctAnswer += "E";
-				}
-				if (tmc.Answers[5].IsCorrect)
-				{
-					correctAnswer += "F";
-				}
-				Answer = string.Join(", ", correctAnswer.ToCharArray());
+				MapProperties(tmc);
 			}
 		}
 
-		private string GenerateHint(IEnumerable<TestMultipleChoice> answers)
+		private void MapProperties(TestMultipleChoices tmc)
+		{
+			Question = tmc.Question;
+			var shuffledAnswers = ShuffleAnswers(tmc.Answers);
+			Hint = GenerateHint(shuffledAnswers);
+			var correctAnswer = "";
+			for(int i=0 ; i < shuffledAnswers.Count ; i++)
+			{
+				if(shuffledAnswers[i].IsCorrect)
+					correctAnswer = $"{(char)('A' + i)}: {shuffledAnswers[i].Answer},";
+			}
+			correctAnswer = correctAnswer.TrimEnd(',');
+			Answer = correctAnswer;
+		}
+		private void MapProperties(TestShortAnswer tsa)
+		{
+			Question = tsa.Question;
+			Answer = tsa.Answer;
+			Hint = tsa.Hint;
+		}
+
+		private bool CheckIfTestsAreFinished()
+		{
+			if (UserTests.TryPeek(out var test))
+			{
+				QuestionStage(true);
+				return false;
+			}
+			FinishedTesting = true;
+			AllowToDisplayAnswer = false;
+			AllowToValidateAnswer = false;
+			DisplayAnswer = false;
+			ShowHint = false;
+			return true;
+		}
+		private List<TestMultipleChoice> ShuffleAnswers(List<TestMultipleChoice> answers)
 		{
 			var random = new Random();
-			var shuffledAnswers = answers.OrderBy(x => random.Next()).ToList();
+			return answers.OrderBy(x => random.Next()).Where(x => !string.IsNullOrEmpty(x.Answer)).ToList();
+		}
+		private string GenerateHint(List<TestMultipleChoice> answers)
+		{
 			var hint = "";
-			for (int i = 0 ; i < shuffledAnswers.Count ; i++)
+			for (int i = 0 ; i < answers.Count ; i++)
 			{
-				hint += $"{(char)('A' + i)}: {shuffledAnswers[i].Answer} ";
+				hint += $"{(char)('A' + i)}: {answers[i].Answer} ";
 			}
 			return hint.Trim();
 		}
