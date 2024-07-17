@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		public DelegateCommand WrongAnswerCommand { get; set; }
 		public DelegateCommand CorrectAnswerCommand { get; set; }
 		public DelegateCommand ShowAnswerCommand { get; set; }
-		
+		public DelegateCommand ShowHintCommand { get; set; }
 
 		private bool finishedTesting;
 		public bool FinishedTesting
@@ -47,6 +48,14 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		{
 			get => answer;
 			set => SetProperty(ref answer, value);
+		}
+
+		private string hint;
+		public string Hint
+
+		{
+			get => hint;
+			set => SetProperty(ref hint, value);
 		}
 
 		private bool displayAnswer;
@@ -71,7 +80,14 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			get => allowToValidateAnswer;
 			set => SetProperty(ref allowToValidateAnswer, value);
 		}
+		private bool showHint;
+		public bool ShowHint
 
+		{
+			get => showHint;
+			set => SetProperty(ref showHint, value);
+		}
+		
 		private IUserTest CurrentTest { get; set; }
 		public TestingViewModel(TestPreviewProvider testPreviewProvider, IRegionManager regionManager)
 		{
@@ -80,7 +96,14 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			CorrectAnswerCommand = new DelegateCommand(NextTest);
 			WrongAnswerCommand = new DelegateCommand(NextTest); //TODO
 			ShowAnswerCommand = new DelegateCommand(ShowAnswer);
+			ShowHintCommand = new DelegateCommand(DisplayHint, () => !string.IsNullOrEmpty(Hint)).ObservesProperty(() => Hint);
 		}
+
+		private void DisplayHint()
+		{
+			ShowHint = true;
+		}
+
 		private void ShowAnswer()
 		{
 			QuestionStage(false);
@@ -94,29 +117,36 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			if (!isNextTest)
 			{
 				FinishedTesting = true;
+				AllowToDisplayAnswer = false;
+				AllowToValidateAnswer = false;
+				DisplayAnswer = false;
+				ShowHint = false;
 				return;
 			}
 			CurrentTest = test;
 			CurrentTest.Tested(true);
 			QuestionStage(true);
 			var param = new NavigationParameters()
-			{
-					{ "test", UserTests.Dequeue() }
-			};
+						{
+								{ "test", UserTests.Dequeue() }
+						};
 			if (CurrentTest is TestShortAnswer tsa)
 			{
 				Question = tsa.Question;
 				Answer = tsa.Answer;
-				//TODO add hint
+				Hint = tsa.Hint;
 			}
 			else if (CurrentTest is TestMultipleChoices tmc)
 			{
 				Question = tmc.Question;
-				List<string> Answers = [];
+
+
+				List<string> Answers = new List<string>();
 				for (int i = 0 ; i < tmc.Answers.Count ; i++)
 				{
 					Answers.Add(tmc.Answers[i].Answer);
 				}
+				Hint = GenerateHint(tmc.Answers.Where(x=>!string.IsNullOrEmpty(x.Answer)));
 				var correctAnswers = tmc.Answers.Where(x => x.IsCorrect == true).ToList();
 				var correctAnswer = "";
 				if (tmc.Answers[0].IsCorrect)
@@ -146,11 +176,24 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 				Answer = string.Join(", ", correctAnswer.ToCharArray());
 			}
 		}
+
+		private string GenerateHint(IEnumerable<TestMultipleChoice> answers)
+		{
+			var random = new Random();
+			var shuffledAnswers = answers.OrderBy(x => random.Next()).ToList();
+			var hint = "";
+			for (int i = 0 ; i < shuffledAnswers.Count ; i++)
+			{
+				hint += $"{(char)('A' + i)}: {shuffledAnswers[i].Answer} ";
+			}
+			return hint.Trim();
+		}
 		private void QuestionStage(bool isQuestionStage)
 		{
 			AllowToDisplayAnswer = isQuestionStage;
 			AllowToValidateAnswer = !isQuestionStage;
 			DisplayAnswer = !isQuestionStage;
+			ShowHint = !isQuestionStage;
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -160,7 +203,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 
 		public void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-			if(UserTests.Count > 0)
+			if (UserTests.Count > 0)
 			{
 				cts?.Cancel();
 			}
