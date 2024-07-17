@@ -8,26 +8,60 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="TestTextStyle"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="24"></Setter>
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"></Setter>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"></Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ContentControl HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        prism:RegionManager.RegionName="{x:Static regions:RegionNames.TestingRegion}"
-                        Visibility="{Binding FinishedTesting, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
-        <StackPanel Grid.Row="1"
-                    Visibility="{Binding FinishedTesting, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-            <Button Content="Wrong"
-                    Command="{Binding NextTestCommand}"></Button>
-            <Button Content="Correct"
-                    Margin="16,0,0,0"
-                    Command="{Binding NextTestCommand}"></Button>
-        </StackPanel>
+        <Grid Visibility="{Binding FinishedTesting, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Question}"
+                       Style="{StaticResource TestTextStyle}"></TextBlock>
+            <TextBlock Grid.Row="1" Text="{Binding Hint}" Visibility="{Binding ShowHint, Converter={StaticResource BooleanToVisibilityConverter}}"
+                       Style="{StaticResource TestTextStyle}"></TextBlock>
+            <Separator Grid.Row="2"></Separator>
+            <TextBlock Grid.Row="3"
+                       Text="{Binding Answer}"
+                       Style="{StaticResource TestTextStyle}"
+                       Visibility="{Binding DisplayAnswer, Converter={StaticResource BooleanToVisibilityConverter}}"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1"
+              Visibility="{Binding FinishedTesting, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                        Visibility="{Binding AllowToDisplayAnswer, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button Content="Hint"
+                        Command="{Binding ShowHintCommand}"></Button>
+                <Button Content="Show answer"
+                        Margin="16,0,0,0"
+                        Command="{Binding ShowAnswerCommand}"></Button>
+            </StackPanel>
+            <StackPanel Visibility="{Binding AllowToValidateAnswer, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button Content="Wrong"
+                        Command="{Binding WrongAnswerCommand}"></Button>
+                <Button Content="Correct"
+                        Margin="16,0,0,0"
+                        Command="{Binding CorrectAnswerCommand}"></Button>
+            </StackPanel>
+        </Grid>
         <TextBlock Text="Testing finished"
                    Grid.RowSpan="3"
                    HorizontalAlignment="Center"
