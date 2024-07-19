@@ -2,7 +2,6 @@
 using Mneme.PrismModule.Testing.Views.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.Contracts;
-using Mneme.Testing.RepetitionAlgorithm;
 using Mneme.Testing.TestCreation;
 using Mneme.Testing.UsersTests;
 using Prism.Ioc;
@@ -30,8 +29,6 @@ namespace Mneme.PrismModule.Testing
 			containerRegistry.Register<TestPreviewProvider>();
 			containerRegistry.Register<TestTypeProvider>();
 			containerRegistry.Register<TestImportanceMapper>();
-			containerRegistry.Register<Fibo>();
-			containerRegistry.Register<SpaceRepetition>();
 
 			containerRegistry.Register<IDatabase, DatabaseMigrator>();
 			containerRegistry.Register<TestingRepository>();
