@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Mneme.Model.TestCreation;
+using Mneme.Testing.RepetitionAlgorithm;
 using Mneme.Testing.UsersTests;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -16,9 +15,11 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 	{
 		private readonly TestPreviewProvider testPreviewProvider;
 		private readonly IRegionManager regionManager;
+		private readonly SpaceRepetition speceRepetition;
 		private CancellationTokenSource cts;
-
-		private Queue<IUserTest> UserTests { get; set; }
+		private Test? currentTest;
+		 
+		private Queue<Test> UserTests { get; set; }
 		public DelegateCommand WrongAnswerCommand { get; set; }
 		public DelegateCommand CorrectAnswerCommand { get; set; }
 		public DelegateCommand ShowAnswerCommand { get; set; }
@@ -83,14 +84,14 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			get => showHint;
 			set => SetProperty(ref showHint, value);
 		}
-		
-		private IUserTest CurrentTest { get; set; }
-		public TestingViewModel(TestPreviewProvider testPreviewProvider, IRegionManager regionManager)
+
+		public TestingViewModel(TestPreviewProvider testPreviewProvider, IRegionManager regionManager, SpaceRepetition speceRepetition)
 		{
 			this.testPreviewProvider = testPreviewProvider;
 			this.regionManager = regionManager;
-			CorrectAnswerCommand = new DelegateCommand(NextTest);
-			WrongAnswerCommand = new DelegateCommand(NextTest); //TODO
+			this.speceRepetition = speceRepetition;
+			CorrectAnswerCommand = new DelegateCommand(CorrectAnswer);
+			WrongAnswerCommand = new DelegateCommand(IncorrectAnswer);
 			ShowAnswerCommand = new DelegateCommand(ShowAnswer);
 			ShowHintCommand = new DelegateCommand(DisplayHint, () => !string.IsNullOrEmpty(Hint)).ObservesProperty(() => Hint);
 		}
@@ -104,48 +105,34 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		{
 			QuestionStage(false);
 		}
-
+		private void CorrectAnswer()
+		{
+			NextTestPlusCheckUserAnswer(true);
+		}
+		private void IncorrectAnswer()
+		{
+			NextTestPlusCheckUserAnswer(false);
+		}
 		private void NextTest()
 		{
 			if (CheckIfTestsAreFinished())
 				return;
-			CurrentTest = UserTests.Dequeue();
-			
-			if (CurrentTest is TestShortAnswer tsa)
-			{
-				MapProperties(tsa);
-			}
-			else if (CurrentTest is TestMultipleChoices tmc)
-			{
-				MapProperties(tmc);
-			}
-		}
 
-		private void MapProperties(TestMultipleChoices tmc)
-		{
-			Question = tmc.Question;
-			var shuffledAnswers = ShuffleAnswers(tmc.Answers);
-			Hint = GenerateHint(shuffledAnswers);
-			var correctAnswer = "";
-			for(int i=0 ; i < shuffledAnswers.Count ; i++)
-			{
-				if(shuffledAnswers[i].IsCorrect)
-					correctAnswer = $"{(char)('A' + i)}: {shuffledAnswers[i].Answer},";
-			}
-			correctAnswer = correctAnswer.TrimEnd(',');
-			Answer = correctAnswer;
+			Question = currentTest.Question;
+			Answer = currentTest.GetAnswer();
+			Hint = currentTest.GetHint();
 		}
-		private void MapProperties(TestShortAnswer tsa)
+		private void NextTestPlusCheckUserAnswer(bool success)
 		{
-			Question = tsa.Question;
-			Answer = tsa.Answer;
-			Hint = tsa.Hint;
+			speceRepetition.MakeTest(currentTest, success);
+			NextTest();
 		}
 
 		private bool CheckIfTestsAreFinished()
 		{
 			if (UserTests.TryPeek(out var test))
 			{
+				currentTest = UserTests.Dequeue();
 				QuestionStage(true);
 				return false;
 			}
@@ -156,26 +143,15 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 			ShowHint = false;
 			return true;
 		}
-		private List<TestMultipleChoice> ShuffleAnswers(List<TestMultipleChoice> answers)
-		{
-			var random = new Random();
-			return answers.OrderBy(x => random.Next()).Where(x => !string.IsNullOrEmpty(x.Answer)).ToList();
-		}
-		private string GenerateHint(List<TestMultipleChoice> answers)
-		{
-			var hint = "";
-			for (int i = 0 ; i < answers.Count ; i++)
-			{
-				hint += $"{(char)('A' + i)}: {answers[i].Answer} ";
-			}
-			return hint.Trim();
-		}
+
+
 		private void QuestionStage(bool isQuestionStage)
 		{
 			AllowToDisplayAnswer = isQuestionStage;
 			AllowToValidateAnswer = !isQuestionStage;
 			DisplayAnswer = !isQuestionStage;
 			ShowHint = !isQuestionStage;
+			FinishedTesting = false;
 		}
 
 		public bool IsNavigationTarget(NavigationContext navigationContext)

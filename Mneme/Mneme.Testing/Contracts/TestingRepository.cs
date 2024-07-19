@@ -39,6 +39,13 @@ namespace Mneme.Testing.Contracts
 			context.SaveChanges();
 		}
 
+		public void EditTest(Test test)
+		{
+			using TestingContext context = new();
+			context.Update(test);
+			context.SaveChanges();
+		}
+
 		public TestMultipleChoices? GetMultipleChoicesTest(string title)
 		{
 			using TestingContext context = new();

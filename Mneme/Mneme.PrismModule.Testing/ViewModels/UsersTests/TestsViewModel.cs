@@ -92,7 +92,7 @@ namespace Mneme.PrismModule.Testing.ViewModels.UsersTests
 		public async void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			await Task.Run(() => { 
-				var tests = testPreviewProvider.GetTests();
+				var tests = testPreviewProvider.GetAllTests();
 				Application.Current.Dispatcher.Invoke(() => {
 					if (tests.Count != AllItems.Count)
 					{
