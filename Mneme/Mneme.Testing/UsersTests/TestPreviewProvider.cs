@@ -1,10 +1,11 @@
-﻿using Mneme.Model;
+﻿using Mneme.Core;
+using Mneme.Model;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.RepetitionAlgorithm;
 
 namespace Mneme.Testing.UsersTests
 {
-	public class TestPreviewProvider
+	public class TestPreviewProvider: ITestProvider
 	{
 		private readonly TestTypeProvider testTypeProvider;
 		private readonly TestingRepository repository;
@@ -48,6 +49,34 @@ namespace Mneme.Testing.UsersTests
 					ret.Enqueue(item);
 			}
 			return ret;
+		}
+
+		Task<IReadOnlyList<Test>> ITestProvider.GetAllTests()
+		{
+			var ret = new List<Test>();
+			var shortAnswers = repository.GetShortAnswerTests();
+			var multipleChoice = repository.GetMultipleChoicesTests();
+			ret.AddRange(shortAnswers);
+			ret.AddRange(multipleChoice);
+			return Task.FromResult<IReadOnlyList<Test>>(ret);
+		}
+
+		Task<IReadOnlyList<Test>> ITestProvider.GetTestsForToday()
+		{
+			var ret = new List<Test>();
+			var shortAnswers = repository.GetShortAnswerTests();
+			var multipleChoice = repository.GetMultipleChoicesTests();
+			foreach (var item in shortAnswers)
+			{
+				if (spaceRepetition.ShouldBeTested(item))
+					ret.Add(item);
+			}
+			foreach (var item in multipleChoice)
+			{
+				if (spaceRepetition.ShouldBeTested(item))
+					ret.Add(item);
+			}
+			return Task.FromResult<IReadOnlyList<Test>>(ret);
 		}
 	}
 }
