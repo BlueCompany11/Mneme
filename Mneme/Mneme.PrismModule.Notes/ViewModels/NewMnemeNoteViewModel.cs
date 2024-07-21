@@ -17,12 +17,8 @@ namespace Mneme.PrismModule.Notes.ViewModels
 	{
 		private readonly IRegionManager regionManager;
 		private readonly MnemeNotesCreator manager;
-		private ObservableCollection<Source> sourcesPreview;
-		public ObservableCollection<Source> SourcesPreviews
-		{
-			get => sourcesPreview;
-			set => SetProperty(ref sourcesPreview, value);
-		}
+
+		public ObservableCollection<Source> SourcesPreviews { get; set; }
 
 		private Source selectedSourcePreview;
 		public Source SelectedSourcePreview

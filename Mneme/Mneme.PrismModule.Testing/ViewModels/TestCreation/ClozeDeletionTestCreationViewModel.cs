@@ -21,12 +21,8 @@ namespace Mneme.PrismModule.Testing.ViewModels.TestCreation
 			get => text;
 			set => SetProperty(ref text, value);
 		}
-		private ObservableCollection<string> clozeDeletions;
-		public ObservableCollection<string> ClozeDeletions
-		{
-			get => clozeDeletions;
-			set => SetProperty(ref clozeDeletions, value);
-		}
+
+		public ObservableCollection<string> ClozeDeletions { get; set; }
 
 		private string hint;
 

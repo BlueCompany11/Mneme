@@ -36,7 +36,6 @@ namespace Mneme.Desktop
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(4)));
-			containerRegistry.RegisterSingleton<IDatabaseMigrations, DatabaseMigrations>();
 		}
 
 		protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -51,7 +50,6 @@ namespace Mneme.Desktop
 			moduleCatalog.AddModule<IntegrationModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable);
-			moduleCatalog.AddModule<IntegrationBaseModule>(InitializationMode.WhenAvailable);
 		}
 
 		protected override void OnInitialized()
