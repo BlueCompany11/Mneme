@@ -16,7 +16,6 @@ namespace Mneme.PrismModule.Integration.Facade
 		private readonly IIntegrationFacade<GoogleBooksSource, GoogleBooksNote> googleBooksIntegration;
 		private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 		private readonly IIntegrationFacade<PluralsightSource, PluralsightNote> pluralsightIntegration;
-		private bool disposedValue;
 
 		public BundledIntegrationFacades(
 				IIntegrationFacade<GoogleBooksSource, GoogleBooksNote> googleBooksIntegration,
