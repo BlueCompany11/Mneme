@@ -2,6 +2,7 @@
 using System.Windows;
 using DryIoc;
 using MaterialDesignThemes.Wpf;
+using Mneme.Core;
 using Mneme.Desktop.Views;
 using Mneme.PrismModule.Configuration.Integration;
 using Mneme.PrismModule.Dashboard;
@@ -49,7 +50,6 @@ namespace Mneme.Desktop
 			moduleCatalog.AddModule<IntegrationModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable);
 			moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable);
-			moduleCatalog.AddModule<IntegrationBaseModule>(InitializationMode.WhenAvailable);
 		}
 
 		protected override void OnInitialized()
@@ -64,8 +64,8 @@ namespace Mneme.Desktop
 		protected override async void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-			var migrations = Container.Resolve<DatabaseMigrations>();
-			await migrations.MigrateDatabase();
+			var migrations = Container.Resolve<IDatabaseMigrations>();
+			await migrations.MigrateDatabases();
 		}
 	}
 }

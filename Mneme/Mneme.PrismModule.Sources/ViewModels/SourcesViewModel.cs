@@ -8,7 +8,6 @@ using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model;
 using Mneme.PrismModule.Sources.Views;
 using Mneme.Sources;
-using Mneme.Testing.UsersTests;
 using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Regions;

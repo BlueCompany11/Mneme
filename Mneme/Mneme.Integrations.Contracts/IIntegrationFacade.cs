@@ -1,4 +1,5 @@
-﻿using Mneme.Model;
+﻿using Mneme.Core;
+using Mneme.Model;
 
 namespace Mneme.Integrations.Contracts
 {

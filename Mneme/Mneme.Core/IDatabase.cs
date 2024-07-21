@@ -1,4 +1,7 @@
-﻿namespace Mneme.Integrations.Contracts
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace Mneme.Core
 {
 	public interface IDatabase
 	{

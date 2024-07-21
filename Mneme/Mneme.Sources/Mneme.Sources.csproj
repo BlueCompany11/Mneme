@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mneme.Core\Mneme.Core.csproj" />
+    <ProjectReference Include="..\Mneme.Integrations.Contracts\Mneme.Integrations.Contracts.csproj" />
+    <ProjectReference Include="..\Mneme.Integrations.Mneme\Mneme.Integrations.Mneme.csproj" />
   </ItemGroup>
 
 </Project>

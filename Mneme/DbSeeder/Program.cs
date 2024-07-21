@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Mneme.Integrations.Mneme.Contract;
-using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
+using Mneme.Testing.TestCreation;
 
 namespace DbSeeder
 {

@@ -1,6 +1,8 @@
-﻿namespace Mneme.Model.TestCreation
+﻿using Mneme.Model;
+
+namespace Mneme.Testing.TestCreation
 {
-	public class TestMultipleChoices: Test
+	public class TestMultipleChoices : Test
 	{
 		public List<TestMultipleChoice> Answers { get; set; } = new();
 

@@ -1,4 +1,4 @@
-﻿using Mneme.Integrations.Contracts;
+﻿using Mneme.Core;
 using Mneme.PrismModule.Testing.Views.TestCreation;
 using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Testing.Contracts;
@@ -32,6 +32,7 @@ namespace Mneme.PrismModule.Testing
 
 			containerRegistry.Register<IDatabase, DatabaseMigrator>();
 			containerRegistry.Register<TestingRepository>();
+			containerRegistry.Register<ITestProvider, TestPreviewProvider>();
 		}
 	}
 }

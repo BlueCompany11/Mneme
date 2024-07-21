@@ -1,5 +1,4 @@
-﻿
-namespace Mneme.Model.TestCreation
+﻿namespace Mneme.Testing.TestCreation
 {
 	public class MultipleChoiceNoteData
 	{

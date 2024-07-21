@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using MaterialDesignThemes.Wpf;
 using Mneme.Model;
-using Mneme.Model.TestCreation;
 using Mneme.Testing.Contracts;
 using Mneme.Testing.TestCreation;
 using Mneme.Testing.UsersTests;

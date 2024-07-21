@@ -1,4 +1,4 @@
-﻿using Mneme.Model.TestCreation;
+﻿using Mneme.Model;
 using Mneme.Testing.Contracts;
 
 namespace Mneme.Testing.RepetitionAlgorithm

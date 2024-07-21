@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mneme.Model.TestCreation;
+using Mneme.Model;
 using Mneme.Testing.Database;
+using Mneme.Testing.TestCreation;
 
 namespace Mneme.Testing.Contracts
 {

@@ -1,4 +1,5 @@
-﻿using Mneme.Integrations.Contracts;
+﻿using Mneme.Core;
+using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Pluralsight;
 using Mneme.Integrations.Pluralsight.Contract;
 using Mneme.PrismModule.Integrations.Pluralsight.Views;

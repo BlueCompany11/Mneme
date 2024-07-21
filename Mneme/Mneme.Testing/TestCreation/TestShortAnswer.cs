@@ -1,4 +1,6 @@
-﻿namespace Mneme.Model.TestCreation
+﻿using Mneme.Model;
+
+namespace Mneme.Testing.TestCreation
 {
 	public class TestShortAnswer : Test
 	{
