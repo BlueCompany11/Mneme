@@ -1,4 +1,6 @@
-﻿namespace Mneme.Model.TestCreation
+﻿using System;
+
+namespace Mneme.Model
 {
 	public abstract class Test
 	{
@@ -6,10 +8,10 @@
 		public int? NoteId { get; set; }
 		public string Question { get; set; }
 		public DateTime Created { get; init; }
-		public DateTime Updated { get; set; } = DateTime.Now;
+		public DateTime Updated { get; set; }
 		public int Interval { get; set; }
 		public int Importance { get; set; }
 		public abstract string GetAnswer();
-		public abstract string? GetHint();
+		public abstract string GetHint();
 	}
 }

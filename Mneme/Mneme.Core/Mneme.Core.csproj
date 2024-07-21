@@ -17,10 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mneme.DataAccess\Mneme.DataAccess.csproj" />
-    <ProjectReference Include="..\Mneme.Integrations.Contracts\Mneme.Integrations.Contracts.csproj" />
     <ProjectReference Include="..\Mneme.Model\Mneme.Model.csproj" />
-    <ProjectReference Include="..\Mneme.Testing\Mneme.Testing.csproj" />
   </ItemGroup>
 
 </Project>

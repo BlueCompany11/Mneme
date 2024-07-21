@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Mneme.Model;
 using Mneme.Model.TestCreation;
 using Mneme.Testing.Database;
 

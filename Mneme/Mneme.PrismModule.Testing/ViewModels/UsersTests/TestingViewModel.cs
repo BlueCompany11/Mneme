@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Mneme.Model.TestCreation;
+using Mneme.Model;
 using Mneme.Testing.RepetitionAlgorithm;
 using Mneme.Testing.UsersTests;
 using Prism.Commands;
