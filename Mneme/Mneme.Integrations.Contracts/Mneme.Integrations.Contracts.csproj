@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mneme.Core\Mneme.Core.csproj" />
     <ProjectReference Include="..\Mneme.DataAccess\Mneme.DataAccess.csproj" />
   </ItemGroup>
 

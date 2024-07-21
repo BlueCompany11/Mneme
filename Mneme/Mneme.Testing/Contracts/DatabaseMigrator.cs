@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mneme.Integrations.Contracts;
+using Mneme.Core;
 using Mneme.Testing.Database;
 
 namespace Mneme.Testing.Contracts

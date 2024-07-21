@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Mneme.Integrations.Contracts;
 
-namespace Mneme.PrismModule.Integration.Facade
+namespace Mneme.Core
 {
-	public class DatabaseMigrations
+	public class DatabaseMigrations : IDatabaseMigrations
 	{
 		private readonly IEnumerable<IDatabase> databases;
 		private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
@@ -16,7 +15,7 @@ namespace Mneme.PrismModule.Integration.Facade
 			this.databases = databases;
 		}
 
-		public async Task MigrateDatabase()
+		public async Task MigrateDatabases()
 		{
 			if (!isMigrated)
 			{

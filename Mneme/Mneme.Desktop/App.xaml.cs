@@ -2,6 +2,7 @@
 using System.Windows;
 using DryIoc;
 using MaterialDesignThemes.Wpf;
+using Mneme.Core;
 using Mneme.Desktop.Views;
 using Mneme.PrismModule.Configuration.Integration;
 using Mneme.PrismModule.Dashboard;
@@ -35,6 +36,7 @@ namespace Mneme.Desktop
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(4)));
+			containerRegistry.RegisterSingleton<IDatabaseMigrations, DatabaseMigrations>();
 		}
 
 		protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -64,8 +66,8 @@ namespace Mneme.Desktop
 		protected override async void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-			var migrations = Container.Resolve<DatabaseMigrations>();
-			await migrations.MigrateDatabase();
+			var migrations = Container.Resolve<IDatabaseMigrations>();
+			await migrations.MigrateDatabases();
 		}
 	}
 }

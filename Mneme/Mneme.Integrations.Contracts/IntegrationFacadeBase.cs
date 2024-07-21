@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Mneme.Core;
 using Mneme.DataAccess;
 using Mneme.Model;
 

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Mneme.Core;
 using Mneme.Dashboard;
-using Mneme.PrismModule.Integration.Facade;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -13,7 +14,7 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 	{
 		private CancellationTokenSource cts;
 		private readonly StatisticsProvider statistics;
-		private readonly DatabaseMigrations migrations;
+		private readonly IDatabaseMigrations migrations;
 
 		public DelegateCommand LoadDataCommand { get; }
 
@@ -63,7 +64,7 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 			set => SetProperty(ref allTestsForTestingCount, value);
 		}
 
-		public DashboardViewModel(StatisticsProvider statistics, DatabaseMigrations migrations)
+		public DashboardViewModel(StatisticsProvider statistics, IDatabaseMigrations migrations)
 		{
 			this.statistics = statistics;
 			this.migrations = migrations;
@@ -76,9 +77,9 @@ namespace Mneme.PrismModule.Dashboard.ViewModels
 			{
 				await LoadData(default);
 			}
-			catch (Microsoft.Data.Sqlite.SqliteException)
+			catch (Exception)
 			{
-				await migrations.MigrateDatabase();
+				await migrations.MigrateDatabases();
 				await LoadData(default);
 			}
 		}

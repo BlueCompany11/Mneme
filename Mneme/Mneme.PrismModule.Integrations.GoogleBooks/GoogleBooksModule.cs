@@ -1,4 +1,5 @@
-﻿using Mneme.Integrations.Contracts;
+﻿using Mneme.Core;
+using Mneme.Integrations.Contracts;
 using Mneme.Integrations.GoogleBooks.Authorization;
 using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.PrismModule.Integrations.GoogleBooks.Views;
