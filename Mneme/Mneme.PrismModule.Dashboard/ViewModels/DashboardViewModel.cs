@@ -88,30 +88,30 @@ internal class DashboardViewModel : BindableBase, INavigationAware
 	{
 		var tasks = new List<Task>
 			{
-					Task.Run(async () =>
-					{
-							ActiveSourcesAmount = await statistics.GetKnownSourcesCount(ct);
-					}),
-					Task.Run(async () =>
-					{
-							ActiveNotesAmount = await statistics.GetKnownNotesCount(ct);
-					}),
-					Task.Run(async () =>
-					{
-							MostRecentSource = await statistics.GetMostRecentSource(ct);
-					}),
-					Task.Run(async () =>
-					{
-							MostRecentNote = await statistics.GetMostRecentNote(ct);
-					}),
-					Task.Run(async () =>
-					{
-							AllTestsCount = await statistics.GetAllTestsCount(ct);
-					}),
-					Task.Run(async () =>
-					{
-							AllTestsForTestingCount = await statistics.GetAllTestsForTestingCount(ct);
-					}),
+				Task.Run(async () =>
+				{
+						ActiveSourcesAmount = await statistics.GetKnownSourcesCount(ct);
+				}),
+				Task.Run(async () =>
+				{
+						ActiveNotesAmount = await statistics.GetKnownNotesCount(ct);
+				}),
+				Task.Run(async () =>
+				{
+						MostRecentSource = await statistics.GetMostRecentSource(ct);
+				}),
+				Task.Run(async () =>
+				{
+						MostRecentNote = await statistics.GetMostRecentNote(ct);
+				}),
+				Task.Run(async () =>
+				{
+						AllTestsCount = await statistics.GetAllTestsCount(ct);
+				}),
+				Task.Run(async () =>
+				{
+						AllTestsForTestingCount = await statistics.GetAllTestsForTestingCount(ct);
+				}),
 			};
 
 		await Task.WhenAll(tasks);
