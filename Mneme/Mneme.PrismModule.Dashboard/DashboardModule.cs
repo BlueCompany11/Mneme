@@ -15,6 +15,6 @@ public class DashboardModule : IModule
 	public void RegisterTypes(IContainerRegistry containerRegistry)
 	{
 		containerRegistry.RegisterForNavigation<DashboardView>();
-		_ = containerRegistry.Register<StatisticsProvider>();
+		_ = containerRegistry.Register<IStatisticsProvider, StatisticsProvider>();
 	}
 }

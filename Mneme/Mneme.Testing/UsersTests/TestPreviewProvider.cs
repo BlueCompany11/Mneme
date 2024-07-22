@@ -51,7 +51,7 @@ public class TestPreviewProvider : ITestProvider
 		return ret;
 	}
 
-	Task<IReadOnlyList<Test>> ITestProvider.GetAllTests()
+	Task<IReadOnlyList<Test>> ITestProvider.GetAllTests(CancellationToken ct)
 	{
 		var ret = new List<Test>();
 		IReadOnlyList<TestCreation.TestShortAnswer> shortAnswers = repository.GetShortAnswerTests();
@@ -61,7 +61,7 @@ public class TestPreviewProvider : ITestProvider
 		return Task.FromResult<IReadOnlyList<Test>>(ret);
 	}
 
-	Task<IReadOnlyList<Test>> ITestProvider.GetTestsForToday()
+	Task<IReadOnlyList<Test>> ITestProvider.GetTestsForToday(CancellationToken ct)
 	{
 		var ret = new List<Test>();
 		IReadOnlyList<TestCreation.TestShortAnswer> shortAnswers = repository.GetShortAnswerTests();

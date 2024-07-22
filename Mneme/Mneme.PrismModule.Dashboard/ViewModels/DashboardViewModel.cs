@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Mneme.PrismModule.Dashboard.ViewModels;
 
-internal class DashboardViewModel : BindableBase, INavigationAware
+public class DashboardViewModel : BindableBase, INavigationAware
 {
 	private CancellationTokenSource cts;
-	private readonly StatisticsProvider statistics;
+	private readonly IStatisticsProvider statistics;
 	private readonly IDatabaseMigrations migrations;
 
 	public DelegateCommand LoadDataCommand { get; }
@@ -64,7 +64,7 @@ internal class DashboardViewModel : BindableBase, INavigationAware
 		set => SetProperty(ref allTestsForTestingCount, value);
 	}
 
-	public DashboardViewModel(StatisticsProvider statistics, IDatabaseMigrations migrations)
+	public DashboardViewModel(IStatisticsProvider statistics, IDatabaseMigrations migrations)
 	{
 		this.statistics = statistics;
 		this.migrations = migrations;
@@ -88,30 +88,30 @@ internal class DashboardViewModel : BindableBase, INavigationAware
 	{
 		var tasks = new List<Task>
 			{
-					Task.Run(async () =>
-					{
-							ActiveSourcesAmount = await statistics.GetKnownSourcesCount(ct);
-					}),
-					Task.Run(async () =>
-					{
-							ActiveNotesAmount = await statistics.GetKnownNotesCount(ct);
-					}),
-					Task.Run(async () =>
-					{
-							MostRecentSource = await statistics.GetMostRecentSource(ct);
-					}),
-					Task.Run(async () =>
-					{
-							MostRecentNote = await statistics.GetMostRecentNote(ct);
-					}),
-					Task.Run(async () =>
-					{
-							AllTestsCount = await statistics.GetAllTestsCount(ct);
-					}),
-					Task.Run(async () =>
-					{
-							AllTestsForTestingCount = await statistics.GetAllTestsForTestingCount(ct);
-					}),
+				Task.Run(async () =>
+				{
+						ActiveSourcesAmount = await statistics.GetKnownSourcesCount(ct);
+				}),
+				Task.Run(async () =>
+				{
+						ActiveNotesAmount = await statistics.GetKnownNotesCount(ct);
+				}),
+				Task.Run(async () =>
+				{
+						MostRecentSource = await statistics.GetMostRecentSource(ct);
+				}),
+				Task.Run(async () =>
+				{
+						MostRecentNote = await statistics.GetMostRecentNote(ct);
+				}),
+				Task.Run(async () =>
+				{
+						AllTestsCount = await statistics.GetAllTestsCount(ct);
+				}),
+				Task.Run(async () =>
+				{
+						AllTestsForTestingCount = await statistics.GetAllTestsForTestingCount(ct);
+				}),
 			};
 
 		await Task.WhenAll(tasks);
@@ -121,7 +121,7 @@ internal class DashboardViewModel : BindableBase, INavigationAware
 
 	public void OnNavigatedFrom(NavigationContext navigationContext)
 	{
-		if (MostRecentSource == default || MostRecentNote == default)
+		if (MostRecentSource == default || MostRecentNote == default) // don't cancel if data was never loaded
 			return;
 		cts?.Cancel();
 	}
