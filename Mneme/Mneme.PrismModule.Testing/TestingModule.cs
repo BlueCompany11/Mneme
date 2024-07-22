@@ -7,32 +7,31 @@ using Mneme.Testing.UsersTests;
 using Prism.Ioc;
 using Prism.Modularity;
 
-namespace Mneme.PrismModule.Testing
+namespace Mneme.PrismModule.Testing;
+
+public class TestingModule : IModule
 {
-	public class TestingModule : IModule
+	public void OnInitialized(IContainerProvider containerProvider)
 	{
-		public void OnInitialized(IContainerProvider containerProvider)
-		{
 
-		}
+	}
 
-		public void RegisterTypes(IContainerRegistry containerRegistry)
-		{
-			containerRegistry.RegisterForNavigation<TestCreationView>();
-			containerRegistry.RegisterForNavigation<ShortAnswerTestCreationView>();
-			containerRegistry.RegisterForNavigation<MultipleChoiceTestCreationView>();
-			containerRegistry.RegisterForNavigation<ClozeDeletionTestCreationView>();
+	public void RegisterTypes(IContainerRegistry containerRegistry)
+	{
+		containerRegistry.RegisterForNavigation<TestCreationView>();
+		containerRegistry.RegisterForNavigation<ShortAnswerTestCreationView>();
+		containerRegistry.RegisterForNavigation<MultipleChoiceTestCreationView>();
+		containerRegistry.RegisterForNavigation<ClozeDeletionTestCreationView>();
 
-			containerRegistry.RegisterForNavigation<TestsView>();
-			containerRegistry.RegisterForNavigation<TestingView>();
+		containerRegistry.RegisterForNavigation<TestsView>();
+		containerRegistry.RegisterForNavigation<TestingView>();
 
-			containerRegistry.Register<TestPreviewProvider>();
-			containerRegistry.Register<TestTypeProvider>();
-			containerRegistry.Register<TestImportanceMapper>();
+		_ = containerRegistry.Register<TestPreviewProvider>();
+		_ = containerRegistry.Register<TestTypeProvider>();
+		_ = containerRegistry.Register<TestImportanceMapper>();
 
-			containerRegistry.Register<IDatabase, DatabaseMigrator>();
-			containerRegistry.Register<TestingRepository>();
-			containerRegistry.Register<ITestProvider, TestPreviewProvider>();
-		}
+		_ = containerRegistry.Register<IDatabase, DatabaseMigrator>();
+		_ = containerRegistry.Register<TestingRepository>();
+		_ = containerRegistry.Register<ITestProvider, TestPreviewProvider>();
 	}
 }

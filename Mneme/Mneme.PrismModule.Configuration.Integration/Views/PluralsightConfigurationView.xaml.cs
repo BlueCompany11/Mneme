@@ -1,21 +1,17 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Navigation;
 
-namespace Mneme.PrismModule.Configuration.Integration.Views
+namespace Mneme.PrismModule.Configuration.Integration.Views;
+
+/// <summary>
+/// Interaction logic for PluralsightConfigurationView.xaml
+/// </summary>
+public partial class PluralsightConfigurationView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for PluralsightConfigurationView.xaml
-	/// </summary>
-	public partial class PluralsightConfigurationView : UserControl
+	public PluralsightConfigurationView() => InitializeComponent();
+
+	private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
 	{
-		public PluralsightConfigurationView()
-		{
-			InitializeComponent();
-		}
 
-		private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-		{
-
-		}
 	}
 }

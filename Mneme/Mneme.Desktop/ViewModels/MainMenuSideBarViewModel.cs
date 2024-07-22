@@ -8,22 +8,21 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace Mneme.Desktop.ViewModels
+namespace Mneme.Desktop.ViewModels;
+
+public class MainMenuSideBarViewModel : BindableBase
 {
-	public class MainMenuSideBarViewModel : BindableBase
+	private readonly IRegionManager regionManager;
+	public string NavigateToDashboardParam => nameof(DashboardView);
+	public string NavigateToSourcesParam => nameof(SourcesView);
+	public string NavigateToNotesParam => nameof(NotesView);
+	public string NavigateToTestingParam => nameof(TestsView);
+	public string NavigateToIntegrationParam => nameof(BundledSourceConfigurationsView);
+	public DelegateCommand<string> NavigateCommand { get; private set; }
+	public MainMenuSideBarViewModel(IRegionManager regionManager)
 	{
-		private readonly IRegionManager regionManager;
-		public string NavigateToDashboardParam => nameof(DashboardView);
-		public string NavigateToSourcesParam => nameof(SourcesView);
-		public string NavigateToNotesParam => nameof(NotesView);
-		public string NavigateToTestingParam => nameof(TestsView);
-		public string NavigateToIntegrationParam => nameof(BundledSourceConfigurationsView);
-		public DelegateCommand<string> NavigateCommand { get; private set; }
-		public MainMenuSideBarViewModel(IRegionManager regionManager)
-		{
-			this.regionManager = regionManager;
-			NavigateCommand = new DelegateCommand<string>(
-				(url) => this.regionManager.RequestNavigate(RegionNames.ContentRegion, url));
-		}
+		this.regionManager = regionManager;
+		NavigateCommand = new DelegateCommand<string>(
+			(url) => this.regionManager.RequestNavigate(RegionNames.ContentRegion, url));
 	}
 }

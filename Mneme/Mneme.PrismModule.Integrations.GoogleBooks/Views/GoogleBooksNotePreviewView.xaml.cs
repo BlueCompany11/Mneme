@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace Mneme.PrismModule.Integrations.GoogleBooks.Views
+namespace Mneme.PrismModule.Integrations.GoogleBooks.Views;
+
+/// <summary>
+/// Interaction logic for GoogleBooksNotePreviewView.xaml
+/// </summary>
+public partial class GoogleBooksNotePreviewView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for GoogleBooksNotePreviewView.xaml
-	/// </summary>
-	public partial class GoogleBooksNotePreviewView : UserControl
-	{
-		public GoogleBooksNotePreviewView()
-		{
-			InitializeComponent();
-		}
-	}
+	public GoogleBooksNotePreviewView() => InitializeComponent();
 }

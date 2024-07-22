@@ -1,105 +1,98 @@
-﻿using System;
-using System.Threading.Tasks;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 using Mneme.Model;
 using Mneme.Sources;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System;
+using System.Threading.Tasks;
 
-namespace Mneme.PrismModule.Sources.ViewModels
+namespace Mneme.PrismModule.Sources.ViewModels;
+
+internal class SourceCreationViewModel : BindableBase, IDialogAware
 {
-	internal class SourceCreationViewModel : BindableBase, IDialogAware
+	private ISnackbarMessageQueue snackbarMessageQueue { get; }
+	public DelegateCommand CreateCommand { get; private set; }
+
+	private Source sourceToEdit;
+
+	private string sourceTitle;
+	public string SourceTitle
 	{
-		private ISnackbarMessageQueue snackbarMessageQueue { get; }
-		public DelegateCommand CreateCommand { get; private set; }
+		get => sourceTitle;
+		set => SetProperty(ref sourceTitle, value);
+	}
 
-		private Source sourceToEdit;
+	private string details;
+	private readonly MnemeSourceManager manager;
 
-		private string sourceTitle;
-		public string SourceTitle
-		{
-			get => sourceTitle;
-			set => SetProperty(ref sourceTitle, value);
-		}
+	public string Details
+	{
+		get => details;
+		set => SetProperty(ref details, value);
+	}
+	public SourceCreationViewModel(ISnackbarMessageQueue snackbarMessageQueue, MnemeSourceManager manager)
+	{
+		this.snackbarMessageQueue = snackbarMessageQueue;
+		this.manager = manager;
+		CreateCommand = new DelegateCommand(SaveAndClose, CanCreateSource()).ObservesProperty(() => SourceTitle);
+	}
+	private Func<bool> CanCreateSource() => () => !string.IsNullOrEmpty(SourceTitle);
 
-		private string details;
-		private readonly MnemeSourceManager manager;
+	private async void SaveAndClose()
+	{
+		if (sourceToEdit == null)
+			await Save();
+		else
+			await Update();
+	}
 
-		public string Details
+	private async Task Save()
+	{
+		Integrations.Mneme.Contract.MnemeSource source = await manager.SaveMnemeSource(SourceTitle, Details, default);
+		if (source is not null)
 		{
-			get => details;
-			set => SetProperty(ref details, value);
-		}
-		public SourceCreationViewModel(ISnackbarMessageQueue snackbarMessageQueue, MnemeSourceManager manager)
-		{
-			this.snackbarMessageQueue = snackbarMessageQueue;
-			this.manager = manager;
-			CreateCommand = new DelegateCommand(SaveAndClose, CanCreateSource()).ObservesProperty(() => SourceTitle);
-		}
-		private Func<bool> CanCreateSource()
-		{
-			return () => !string.IsNullOrEmpty(SourceTitle);
-		}
-
-		private async void SaveAndClose()
-		{
-			if (sourceToEdit == null)
-				await Save();
-			else
-				await Update();
-		}
-
-		private async Task Save()
-		{
-			var source = await manager.SaveMnemeSource(SourceTitle, Details, default);
-			if (source is not null)
-			{
-				var parameters = new DialogParameters
+			var parameters = new DialogParameters
 				{
 					{ "source", source }
 				};
-				snackbarMessageQueue.Enqueue("New source created");
-				RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
-			}
-			else
-				snackbarMessageQueue.Enqueue("Source already exisits");
+			snackbarMessageQueue.Enqueue("New source created");
+			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
 		}
-		private async Task Update()
-		{
-			sourceToEdit = await manager.UpdateMnemeSource(sourceToEdit.Id, SourceTitle, Details, default);
-			var parameters = new DialogParameters
+		else
+			snackbarMessageQueue.Enqueue("Source already exisits");
+	}
+	private async Task Update()
+	{
+		sourceToEdit = await manager.UpdateMnemeSource(sourceToEdit.Id, SourceTitle, Details, default);
+		var parameters = new DialogParameters
 				{
 					{ "source", sourceToEdit }
 				};
-			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
-			snackbarMessageQueue.Enqueue("Source updated");
-		}
-		private string title;
-		public string Title => title;
-		public event Action<IDialogResult> RequestClose;
+		RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
+		snackbarMessageQueue.Enqueue("Source updated");
+	}
 
-		public bool CanCloseDialog()
+	public string Title { get; private set; }
+	public event Action<IDialogResult> RequestClose;
+
+	public bool CanCloseDialog() => true;
+
+	public void OnDialogClosed()
+	{
+
+	}
+
+	public void OnDialogOpened(IDialogParameters parameters)
+	{
+		if (parameters.Count == 0)
 		{
-			return true;
+			Title = "Source creation";
+			return;
 		}
-
-		public void OnDialogClosed()
-		{
-
-		}
-
-		public void OnDialogOpened(IDialogParameters parameters)
-		{
-			if (parameters.Count == 0)
-			{
-				title = "Source creation";
-				return;
-			}
-			sourceToEdit = parameters.GetValue<Source>("source");
-			title = "Source edition";
-			SourceTitle = sourceToEdit.Title;
-			Details = sourceToEdit.GetDetails();
-		}
+		sourceToEdit = parameters.GetValue<Source>("source");
+		Title = "Source edition";
+		SourceTitle = sourceToEdit.Title;
+		Details = sourceToEdit.GetDetails();
 	}
 }

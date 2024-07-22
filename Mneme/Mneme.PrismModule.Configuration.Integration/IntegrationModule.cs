@@ -5,26 +5,25 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 
-namespace Mneme.PrismModule.Configuration.Integration
+namespace Mneme.PrismModule.Configuration.Integration;
+
+public class IntegrationModule : IModule
 {
-	public class IntegrationModule : IModule
+	public void OnInitialized(IContainerProvider containerProvider)
 	{
-		public void OnInitialized(IContainerProvider containerProvider)
-		{
 
-		}
+	}
 
-		public void RegisterTypes(IContainerRegistry containerRegistry)
-		{
-			containerRegistry.RegisterForNavigation<BundledSourceConfigurationsView>();
-			containerRegistry.RegisterForNavigation<PluralsightConfigurationView>();
-			containerRegistry.RegisterForNavigation<GoogleBooksConfigurationView>();
+	public void RegisterTypes(IContainerRegistry containerRegistry)
+	{
+		containerRegistry.RegisterForNavigation<BundledSourceConfigurationsView>();
+		containerRegistry.RegisterForNavigation<PluralsightConfigurationView>();
+		containerRegistry.RegisterForNavigation<GoogleBooksConfigurationView>();
 
-			ViewModelLocationProvider.Register<PluralsightConfigurationView, PluralsightConfigurationViewModel>();
-			ViewModelLocationProvider.Register<GoogleBooksConfigurationView, GoogleBooksSourceConfigurationViewModel>();
-			ViewModelLocationProvider.Register<BundledSourceConfigurationsView, BundledSourceConfigurationsViewModel>();
+		ViewModelLocationProvider.Register<PluralsightConfigurationView, PluralsightConfigurationViewModel>();
+		ViewModelLocationProvider.Register<GoogleBooksConfigurationView, GoogleBooksSourceConfigurationViewModel>();
+		ViewModelLocationProvider.Register<BundledSourceConfigurationsView, BundledSourceConfigurationsViewModel>();
 
-			containerRegistry.Register<GoogleBooksConnector>();
-		}
+		_ = containerRegistry.Register<GoogleBooksConnector>();
 	}
 }

@@ -1,7 +1,6 @@
-﻿namespace Mneme.Testing.TestCreation
+﻿namespace Mneme.Testing.TestCreation;
+
+public class ShortAnswerNoteData
 {
-	public class ShortAnswerNoteData
-	{
-		public string Question { get; set; }
-	}
+	public required string Question { get; set; }
 }

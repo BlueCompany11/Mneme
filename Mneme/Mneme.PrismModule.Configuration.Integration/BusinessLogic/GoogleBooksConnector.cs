@@ -1,41 +1,31 @@
-﻿using System;
+﻿using Mneme.Integrations.GoogleBooks.Authorization;
+using System;
 using System.IO;
-using Mneme.Integrations.GoogleBooks.Authorization;
 
-namespace Mneme.PrismModule.Configuration.Integration.BusinessLogic
+namespace Mneme.PrismModule.Configuration.Integration.BusinessLogic;
+
+public class GoogleBooksConnector : IDisposable
 {
-	public class GoogleBooksConnector:IDisposable
+	private readonly GoogleBooksService service;
+
+	public GoogleBooksConnector(GoogleBooksService service) => this.service = service;
+
+	public void Connect() => service.Connect();
+
+	public bool Disconnect()
 	{
-		private readonly GoogleBooksService service;
+		var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Google.Apis.Auth");
 
-		public GoogleBooksConnector(GoogleBooksService service)
+		try
 		{
-			this.service = service;
+			Directory.Delete(folderPath, true);
+			return true;
 		}
-
-		public void Connect()
+		catch (Exception)
 		{
-			service.Connect();
-		}
-
-		public bool Disconnect()
-		{
-			var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Google.Apis.Auth");
-
-			try
-			{
-				Directory.Delete(folderPath, true);
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-		}
-
-		public void Dispose()
-		{
-			service.Dispose();
+			return false;
 		}
 	}
+
+	public void Dispose() => service.Dispose();
 }

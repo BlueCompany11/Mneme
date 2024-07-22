@@ -1,36 +1,30 @@
-﻿using System;
+﻿using Mneme.PrismModule.Testing.ViewModels.TestCreation;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
-using Mneme.PrismModule.Testing.ViewModels.TestCreation;
 
-namespace Mneme.PrismModule.Testing.Views.TestCreation
+namespace Mneme.PrismModule.Testing.Views.TestCreation;
+
+/// <summary>
+/// Interaction logic for ClozeDeletionTestCreationView.xaml
+/// </summary>
+public partial class ClozeDeletionTestCreationView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for ClozeDeletionTestCreationView.xaml
-	/// </summary>
-	public partial class ClozeDeletionTestCreationView : UserControl
+	public ClozeDeletionTestCreationView() => InitializeComponent();
+
+	private void btnGetSelectedText_Click(object sender, RoutedEventArgs e)
 	{
-		public ClozeDeletionTestCreationView()
-		{
-			InitializeComponent();
-		}
+		var dataContext = DataContext as ClozeDeletionTestCreationViewModel;
+		Tuple<int, int> positions = Count();
 
-		private void btnGetSelectedText_Click(object sender, RoutedEventArgs e)
-		{
-			var dataContext = DataContext as ClozeDeletionTestCreationViewModel;
-			var positions = Count();
+		dataContext.MarkClozeDeletion(positions.Item1, positions.Item2);
+	}
 
-			dataContext.MarkClozeDeletion(positions.Item1, positions.Item2);
-		}
+	private Tuple<int, int> Count()
+	{
+		var selectionStart = textRichTextBox.SelectionStart;
+		var selectionEnd = textRichTextBox.SelectionStart + textRichTextBox.SelectionLength;
 
-		private Tuple<int, int> Count()
-		{
-			var selectionStart = textRichTextBox.SelectionStart;
-			var selectionEnd = textRichTextBox.SelectionStart + textRichTextBox.SelectionLength;
-
-			return new Tuple<int, int>(selectionStart, selectionEnd);
-		}
+		return new Tuple<int, int>(selectionStart, selectionEnd);
 	}
 }

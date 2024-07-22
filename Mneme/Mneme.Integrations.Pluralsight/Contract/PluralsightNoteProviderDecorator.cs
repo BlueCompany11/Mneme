@@ -2,60 +2,59 @@
 using Mneme.Integrations.Pluralsight.Database;
 using Mneme.Model;
 
-namespace Mneme.Integrations.Pluralsight.Contract
+namespace Mneme.Integrations.Pluralsight.Contract;
+
+public class PluralsightNoteProviderDecorator
 {
-	public class PluralsightNoteProviderDecorator
+	private readonly PluralsightNoteProvider pluralsightNoteProvider;
+	private readonly PluralsightConfigProvider pluralsightConfigProvider;
+
+	public PluralsightNoteProviderDecorator(PluralsightConfigProvider pluralsightConfigProvider)
 	{
-		private readonly PluralsightNoteProvider pluralsightNoteProvider;
-		private readonly PluralsightConfigProvider pluralsightConfigProvider;
+		pluralsightNoteProvider = new();
+		this.pluralsightConfigProvider = pluralsightConfigProvider;
+	}
 
-		public PluralsightNoteProviderDecorator(PluralsightConfigProvider pluralsightConfigProvider)
+	public async Task<List<Note>> GetNotesAsync(CancellationToken ct = default)
+	{
+		var ret = new List<Note>();
+		using var pluralsightContext = new PluralsightContext();
+		if (pluralsightNoteProvider.TryOpen(pluralsightConfigProvider.Config.FilePath, out List<PluralsightNote>? note))
 		{
-			this.pluralsightNoteProvider = new();
-			this.pluralsightConfigProvider = pluralsightConfigProvider;
+			await AddNewSources(note, pluralsightContext, ct).ConfigureAwait(false);
+			_ = await pluralsightContext.SaveChangesAsync(ct).ConfigureAwait(false);
+			AddNewNotes(note, pluralsightContext);
+			_ = await pluralsightContext.SaveChangesAsync(ct).ConfigureAwait(false);
 		}
-
-		public async Task<List<Note>> GetNotesAsync(CancellationToken ct = default)
+		foreach (PluralsightNote? item in pluralsightContext.PluralsightNotes.Where(x => x.Source.Active))
 		{
-			var ret = new List<Note>();
-			using var pluralsightContext = new PluralsightContext();
-			if (pluralsightNoteProvider.TryOpen(pluralsightConfigProvider.Config.FilePath, out var note))
-			{
-				await AddNewSources(note, pluralsightContext, ct).ConfigureAwait(false);
-				_ = await pluralsightContext.SaveChangesAsync(ct).ConfigureAwait(false);
-				AddNewNotes(note, pluralsightContext);
-				_ = await pluralsightContext.SaveChangesAsync(ct).ConfigureAwait(false);
-			}
-			foreach (var item in pluralsightContext.PluralsightNotes.Where(x => x.Source.Active))
-			{
-				ret.Add(item);
-			}
-			return ret;
+			ret.Add(item);
 		}
+		return ret;
+	}
 
-		private async Task AddNewSources(List<PluralsightNote> notes, PluralsightContext pluralsightContext, CancellationToken ct)
+	private async Task AddNewSources(List<PluralsightNote> notes, PluralsightContext pluralsightContext, CancellationToken ct)
+	{
+		var uniqueSources = notes.GroupBy(x => x.Source.IntegrationId).Select(x => x.First().Source).ToList();
+		List<PluralsightSource> existingSources = await pluralsightContext.PluralsightSources.ToListAsync(ct).ConfigureAwait(false);
+		foreach (PluralsightSource? source in uniqueSources)
 		{
-			var uniqueSources = notes.GroupBy(x => x.Source.IntegrationId).Select(x => x.First().Source).ToList();
-			var existingSources = await pluralsightContext.PluralsightSources.ToListAsync(ct).ConfigureAwait(false);
-			foreach (var source in uniqueSources)
-			{
-				var existingSource = existingSources.FirstOrDefault(x => x.IntegrationId == source.IntegrationId);
-				if (existingSource == null)
-					_ = pluralsightContext.Update(source);
-			}
+			PluralsightSource? existingSource = existingSources.FirstOrDefault(x => x.IntegrationId == source.IntegrationId);
+			if (existingSource == null)
+				_ = pluralsightContext.Update(source);
 		}
+	}
 
-		private void AddNewNotes(List<PluralsightNote> notes, PluralsightContext pluralsightContext)
+	private void AddNewNotes(List<PluralsightNote> notes, PluralsightContext pluralsightContext)
+	{
+		foreach (PluralsightNote note in notes)
 		{
-			foreach (var note in notes)
+			PluralsightNote? existingNote = pluralsightContext.PluralsightNotes.FirstOrDefault(x => x.IntegrationId == note.IntegrationId);
+			if (existingNote == null)
 			{
-				var existingNote = pluralsightContext.PluralsightNotes.FirstOrDefault(x => x.IntegrationId == note.IntegrationId);
-				if (existingNote == null)
-				{
-					var source = pluralsightContext.PluralsightSources.First(x => x.IntegrationId == note.Source.IntegrationId);
-					note.Source = source;
-					_ = pluralsightContext.Update(note);
-				}
+				PluralsightSource source = pluralsightContext.PluralsightSources.First(x => x.IntegrationId == note.Source.IntegrationId);
+				note.Source = source;
+				_ = pluralsightContext.Update(note);
 			}
 		}
 	}

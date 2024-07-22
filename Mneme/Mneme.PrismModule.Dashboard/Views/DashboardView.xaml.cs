@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace Mneme.PrismModule.Dashboard.Views
+namespace Mneme.PrismModule.Dashboard.Views;
+
+/// <summary>
+/// Interaction logic for DashboardView.xaml
+/// </summary>
+public partial class DashboardView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for DashboardView.xaml
-	/// </summary>
-	public partial class DashboardView : UserControl
-	{
-		public DashboardView()
-		{
-			InitializeComponent();
-		}
-	}
+	public DashboardView() => InitializeComponent();
 }

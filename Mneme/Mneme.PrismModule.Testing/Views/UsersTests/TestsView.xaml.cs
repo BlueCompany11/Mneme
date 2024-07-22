@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace Mneme.PrismModule.Testing.Views.UsersTests
+namespace Mneme.PrismModule.Testing.Views.UsersTests;
+
+/// <summary>
+/// Interaction logic for TestsView.xaml
+/// </summary>
+public partial class TestsView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for TestsView.xaml
-	/// </summary>
-	public partial class TestsView : UserControl
-	{
-		public TestsView()
-		{
-			InitializeComponent();
-		}
-	}
+	public TestsView() => InitializeComponent();
 }

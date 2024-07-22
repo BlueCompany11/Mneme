@@ -1,16 +1,12 @@
 ﻿using Mneme.Model;
 
-namespace Mneme.Integrations.GoogleBooks.Contract
+namespace Mneme.Integrations.GoogleBooks.Contract;
+
+public class GoogleBooksSource : Source
 {
-	public class GoogleBooksSource : Source
-	{
-		public override string TextType => Type;
+	public override string TextType => Type;
 
-		public override string GetDetails()
-		{
-			return "";
-		}
+	public override string GetDetails() => "";
 
-		public static string Type => "GoogleBooks";
-	}
+	public static string Type => "GoogleBooks";
 }

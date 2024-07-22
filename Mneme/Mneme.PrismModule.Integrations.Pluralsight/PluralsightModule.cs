@@ -6,25 +6,24 @@ using Mneme.PrismModule.Integrations.Pluralsight.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 
-namespace Mneme.PrismModule.Integrations.Pluralsight
+namespace Mneme.PrismModule.Integrations.Pluralsight;
+
+public class PluralsightModule : IModule
 {
-	public class PluralsightModule : IModule
+	public void OnInitialized(IContainerProvider containerProvider)
 	{
-		public void OnInitialized(IContainerProvider containerProvider)
-		{
 
-		}
+	}
 
-		public void RegisterTypes(IContainerRegistry containerRegistry)
-		{
-			containerRegistry.RegisterForNavigation<PluralsightNotePreviewView>();
+	public void RegisterTypes(IContainerRegistry containerRegistry)
+	{
+		containerRegistry.RegisterForNavigation<PluralsightNotePreviewView>();
 
-			containerRegistry.Register<PluralsightConfigProvider>();
-			containerRegistry.Register<PluralsightNoteProviderDecorator>();
-			containerRegistry.Register<BaseSourcesProvider<PluralsightSource>, PluralsightSourceProvider>();
-			containerRegistry.Register<IIntegrationFacade<PluralsightSource, PluralsightNote>, PluralsightIntegrationFacade>();
+		_ = containerRegistry.Register<PluralsightConfigProvider>();
+		_ = containerRegistry.Register<PluralsightNoteProviderDecorator>();
+		_ = containerRegistry.Register<BaseSourcesProvider<PluralsightSource>, PluralsightSourceProvider>();
+		_ = containerRegistry.Register<IIntegrationFacade<PluralsightSource, PluralsightNote>, PluralsightIntegrationFacade>();
 
-			containerRegistry.Register<IDatabase, PluralsightIntegrationFacade>();
-		}
+		_ = containerRegistry.Register<IDatabase, PluralsightIntegrationFacade>();
 	}
 }

@@ -7,29 +7,25 @@ using Mneme.PrismModule.Integrations.Mneme.Views;
 using Mneme.PrismModule.Integrations.Pluralsight.Views;
 using Prism.Regions;
 
-namespace Mneme.PrismModule.Integration.Facade
+namespace Mneme.PrismModule.Integration.Facade;
+
+public class NoteToPreviewNavigator
 {
-	public class NoteToPreviewNavigator
+	private readonly IRegionManager regionManager;
+	public NoteToPreviewNavigator(IRegionManager regionManager) => this.regionManager = regionManager;
+	public void NavigateToPreview(Note note, NavigationParameters para, string regionName)
 	{
-		private readonly IRegionManager regionManager;
-		public NoteToPreviewNavigator(IRegionManager regionManager)
+		if (note is GoogleBooksNote)
 		{
-			this.regionManager = regionManager;
+			regionManager.RequestNavigate(regionName, nameof(GoogleBooksNotePreviewView), para);
 		}
-		public void NavigateToPreview(Note note, NavigationParameters para, string regionName)
+		else if (note is PluralsightNote)
 		{
-			if (note is GoogleBooksNote)
-			{
-				regionManager.RequestNavigate(regionName, nameof(GoogleBooksNotePreviewView), para);
-			}
-			else if (note is PluralsightNote)
-			{
-				regionManager.RequestNavigate(regionName, nameof(PluralsightNotePreviewView), para);
-			}
-			else if (note is MnemeNote)
-			{
-				regionManager.RequestNavigate(regionName, nameof(MnemeNotePreviewView), para);
-			}
+			regionManager.RequestNavigate(regionName, nameof(PluralsightNotePreviewView), para);
+		}
+		else if (note is MnemeNote)
+		{
+			regionManager.RequestNavigate(regionName, nameof(MnemeNotePreviewView), para);
 		}
 	}
 }

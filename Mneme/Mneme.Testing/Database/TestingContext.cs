@@ -2,35 +2,34 @@
 using Mneme.DataAccess;
 using Mneme.Testing.TestCreation;
 
-namespace Mneme.Testing.Database
-{
-	internal class TestingContext : Context
-	{
-		public DbSet<TestShortAnswer> TestShortAnswers { get; set; }
-		public DbSet<TestMultipleChoices> TestMultipleChoices { get; set; }
-		public DbSet<TestMultipleChoice> TestMultipleChoice { get; set; }
+namespace Mneme.Testing.Database;
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+internal class TestingContext : Context
+{
+	public DbSet<TestShortAnswer> TestShortAnswers { get; set; }
+	public DbSet<TestMultipleChoices> TestMultipleChoices { get; set; }
+	public DbSet<TestMultipleChoice> TestMultipleChoice { get; set; }
+
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		_ = modelBuilder.Entity<TestShortAnswer>(entity =>
 		{
-			modelBuilder.Entity<TestShortAnswer>(entity =>
-			{
-				entity.Property(e => e.Id).ValueGeneratedOnAdd();
-				entity.HasKey(e => e.Id);
-				entity.Property(e => e.Created).HasDefaultValueSql("CURRENT_TIMESTAMP");
-			});
-			modelBuilder.Entity<TestMultipleChoices>(entity =>
-			{
-				entity.Property(e => e.Id).ValueGeneratedOnAdd();
-				entity.HasKey(e => e.Id);
-				entity.HasMany(e => e.Answers);
-				entity.Property(e => e.Created).HasDefaultValueSql("CURRENT_TIMESTAMP");
-			});
-			modelBuilder.Entity<TestMultipleChoice>(entity =>
-			{
-				entity.Property(e => e.Id).ValueGeneratedOnAdd();
-				entity.HasKey(e => e.Id);
-				entity.HasOne(e => e.Test).WithMany().HasForeignKey(e => e.TestId);
-			});
-		}
+			_ = entity.Property(e => e.Id).ValueGeneratedOnAdd();
+			_ = entity.HasKey(e => e.Id);
+			_ = entity.Property(e => e.Created).HasDefaultValueSql("CURRENT_TIMESTAMP");
+		});
+		_ = modelBuilder.Entity<TestMultipleChoices>(entity =>
+		{
+			_ = entity.Property(e => e.Id).ValueGeneratedOnAdd();
+			_ = entity.HasKey(e => e.Id);
+			_ = entity.HasMany(e => e.Answers);
+			_ = entity.Property(e => e.Created).HasDefaultValueSql("CURRENT_TIMESTAMP");
+		});
+		_ = modelBuilder.Entity<TestMultipleChoice>(entity =>
+		{
+			_ = entity.Property(e => e.Id).ValueGeneratedOnAdd();
+			_ = entity.HasKey(e => e.Id);
+			_ = entity.HasOne(e => e.Test).WithMany().HasForeignKey(e => e.TestId);
+		});
 	}
 }

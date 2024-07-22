@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace Mneme.PrismModule.Testing.Views.TestCreation
+namespace Mneme.PrismModule.Testing.Views.TestCreation;
+
+/// <summary>
+/// Interaction logic for ShortAnswerTestCreationView.xaml
+/// </summary>
+public partial class ShortAnswerTestCreationView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for ShortAnswerTestCreationView.xaml
-	/// </summary>
-	public partial class ShortAnswerTestCreationView : UserControl
-	{
-		public ShortAnswerTestCreationView()
-		{
-			InitializeComponent();
-		}
-	}
+	public ShortAnswerTestCreationView() => InitializeComponent();
 }

@@ -2,30 +2,29 @@
 using Mneme.DataAccess;
 using Mneme.Integrations.Mneme.Contract;
 
-namespace Mneme.Integrations.Mneme.Database
-{
-	internal class MnemeContext : Context
-	{
-		public DbSet<MnemeSource> MnemeSources { get; set; }
-		public DbSet<MnemeNote> MnemeNotes { get; set; }
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			modelBuilder.Entity<MnemeSource>(entity =>
-			{
-				entity.Property(e => e.Id).ValueGeneratedOnAdd();
-				entity.HasKey(e => e.Id);
-				entity.HasIndex(e => e.IntegrationId).IsUnique();
-				entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
-			});
+namespace Mneme.Integrations.Mneme.Database;
 
-			modelBuilder.Entity<MnemeNote>(entity =>
-			{
-				entity.Property(e => e.Id).ValueGeneratedOnAdd();
-				entity.HasKey(e => e.Id);
-				entity.HasOne(e => e.Source);
-				entity.HasIndex(e => e.IntegrationId).IsUnique();
-				entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
-			});
-		}
+internal class MnemeContext : Context
+{
+	public DbSet<MnemeSource> MnemeSources { get; set; }
+	public DbSet<MnemeNote> MnemeNotes { get; set; }
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		_ = modelBuilder.Entity<MnemeSource>(entity =>
+		{
+			_ = entity.Property(e => e.Id).ValueGeneratedOnAdd();
+			_ = entity.HasKey(e => e.Id);
+			_ = entity.HasIndex(e => e.IntegrationId).IsUnique();
+			_ = entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
+		});
+
+		_ = modelBuilder.Entity<MnemeNote>(entity =>
+		{
+			_ = entity.Property(e => e.Id).ValueGeneratedOnAdd();
+			_ = entity.HasKey(e => e.Id);
+			_ = entity.HasOne(e => e.Source);
+			_ = entity.HasIndex(e => e.IntegrationId).IsUnique();
+			_ = entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
+		});
 	}
 }

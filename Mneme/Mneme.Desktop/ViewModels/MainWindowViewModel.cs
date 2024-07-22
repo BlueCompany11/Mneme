@@ -1,15 +1,11 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Prism.Mvvm;
 
-namespace Mneme.Desktop.ViewModels
-{
-	public class MainWindowViewModel : BindableBase
-	{
-		public ISnackbarMessageQueue SnackbarMessageQueue { get; }
+namespace Mneme.Desktop.ViewModels;
 
-		public MainWindowViewModel(ISnackbarMessageQueue snackbarMessageQueue)
-		{
-			SnackbarMessageQueue = snackbarMessageQueue;
-		}
-	}
+public class MainWindowViewModel : BindableBase
+{
+	public ISnackbarMessageQueue SnackbarMessageQueue { get; }
+
+	public MainWindowViewModel(ISnackbarMessageQueue snackbarMessageQueue) => SnackbarMessageQueue = snackbarMessageQueue;
 }

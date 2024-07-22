@@ -1,14 +1,13 @@
 ﻿using Mneme.Model;
 
-namespace Mneme.Testing.TestCreation
+namespace Mneme.Testing.TestCreation;
+
+public class TestShortAnswer : Test
 {
-	public class TestShortAnswer : Test
-	{
-		public string? Hint { get; set; }
-		public string Answer { get; set; }
+	public string? Hint { get; set; }
+	public required string Answer { get; set; }
 
-		public override string GetAnswer() => Answer;
+	public override string GetAnswer() => Answer;
 
-		public override string? GetHint() => Hint;
-	}
+	public override string? GetHint() => Hint;
 }

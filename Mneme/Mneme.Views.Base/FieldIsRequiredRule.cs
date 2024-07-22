@@ -1,20 +1,17 @@
-﻿using System.Globalization;
+﻿using Mneme.Model;
+using System.Globalization;
 using System.Windows.Controls;
-using Mneme.Model;
 
-namespace Mneme.Views.Base
+namespace Mneme.Views.Base;
+
+public class FieldIsRequiredRule : ValidationRule
 {
-	public class FieldIsRequiredRule : ValidationRule
+	public override ValidationResult Validate(object value, CultureInfo cultureInfo)
 	{
-		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-		{
-			if (value == null)
-				return new ValidationResult(false, $"Field is required");
-			if (value is Source)
-				return ValidationResult.ValidResult;
-			if (((string)value).Length == 0)
-				return new ValidationResult(false, $"Field is required");
-			return ValidationResult.ValidResult;
-		}
+		return value == null
+			? new ValidationResult(false, $"Field is required")
+			: value is Source
+			? ValidationResult.ValidResult
+			: ((string)value).Length == 0 ? new ValidationResult(false, $"Field is required") : ValidationResult.ValidResult;
 	}
 }

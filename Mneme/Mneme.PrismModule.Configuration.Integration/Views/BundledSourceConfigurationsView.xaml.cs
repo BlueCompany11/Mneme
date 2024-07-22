@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace Mneme.PrismModule.Configuration.Integration.Views
+namespace Mneme.PrismModule.Configuration.Integration.Views;
+
+/// <summary>
+/// Interaction logic for BundledSourceConfigurationsView.xaml
+/// </summary>
+public partial class BundledSourceConfigurationsView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for BundledSourceConfigurationsView.xaml
-	/// </summary>
-	public partial class BundledSourceConfigurationsView : UserControl
-	{
-		public BundledSourceConfigurationsView()
-		{
-			InitializeComponent();
-		}
-	}
+	public BundledSourceConfigurationsView() => InitializeComponent();
 }

@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mneme.Core
+namespace Mneme.Core;
+
+public interface IDatabase
 {
-	public interface IDatabase
-	{
-		Task MigrateDatabase(CancellationToken ct = default);
-	}
+	Task MigrateDatabase(CancellationToken ct = default);
 }

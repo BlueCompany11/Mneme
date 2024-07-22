@@ -1,8 +1,7 @@
 ﻿using Prism.Events;
 
-namespace Mneme.Views.Base
+namespace Mneme.Views.Base;
+
+public class NavigationRequestEvent : PubSubEvent<string>
 {
-	public class NavigationRequestEvent : PubSubEvent<string>
-	{
-	}
 }

@@ -1,17 +1,16 @@
 ﻿using System;
 
-namespace Mneme.Model
+namespace Mneme.Model;
+
+public abstract class Note
 {
-	public abstract class Note
-	{
-		public int Id { get; set; }
-		/// <summary>
-		/// Used to recognize if 2 notes are the same
-		/// </summary>
-		public required string IntegrationId { get; init; }
-		public required string Title { get; init; }
-		public required string Path { get; init; }
-		public DateTime CreationTime { get; init; }
-		public required string Content { get; init; }
-	}
+	public int Id { get; set; }
+	/// <summary>
+	/// Used to recognize if 2 notes are the same
+	/// </summary>
+	public required string IntegrationId { get; init; }
+	public required string Title { get; init; }
+	public required string Path { get; init; }
+	public DateTime CreationTime { get; init; }
+	public required string Content { get; init; }
 }

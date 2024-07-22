@@ -2,14 +2,13 @@
 using Mneme.Core;
 using Mneme.Testing.Database;
 
-namespace Mneme.Testing.Contracts
+namespace Mneme.Testing.Contracts;
+
+public class DatabaseMigrator : IDatabase
 {
-	public class DatabaseMigrator : IDatabase
+	public async Task MigrateDatabase(CancellationToken ct)
 	{
-		public async Task MigrateDatabase(CancellationToken ct)
-		{
-			using var context = new TestingContext();
-			await context.Database.MigrateAsync(ct).ConfigureAwait(false);
-		}
+		using var context = new TestingContext();
+		await context.Database.MigrateAsync(ct).ConfigureAwait(false);
 	}
 }

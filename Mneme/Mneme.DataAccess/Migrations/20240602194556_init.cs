@@ -1,22 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
+namespace Mneme.DataAccess.Migrations;
 
-namespace Mneme.DataAccess.Migrations
+/// <inheritdoc />
+public partial class init : Migration
 {
 	/// <inheritdoc />
-	public partial class init : Migration
+	protected override void Up(MigrationBuilder migrationBuilder)
 	{
-		/// <inheritdoc />
-		protected override void Up(MigrationBuilder migrationBuilder)
-		{
 
-		}
+	}
 
-		/// <inheritdoc />
-		protected override void Down(MigrationBuilder migrationBuilder)
-		{
+	/// <inheritdoc />
+	protected override void Down(MigrationBuilder migrationBuilder)
+	{
 
-		}
 	}
 }

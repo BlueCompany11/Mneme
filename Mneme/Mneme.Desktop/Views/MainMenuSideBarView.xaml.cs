@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace Mneme.Desktop.Views
+namespace Mneme.Desktop.Views;
+
+/// <summary>
+/// Interaction logic for MainMenuSideBarView.xaml
+/// </summary>
+public partial class MainMenuSideBarView : UserControl
 {
-	/// <summary>
-	/// Interaction logic for MainMenuSideBarView.xaml
-	/// </summary>
-	public partial class MainMenuSideBarView : UserControl
-	{
-		public MainMenuSideBarView()
-		{
-			InitializeComponent();
-		}
-	}
+	public MainMenuSideBarView() => InitializeComponent();
 }

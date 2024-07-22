@@ -5,38 +5,37 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace Mneme.PrismModule.Configuration.Integration.ViewModels
+namespace Mneme.PrismModule.Configuration.Integration.ViewModels;
+
+public class BundledSourceConfigurationsViewModel : BindableBase
 {
-	public class BundledSourceConfigurationsViewModel : BindableBase
+	private readonly IEventAggregator eventAggregator;
+	private readonly IRegionManager regionManager;
+
+	public BundledSourceConfigurationsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, PluralsightSourceConfigurationWithSignleTextViewModel pluralsight,
+		GoogleBooksSourceConfigurationViewModel googleBooks
+		)
 	{
-		private readonly IEventAggregator eventAggregator;
-		private readonly IRegionManager regionManager;
+		this.eventAggregator = eventAggregator;
+		this.regionManager = regionManager;
+		Pluralsight = pluralsight;
+		GoogleBooks = googleBooks;
+		_ = this.eventAggregator.GetEvent<NavigationRequestEvent>().Subscribe(OnRecived);
+	}
+	public DelegateCommand ClickCommand;
 
-		public BundledSourceConfigurationsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, PluralsightSourceConfigurationWithSignleTextViewModel pluralsight,
-			GoogleBooksSourceConfigurationViewModel googleBooks
-			)
+	public SourceConfigurationWithSignleTextViewModel Pluralsight { get; }
+	public GoogleBooksSourceConfigurationViewModel GoogleBooks { get; }
+
+	private void OnRecived(string msg)
+	{
+		var uri = "";
+		if (msg == Pluralsight.SourceName)
+			uri = nameof(PluralsightConfigurationView);
+		else if (msg == GoogleBooks.SourceName)
 		{
-			this.eventAggregator = eventAggregator;
-			this.regionManager = regionManager;
-			Pluralsight = pluralsight;
-			GoogleBooks = googleBooks;
-			_ = this.eventAggregator.GetEvent<NavigationRequestEvent>().Subscribe(OnRecived);
+			uri = nameof(GoogleBooksConfigurationView);
 		}
-		public DelegateCommand ClickCommand;
-
-		public SourceConfigurationWithSignleTextViewModel Pluralsight { get; }
-		public GoogleBooksSourceConfigurationViewModel GoogleBooks { get; }
-
-		private void OnRecived(string msg)
-		{
-			string uri = "";
-			if (msg == Pluralsight.SourceName)
-				uri = nameof(PluralsightConfigurationView);
-			else if (msg == GoogleBooks.SourceName)
-			{
-				uri = nameof(GoogleBooksConfigurationView);
-			}
-			regionManager.RequestNavigate(RegionNames.ContentRegion, uri);
-		}
+		regionManager.RequestNavigate(RegionNames.ContentRegion, uri);
 	}
 }

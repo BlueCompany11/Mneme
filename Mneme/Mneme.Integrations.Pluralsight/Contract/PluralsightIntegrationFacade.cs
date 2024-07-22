@@ -2,40 +2,36 @@
 using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Pluralsight.Database;
 
-namespace Mneme.Integrations.Pluralsight.Contract
+namespace Mneme.Integrations.Pluralsight.Contract;
+
+public class PluralsightIntegrationFacade : IntegrationFacadeBase<Context, PluralsightSource, PluralsightNote>
 {
-	public class PluralsightIntegrationFacade : IntegrationFacadeBase<Context, PluralsightSource, PluralsightNote>
+	private readonly BaseSourcesProvider<PluralsightSource> pluralsightSourceProvider;
+	private readonly PluralsightNoteProviderDecorator noteProvider;
+
+	public PluralsightIntegrationFacade(BaseSourcesProvider<PluralsightSource> pluralsightSourceProvider, PluralsightNoteProviderDecorator noteProvider) : base()
 	{
-		private readonly BaseSourcesProvider<PluralsightSource> pluralsightSourceProvider;
-		private readonly PluralsightNoteProviderDecorator noteProvider;
+		this.pluralsightSourceProvider = pluralsightSourceProvider;
+		this.noteProvider = noteProvider;
+	}
 
-		public PluralsightIntegrationFacade(BaseSourcesProvider<PluralsightSource> pluralsightSourceProvider, PluralsightNoteProviderDecorator noteProvider) : base()
+	protected override Context CreateContext() => new PluralsightContext();
+	public override async Task<IReadOnlyList<PluralsightNote>> GetNotes(CancellationToken ct)
+	{
+		var ret = new List<PluralsightNote>();
+		foreach (Model.Note note in await noteProvider.GetNotesAsync(ct).ConfigureAwait(false))
 		{
-			this.pluralsightSourceProvider = pluralsightSourceProvider;
-			this.noteProvider = noteProvider;
+			ret.Add((PluralsightNote)note);
 		}
-
-		protected override Context CreateContext()
+		return ret;
+	}
+	public override async Task<IReadOnlyList<PluralsightSource>> GetSources(CancellationToken ct)
+	{
+		var ret = new List<PluralsightSource>();
+		foreach (Model.Source note in await pluralsightSourceProvider.GetSourcesAsync(false, ct).ConfigureAwait(false))
 		{
-			return new PluralsightContext();
+			ret.Add((PluralsightSource)note);
 		}
-		public override async Task<IReadOnlyList<PluralsightNote>> GetNotes(CancellationToken ct)
-		{
-			var ret = new List<PluralsightNote>();
-			foreach (var note in await noteProvider.GetNotesAsync(ct).ConfigureAwait(false))
-			{
-				ret.Add((PluralsightNote)note);
-			}
-			return ret;
-		}
-		public override async Task<IReadOnlyList<PluralsightSource>> GetSources(CancellationToken ct)
-		{
-			var ret = new List<PluralsightSource>();
-			foreach (var note in await pluralsightSourceProvider.GetSourcesAsync(false, ct).ConfigureAwait(false))
-			{
-				ret.Add((PluralsightSource)note);
-			}
-			return ret;
-		}
+		return ret;
 	}
 }
