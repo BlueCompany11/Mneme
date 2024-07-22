@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 namespace Mneme.Tests.Base;
 public abstract class BaseTest
 {
+	Random random;
 	protected Fixture fixture;
 	public BaseTest()
 	{
+		random = new();
 		fixture = new();
 		fixture.Customizations.Add(
 		new TypeRelay(
@@ -28,5 +30,5 @@ public abstract class BaseTest
 		typeof(Test),
 		typeof(MockedTest)));
 	}
-    protected IReadOnlyList<T> CreateMany<T>() => fixture.CreateMany<T>(fixture.Create<int>()).ToImmutableList();
+    protected IReadOnlyList<T> CreateMany<T>() => fixture.CreateMany<T>(random.Next(2,30)).ToImmutableList();
 }
