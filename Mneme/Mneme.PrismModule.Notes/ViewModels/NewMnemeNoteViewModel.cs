@@ -16,7 +16,7 @@ namespace Mneme.PrismModule.Notes.ViewModels;
 public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 {
 	private readonly IRegionManager regionManager;
-	private readonly MnemeNotesCreator manager;
+	private readonly MnemeNotesProxy manager;
 
 	public ObservableCollection<Source> SourcesPreviews { get; set; }
 
@@ -48,7 +48,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 		set => SetProperty(ref noteDetails, value);
 	}
 	public DelegateCommand CreateNoteCommand { get; set; }
-	public NewMnemeNoteViewModel(IRegionManager regionManager, MnemeNotesCreator manager)
+	public NewMnemeNoteViewModel(IRegionManager regionManager, MnemeNotesProxy manager)
 	{
 		this.regionManager = regionManager;
 		this.manager = manager;
@@ -81,7 +81,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 		await Task.Run(async () =>
 		{
 			IEnumerable<Source> sources = [];
-			sources = await manager.GetSourcesPreviews(default).ConfigureAwait(false);
+			sources = await manager.GetMnemeSources(default).ConfigureAwait(false);
 			Application.Current.Dispatcher.Invoke(() =>
 			{
 				SourcesPreviews.Clear();

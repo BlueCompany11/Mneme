@@ -180,11 +180,11 @@ public class GoogleBooksService : IDisposable
 		return new GoogleBooksNote
 		{
 			Content = annotation.SelectedText,
-			CreationTime = annotation.Created,
 			NoteType = annotation.Type,
 			Path = annotation.Path,
 			Title = annotation.BookTitle,
-			IntegrationId = annotation.Id,
+			CreationDate = annotation.Created,
+			GoogleBooksNoteId = annotation.Id,
 			Source = new GoogleBooksSource { Title = annotation.BookTitle, IntegrationId = annotation.BookId, Active = true }
 		};
 	}

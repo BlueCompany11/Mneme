@@ -17,7 +17,7 @@ public class NotesModule : IModule
 		containerRegistry.RegisterForNavigation<NotesView>();
 		containerRegistry.RegisterForNavigation<EmptyNotePreviewView>();
 		containerRegistry.RegisterForNavigation<NewMnemeNoteView>();
-		_ = containerRegistry.Register<MnemeNotesCreator>();
+		_ = containerRegistry.Register<MnemeNotesProxy>();
 		_ = containerRegistry.Register<NotesUtility>();
 	}
 }

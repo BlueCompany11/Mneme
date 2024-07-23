@@ -8,13 +8,11 @@ namespace Mneme.Notes;
 public class NotesUtility
 {
 	private readonly IBundledIntegrationFacades integration;
-	private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 
-	public NotesUtility(IBundledIntegrationFacades integration, IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
+	public NotesUtility(IBundledIntegrationFacades integration)
 	{
 		this.integration = integration;
-		this.mnemeIntegration = mnemeIntegration;
 	}
 	public async Task<IReadOnlyList<Note>> GetNotes(CancellationToken ct) => await integration.GetNotes(false, ct).ConfigureAwait(false);
-	public async Task DeleteNote(Note note) => await mnemeIntegration.DeleteNote(note.Id, default).ConfigureAwait(false);
+	
 }

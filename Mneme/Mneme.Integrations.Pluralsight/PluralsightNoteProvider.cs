@@ -45,13 +45,12 @@ internal class PluralsightNoteProvider
 		{
 			Content = values[0],
 			Title = values[1],
-			CreationTime = DateTime.Today,
 			Path = values[5],
 			Module = values[2],
 			TimeInClip = values[4],
 			Clip = values[3],
 			Source = new PluralsightSource { Title = values[1], IntegrationId = values[1], Active = true },
-			IntegrationId = GetNoteId(values[5])
+			PluralsightIntegrationId = GetNoteId(values[5])
 		};
 		return ret;
 	}

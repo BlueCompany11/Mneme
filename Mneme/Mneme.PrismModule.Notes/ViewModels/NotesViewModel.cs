@@ -20,6 +20,7 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 	private readonly IRegionManager regionManager;
 	private readonly NotesUtility utilty;
 	private readonly NoteToPreviewNavigator navigator;
+	private readonly MnemeNotesProxy mnemeNotesProxy;
 	private bool isLoading;
 	private Note selectedNotePreview;
 	private CancellationTokenSource cts;
@@ -53,11 +54,12 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 
 	public DelegateCommand OpenNewNoteViewCommand { get; set; }
 	public DelegateCommand<Note> DeleteNoteCommand { get; set; }
-	public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator) : base()
+	public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator, MnemeNotesProxy mnemeNotesProxy) : base()
 	{
 		this.regionManager = regionManager;
 		this.utilty = utilty;
 		this.navigator = navigator;
+		this.mnemeNotesProxy = mnemeNotesProxy;
 		OpenNewNoteViewCommand = new DelegateCommand(OpenNewNoteView);
 		DeleteNoteCommand = new DelegateCommand<Note>(DeleteNote, (p) => p?.GetType() == typeof(MnemeNote));
 	}
@@ -66,7 +68,7 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 
 	private async void DeleteNote(Note preview)
 	{
-		await utilty.DeleteNote(preview);
+		await mnemeNotesProxy.DeleteNote(preview);
 		_ = AllItems.Remove(preview);
 	}
 
