@@ -16,7 +16,7 @@ namespace Mneme.PrismModule.Notes.ViewModels;
 public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 {
 	private readonly IRegionManager regionManager;
-	private readonly MnemeNotesProxy manager;
+	private readonly MnemeNotesProxy mnemeNotesProxy;
 
 	public ObservableCollection<Source> SourcesPreviews { get; set; }
 
@@ -51,7 +51,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 	public NewMnemeNoteViewModel(IRegionManager regionManager, MnemeNotesProxy manager)
 	{
 		this.regionManager = regionManager;
-		this.manager = manager;
+		this.mnemeNotesProxy = manager;
 		SourcesPreviews = [];
 		CreateNoteCommand = new DelegateCommand(CreateNote, CanCreateNote())
 			.ObservesProperty(() => SelectedSourcePreview)
@@ -62,7 +62,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 
 	private async void CreateNote()
 	{
-		Mneme.Integrations.Mneme.Contract.MnemeNote note = await manager.SaveMnemeNote(SelectedSourcePreview, Note, Title, NoteDetails, default);
+		Mneme.Integrations.Mneme.Contract.MnemeNote note = await mnemeNotesProxy.SaveMnemeNote(SelectedSourcePreview, Note, Title, NoteDetails, default);
 		var para = new NavigationParameters() {
 				{ "note", note }
 			};
@@ -80,8 +80,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 	{
 		await Task.Run(async () =>
 		{
-			IEnumerable<Source> sources = [];
-			sources = await manager.GetMnemeSources(default).ConfigureAwait(false);
+			var sources = await mnemeNotesProxy.GetMnemeSources(default).ConfigureAwait(false);
 			Application.Current.Dispatcher.Invoke(() =>
 			{
 				SourcesPreviews.Clear();
