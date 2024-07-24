@@ -24,17 +24,17 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 	}
 
 	private string details;
-	private readonly MnemeSourceManager manager;
+	private readonly MnemeSourceProxy proxy;
 
 	public string Details
 	{
 		get => details;
 		set => SetProperty(ref details, value);
 	}
-	public SourceCreationViewModel(ISnackbarMessageQueue snackbarMessageQueue, MnemeSourceManager manager)
+	public SourceCreationViewModel(ISnackbarMessageQueue snackbarMessageQueue, MnemeSourceProxy proxy)
 	{
 		this.snackbarMessageQueue = snackbarMessageQueue;
-		this.manager = manager;
+		this.proxy = proxy;
 		CreateCommand = new DelegateCommand(SaveAndClose, CanCreateSource()).ObservesProperty(() => SourceTitle);
 	}
 	private Func<bool> CanCreateSource() => () => !string.IsNullOrEmpty(SourceTitle);
@@ -49,7 +49,7 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 
 	private async Task Save()
 	{
-		Integrations.Mneme.Contract.MnemeSource source = await manager.SaveMnemeSource(SourceTitle, Details, default);
+		Integrations.Mneme.Contract.MnemeSource source = await proxy.SaveMnemeSource(SourceTitle, Details, default);
 		if (source is not null)
 		{
 			var parameters = new DialogParameters
@@ -64,7 +64,7 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 	}
 	private async Task Update()
 	{
-		sourceToEdit = await manager.UpdateMnemeSource(sourceToEdit.Id, SourceTitle, Details, default);
+		sourceToEdit = await proxy.UpdateMnemeSource(sourceToEdit.Id, SourceTitle, Details, default);
 		var parameters = new DialogParameters
 				{
 					{ "source", sourceToEdit }

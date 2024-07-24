@@ -8,7 +8,7 @@ public abstract class Source
 	/// <summary>
 	/// Used to recognize if 2 sources are the same
 	/// </summary>
-	public required string IntegrationId { get; set; }
+	public virtual string IntegrationId { get; protected set; }
 	public required string Title { get; set; }
 	public DateTime CreationTime { get; init; }
 	public required bool Active { get; set; }

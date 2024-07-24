@@ -1,23 +1,23 @@
-﻿using Mneme.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using Mneme.Core;
 using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
+using Mneme.Model;
 
 namespace Mneme.Sources;
 
-public class MnemeSourceManager
-{
-	private readonly IBundledIntegrationFacades integration;
+public class MnemeSourceProxy
+{ 
 	private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 
-	public MnemeSourceManager(IBundledIntegrationFacades integration, IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
+	public MnemeSourceProxy(IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
 	{
-		this.integration = integration;
 		this.mnemeIntegration = mnemeIntegration;
 	}
 
 	public async Task<MnemeSource?> SaveMnemeSource(string sourceTitle, string details, CancellationToken ct)
 	{
-		var source = new MnemeSource { Title = sourceTitle, Details = details, Active = true, IntegrationId = MnemeSource.GenerateIntegrationId(sourceTitle, details) };
+		var source = new MnemeSource { Title = sourceTitle, Details = details, Active = true };
 		try
 		{
 			await mnemeIntegration.CreateSource(source).ConfigureAwait(false);
@@ -34,8 +34,20 @@ public class MnemeSourceManager
 		MnemeSource existingSource = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 		existingSource.Title = title;
 		existingSource.Details = details;
-		existingSource.IntegrationId = MnemeSource.GenerateIntegrationId(title, details); //important to remember to update the IntegrationId
 		await mnemeIntegration.UpdateSource(existingSource, ct).ConfigureAwait(false);
-		return (MnemeSource)await integration.GetSource(id, MnemeSource.Type).ConfigureAwait(false);
+		return await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
+	}
+
+	public async Task<bool> DeleteSource(Source source)
+	{
+		try
+		{
+			await mnemeIntegration.DeleteSource(source.Id, default).ConfigureAwait(false);
+			return true;
+		}
+		catch (DbUpdateException)
+		{
+			return false;
+		}
 	}
 }

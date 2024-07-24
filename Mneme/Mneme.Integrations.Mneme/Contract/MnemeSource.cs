@@ -4,7 +4,7 @@ namespace Mneme.Integrations.Mneme.Contract;
 
 public class MnemeSource : Source
 {
-	public static string GenerateIntegrationId(string title, string details) => $"{title} {details}";
+	public override string IntegrationId { get => $"{Title} {Details}"; }
 	public override string TextType => Type;
 
 	public override string GetDetails() => Details ?? string.Empty;

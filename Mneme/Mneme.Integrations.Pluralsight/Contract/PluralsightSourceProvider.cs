@@ -22,7 +22,7 @@ public class PluralsightSourceProvider : BaseSourcesProvider<PluralsightSource>
 		var ret = new List<PluralsightSource>();
 		foreach (PluralsightNote item in notes)
 		{
-			ret.Add(new PluralsightSource(item) { Active = true, IntegrationId = item.Source.IntegrationId, Title = item.Source.Title });
+			ret.Add(new PluralsightSource(item) { Active = true, PluralsightSourceId = item.Source.IntegrationId, Title = item.Source.Title });
 		}
 		return ret;
 	}

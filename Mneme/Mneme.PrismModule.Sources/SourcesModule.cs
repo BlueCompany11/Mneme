@@ -23,7 +23,8 @@ public class SourcesModule : IModule
 		ViewModelLocationProvider.Register<SourceCreationView, SourceCreationViewModel>();
 		ViewModelLocationProvider.Register<SourcesView, SourcesViewModel>();
 
-		_ = containerRegistry.Register<MnemeSourceProxy>();
-		_ = containerRegistry.Register<SourcesManager>();
+		_ = containerRegistry
+			.Register<MnemeSourceProxy>()
+			.Register<ISourcesFacade, SourcesFacade>();
 	}
 }

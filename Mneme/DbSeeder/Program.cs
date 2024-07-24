@@ -26,8 +26,7 @@ internal class Program
 						.RuleFor(s => s.Title, f => f.Random.Words())
 						.RuleFor(s => s.CreationTime, f => f.Date.Between(DateTime.Now.AddDays(-10), DateTime.Now))
 						.RuleFor(s => s.Active, f => f.Random.Bool())
-						.RuleFor(s => s.Details, f => f.Internet.Url())
-						.RuleFor(s => s.IntegrationId, (f, s) => MnemeSource.GenerateIntegrationId(s.Title, s.Details));
+						.RuleFor(s => s.Details, f => f.Internet.Url());
 
 		Faker<MnemeNote> fakeNote = new Faker<MnemeNote>()
 						.RuleFor(n => n.Title, f => f.Random.Words())
