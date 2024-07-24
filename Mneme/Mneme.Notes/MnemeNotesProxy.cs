@@ -4,7 +4,7 @@ using Mneme.Model;
 
 namespace Mneme.Notes;
 
-public class MnemeNotesProxy
+public class MnemeNotesProxy : IMnemeNotesProxy
 {
 	private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 

@@ -5,7 +5,7 @@ using Mneme.Model;
 
 namespace Mneme.Notes;
 
-public class NotesUtility
+public class NotesUtility : INotesUtility
 {
 	private readonly IBundledIntegrationFacades integration;
 
@@ -14,5 +14,5 @@ public class NotesUtility
 		this.integration = integration;
 	}
 	public async Task<IReadOnlyList<Note>> GetNotes(CancellationToken ct) => await integration.GetNotes(false, ct).ConfigureAwait(false);
-	
+
 }

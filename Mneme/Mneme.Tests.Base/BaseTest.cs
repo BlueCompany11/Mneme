@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 using Mneme.Model;
 using System;
@@ -12,11 +13,11 @@ namespace Mneme.Tests.Base;
 public abstract class BaseTest
 {
 	Random random;
-	protected Fixture fixture;
+	protected IFixture fixture;
 	public BaseTest()
 	{
 		random = new();
-		fixture = new();
+		fixture = new Fixture().Customize(new AutoMoqCustomization());
 		fixture.Customizations.Add(
 		new TypeRelay(
 		typeof(Source),
