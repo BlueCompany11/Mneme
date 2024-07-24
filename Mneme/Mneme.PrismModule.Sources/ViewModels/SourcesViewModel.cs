@@ -15,11 +15,12 @@ using System.Threading.Tasks;
 
 namespace Mneme.PrismModule.Sources.ViewModels;
 
-internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
+public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 {
 	private readonly ISnackbarMessageQueue snackbarMessageQueue;
 	private readonly IDialogService dialogService;
-	private readonly SourcesManager manager;
+	private readonly ISourcesFacade sourcesFacade;
+	private readonly MnemeSourceProxy mnemeProxy;
 	private CancellationTokenSource cts;
 
 	private Source selectedSource;
@@ -39,11 +40,12 @@ internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 	private readonly bool sourcesListEmpty;
 	public bool SourcesListEmpty => AllItems.Count == 0 && !isLoading;
 
-	public SourcesViewModel(ISnackbarMessageQueue snackbarMessageQueue, IDialogService dialogService, SourcesManager manager) : base()
+	public SourcesViewModel(ISnackbarMessageQueue snackbarMessageQueue, IDialogService dialogService, ISourcesFacade facade, MnemeSourceProxy mnemeProxy) : base()
 	{
 		this.snackbarMessageQueue = snackbarMessageQueue;
 		this.dialogService = dialogService;
-		this.manager = manager;
+		this.sourcesFacade = facade;
+		this.mnemeProxy = mnemeProxy;
 		IgnoreSourceCommand = new DelegateCommand<Source>(IgnoreSource, (x) => x?.Active ?? false);
 		ActivateSourceCommand = new DelegateCommand<Source>(ActivateSource, (x) => !x?.Active ?? false);
 		DeleteSourceCommand = new DelegateCommand<Source>(DeleteSource);
@@ -73,7 +75,7 @@ internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 
 	private async void DeleteSource(Source source)
 	{
-		if (await manager.DeleteSource(source))
+		if (await mnemeProxy.DeleteSource(source))
 		{
 			_ = AllItems.Remove(source);
 			RaisePropertyChanged(nameof(SourcesListEmpty));
@@ -84,7 +86,7 @@ internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 
 	private async void IgnoreSource(Source source)
 	{
-		Source updatedSource = await manager.IgnoreSource(source);
+		Source updatedSource = await sourcesFacade.IgnoreSource(source);
 		_ = AllItems.Remove(source);
 		AllItems.Add(updatedSource);
 		SelectedSource = updatedSource;
@@ -92,7 +94,7 @@ internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 
 	private async void ActivateSource(Source source)
 	{
-		Source updatedSource = await manager.ActivateSource(source);
+		Source updatedSource = await sourcesFacade.ActivateSource(source);
 		_ = AllItems.Remove(source);
 		AllItems.Add(updatedSource);
 		SelectedSource = updatedSource;
@@ -122,7 +124,7 @@ internal class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		using (cts = new CancellationTokenSource())
 		{
 			IsLoading = true;
-			Task<IReadOnlyList<Source>> getSourcesTask = manager.GetSourcesPreviewAsync(cts.Token);
+			Task<IReadOnlyList<Source>> getSourcesTask = sourcesFacade.GetSourcesPreviewAsync(cts.Token);
 			Task completedTask = await Task.WhenAny(getSourcesTask, Task.Delay(Timeout.Infinite, cts.Token));
 
 			if (completedTask == getSourcesTask)

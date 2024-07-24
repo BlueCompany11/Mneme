@@ -6,28 +6,15 @@ using Mneme.Model;
 
 namespace Mneme.Sources;
 
-public class SourcesManager
+public class SourcesFacade : ISourcesFacade
 {
 	private readonly IBundledIntegrationFacades integration;
-	private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 
-	public SourcesManager(IBundledIntegrationFacades integration, IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
+	public SourcesFacade(IBundledIntegrationFacades integration)
 	{
 		this.integration = integration;
-		this.mnemeIntegration = mnemeIntegration;
 	}
-	public async Task<bool> DeleteSource(Source source)
-	{
-		try
-		{
-			await mnemeIntegration.DeleteSource(source.Id, default).ConfigureAwait(false);
-			return true;
-		}
-		catch (DbUpdateException)
-		{
-			return false;
-		}
-	}
+
 	public async Task<Source> IgnoreSource(Source source)
 	{
 		await integration.IgnoreSource(source.Id, source.TextType).ConfigureAwait(false);

@@ -32,7 +32,7 @@ public class GoogleBooksSourceProvider : BaseSourcesProvider<GoogleBooksSource>
 		annotations = annotations.GroupBy(x => x.Source.IntegrationId).Select(x => x.First()).ToList();
 		foreach (GoogleBooksNote item in annotations)
 		{
-			ret.Add(new GoogleBooksSource { Title = item.Source.Title, IntegrationId = item.Source.IntegrationId, Active = true, });
+			ret.Add(new GoogleBooksSource { Title = item.Source.Title, GoogleBooksSourceId = item.Source.IntegrationId, Active = true, });
 		}
 		return ret;
 	}
