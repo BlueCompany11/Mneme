@@ -10,13 +10,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Mneme.PrismModule.Notes.ViewModels;
 
 public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 {
 	private readonly IRegionManager regionManager;
-	private readonly MnemeNotesProxy mnemeNotesProxy;
+	private readonly IMnemeNotesProxy mnemeNotesProxy;
 
 	public ObservableCollection<Source> SourcesPreviews { get; set; }
 
@@ -48,7 +49,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 		set => SetProperty(ref noteDetails, value);
 	}
 	public DelegateCommand CreateNoteCommand { get; set; }
-	public NewMnemeNoteViewModel(IRegionManager regionManager, MnemeNotesProxy manager)
+	public NewMnemeNoteViewModel(IRegionManager regionManager, IMnemeNotesProxy manager)
 	{
 		this.regionManager = regionManager;
 		this.mnemeNotesProxy = manager;
@@ -81,7 +82,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 		await Task.Run(async () =>
 		{
 			var sources = await mnemeNotesProxy.GetMnemeSources(default).ConfigureAwait(false);
-			Application.Current.Dispatcher.Invoke(() =>
+			Dispatcher.CurrentDispatcher.Invoke(() =>
 			{
 				SourcesPreviews.Clear();
 				_ = SourcesPreviews.AddRange(sources);
