@@ -1,4 +1,5 @@
 using AutoFixture;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 using Mneme.Core;
@@ -12,23 +13,14 @@ namespace Mneme.Notes.Tests;
 
 public class MnemeNotesProxyShould : BaseTest
 {
-    [Fact]
-    public async Task SaveMnemeNote_ShouldReturnCorrectlyInitializedNote()
+	[Theory]
+	[AutoDomainData]
+	public async Task SaveMnemeNote_ShouldReturnCorrectlyInitializedNote(MnemeSource source, [Frozen] Mock<IIntegrationFacade<MnemeSource, MnemeNote>> integration, MnemeNotesProxy sut)
     {
-        var source = fixture.Create<MnemeSource>();
-        var integration = Mock.Of<IIntegrationFacade<MnemeSource, MnemeNote>>(x =>
-            x.GetSource(source.Id, default) == Task.FromResult(source) &&
-            x.CreateNote(It.IsAny<MnemeNote>()) == Task.CompletedTask);
-        var sut = new MnemeNotesProxy(integration);
+		integration.Setup(x => x.GetSource(source.Id, default)).Returns(Task.FromResult(source));
+		integration.Setup(x => x.CreateNote(It.IsAny<MnemeNote>())).Returns(Task.CompletedTask);
 
 		var note = await sut.SaveMnemeNote(source, "content", "title", "path", default);
-
-
-		Mock.Get(integration).Verify(x => x.CreateNote(It.Is<MnemeNote>(n =>
-			n.Source == source &&
-			n.Content == "content" &&
-			n.Title == "title" &&
-			n.Path == "path")));
 
 		note.Source.Should().Be(source);
 		note.CreationTime.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(5));

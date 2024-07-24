@@ -18,7 +18,7 @@ namespace Mneme.PrismModule.Notes.ViewModels;
 public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 {
 	private readonly IRegionManager regionManager;
-	private readonly NotesUtility utilty;
+	private readonly INotesUtility utilty;
 	private readonly NoteToPreviewNavigator navigator;
 	private readonly IMnemeNotesProxy mnemeNotesProxy;
 	private bool isLoading;
@@ -54,7 +54,7 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 
 	public DelegateCommand OpenNewNoteViewCommand { get; set; }
 	public DelegateCommand<Note> DeleteNoteCommand { get; set; }
-	public NotesViewModel(IRegionManager regionManager, NotesUtility utilty, NoteToPreviewNavigator navigator, IMnemeNotesProxy mnemeNotesProxy) : base()
+	public NotesViewModel(IRegionManager regionManager, INotesUtility utilty, NoteToPreviewNavigator navigator, IMnemeNotesProxy mnemeNotesProxy) : base()
 	{
 		this.regionManager = regionManager;
 		this.utilty = utilty;
