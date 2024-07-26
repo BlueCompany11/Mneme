@@ -24,6 +24,4 @@ public class MnemeSourcesProvider : BaseSourcesProvider<MnemeSource>
 		using var context = new MnemeContext();
 		return context.MnemeSources.ToList();
 	}
-
-	protected override bool AreSame(MnemeSource note1, MnemeSource note2) => note1.IntegrationId == note2.IntegrationId;
 }

@@ -32,6 +32,4 @@ public class PluralsightSourceProvider : BaseSourcesProvider<PluralsightSource>
 		using var pluralsightContext = new PluralsightContext();
 		return pluralsightContext.PluralsightSources.ToList();
 	}
-
-	protected override bool AreSame(PluralsightSource note1, PluralsightSource note2) => note1.Title == note2.Title;
 }

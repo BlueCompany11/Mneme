@@ -14,13 +14,12 @@ public abstract class BaseSourcesProvider<T> where T : Source
 		{
 			for (var i = 0; i < fromDatabase.Count; i++)
 			{
-				if (AreSame(item, fromDatabase[i]))
+				if (item.IsSame(fromDatabase[i]))
 					existingSources.Add(item);
 			}
 		}
 		return fromAccount.Except(existingSources).ToList();
 	}
-	protected abstract bool AreSame(T note1, T note2);
 	protected abstract void AddSources(List<T> sources);
 
 	public async Task<List<Source>> GetSourcesAsync(bool onlyActive, CancellationToken ct)

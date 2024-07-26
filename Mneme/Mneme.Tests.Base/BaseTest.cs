@@ -2,13 +2,7 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 using Mneme.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Mneme.Tests.Base;
 public abstract class BaseTest
 {
