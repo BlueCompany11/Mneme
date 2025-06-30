@@ -14,7 +14,7 @@ internal class MnemeContext : Context
 		{
 			_ = entity.Property(e => e.Id).ValueGeneratedOnAdd();
 			_ = entity.HasKey(e => e.Id);
-			_ = entity.HasIndex(e => e.IntegrationId).IsUnique();
+			_ = entity.Ignore(e => e.IntegrationId);
 			_ = entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
 		});
 
@@ -23,8 +23,9 @@ internal class MnemeContext : Context
 			_ = entity.Property(e => e.Id).ValueGeneratedOnAdd();
 			_ = entity.HasKey(e => e.Id);
 			_ = entity.HasOne(e => e.Source);
-			_ = entity.HasIndex(e => e.IntegrationId).IsUnique();
+			_ = entity.Ignore(e => e.IntegrationId);
 			_ = entity.Property(e => e.CreationTime).HasDefaultValueSql("CURRENT_TIMESTAMP");
 		});
+
 	}
 }

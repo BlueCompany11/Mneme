@@ -11,8 +11,8 @@ namespace Mneme.Integrations.GoogleBooks.Authorization;
 
 public class GoogleBooksService : IDisposable
 {
+	private readonly string filePath = @"Google/googleCreds.json";
 	protected UserCredential? credential;
-	protected readonly GoogleCredentialsProvider googleCredentialsProvider;
 	protected string AppName => "Mneme";
 
 	private readonly string fileExtensionBlackList = ".pdf";
@@ -23,9 +23,8 @@ public class GoogleBooksService : IDisposable
 
 	private BooksService? service;
 
-	public GoogleBooksService(GoogleCredentialsProvider googleCredentialsProvider)
+	public GoogleBooksService()
 	{
-		this.googleCredentialsProvider = googleCredentialsProvider;
 		books = [];
 		annotations = [];
 	}
@@ -48,9 +47,9 @@ public class GoogleBooksService : IDisposable
 
 	private void LoadCredentials()
 	{
-		if (credential != null)
+		if (credential != null || !File.Exists(filePath))
 			return;
-		using Stream stream = googleCredentialsProvider.GetFileStream().Invoke();
+		using Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
 				GoogleClientSecrets.FromStream(stream).Secrets,
 				scope,

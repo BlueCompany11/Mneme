@@ -31,6 +31,7 @@ public class PluralsightConfigurationViewModel : BindableBase
 		};
 		if (openFileDialog.ShowDialog() == true)
 			FilePath = openFileDialog.FileName;
-		pluralsightConfigProvider.UpdatePath(FilePath);
+		if (!string.IsNullOrWhiteSpace(FilePath))
+			pluralsightConfigProvider.UpdatePath(FilePath);
 	}
 }

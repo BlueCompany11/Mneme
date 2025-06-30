@@ -21,6 +21,8 @@ public class PluralsightConfigProvider
 
 	public void UpdatePath(string path)
 	{
+		if(path is null)
+			throw new ArgumentNullException(nameof(path), "Path cannot be null.");
 		Config.FilePath = path;
 		using var pluralsightContext = new PluralsightContext();
 		_ = pluralsightContext.Attach(Config);

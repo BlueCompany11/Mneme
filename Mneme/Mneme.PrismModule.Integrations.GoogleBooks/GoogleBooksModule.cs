@@ -19,7 +19,6 @@ public class GoogleBooksModule : IModule
 	{
 		containerRegistry.RegisterForNavigation<GoogleBooksNotePreviewView>();
 
-		_ = containerRegistry.Register<GoogleCredentialsProvider>();
 		_ = containerRegistry.Register<GoogleBooksService>();
 		_ = containerRegistry.Register<GoogleBooksNoteProvider>();
 		_ = containerRegistry.Register<BaseSourcesProvider<GoogleBooksSource>, GoogleBooksSourceProvider>();
