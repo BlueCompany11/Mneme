@@ -81,8 +81,8 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 	{
 		await Task.Run(async () =>
 		{
-			var sources = await mnemeNotesProxy.GetMnemeSources(default).ConfigureAwait(false);
-			Dispatcher.CurrentDispatcher.Invoke(() =>
+			var sources = await mnemeNotesProxy.GetMnemeSources(default);
+			Application.Current.Dispatcher.Invoke(() =>
 			{
 				SourcesPreviews.Clear();
 				_ = SourcesPreviews.AddRange(sources);
