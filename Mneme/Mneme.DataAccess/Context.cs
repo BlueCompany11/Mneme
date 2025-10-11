@@ -6,28 +6,14 @@ namespace Mneme.DataAccess;
 
 public class Context : DbContext
 {
-	public Context()
-	{
-
-	}
-	public Context(DbContextOptions opt) : base(opt)
-	{
-
-	}
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
-		if (!optionsBuilder.IsConfigured)
-		{
-			var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			var mnemeFolderPath = Path.Combine(appDataPath, "Mneme");
-			if (!Directory.Exists(mnemeFolderPath))
-			{
-				_ = Directory.CreateDirectory(mnemeFolderPath);
-			}
-			var databasePath = Path.Combine(mnemeFolderPath, "Database.db");
+		if (optionsBuilder.IsConfigured)
+			return;
 
-			_ = optionsBuilder.UseSqlite($"Data Source={databasePath}");
-		}
+		var mnemeFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Mneme");
+		_ = Directory.CreateDirectory(mnemeFolder);
+		var dbPath = Path.Combine(mnemeFolder, "Database.db");
+		_ = optionsBuilder.UseSqlite($"Data Source={dbPath}");
 	}
-
 }

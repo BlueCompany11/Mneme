@@ -1,9 +1,7 @@
-﻿using Mneme.Core;
-using Mneme.Dashboard;
+﻿using Mneme.Dashboard;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +12,6 @@ public class DashboardViewModel : BindableBase, INavigationAware
 {
 	private CancellationTokenSource cts;
 	private readonly IStatisticsProvider statistics;
-	private readonly IDatabaseMigrations migrations;
 
 	public DelegateCommand LoadDataCommand { get; }
 
@@ -64,24 +61,15 @@ public class DashboardViewModel : BindableBase, INavigationAware
 		set => SetProperty(ref allTestsForTestingCount, value);
 	}
 
-	public DashboardViewModel(IStatisticsProvider statistics, IDatabaseMigrations migrations)
+	public DashboardViewModel(IStatisticsProvider statistics)
 	{
 		this.statistics = statistics;
-		this.migrations = migrations;
 		LoadDataCommand = new DelegateCommand(LoadDataHandler);
 	}
 
 	private async void LoadDataHandler()
 	{
-		try
-		{
-			await LoadData(default);
-		}
-		catch (Exception)
-		{
-			await migrations.MigrateDatabases();
-			await LoadData(default);
-		}
+		await LoadData(default);
 	}
 
 	private async Task LoadData(CancellationToken ct)
