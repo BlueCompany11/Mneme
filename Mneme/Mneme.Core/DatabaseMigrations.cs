@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,11 @@ public class DatabaseMigrations(IEnumerable<IDatabase> databases) : IDatabaseMig
 		{
 			if (!isMigrated)
 			{
+				//code duplicated 1
+				var mnemeFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Mneme");
+				//end code duplicated 1
+				_ = Directory.CreateDirectory(mnemeFolder);
+				
 				var migrationTasks = new List<Task>();
 				foreach (IDatabase db in databases)
 				{
