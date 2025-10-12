@@ -1,21 +1,17 @@
-using Mneme.Core;
 using Mneme.Dashboard;
 using Mneme.PrismModule.Dashboard.ViewModels;
-using Moq;
 
 namespace Mneme.PrismModule.Dashboard.Tests;
 
 public class DashboardViewModelShould
 {
     private readonly MockedStatisticsProvider statistics;
-    private readonly IDatabaseMigrations dbMigrations;
     private readonly DashboardViewModel sut;
 
     public DashboardViewModelShould()
     {
         statistics = new MockedStatisticsProvider();
-        dbMigrations = Mock.Of<IDatabaseMigrations>();
-        sut = new DashboardViewModel(statistics, dbMigrations);
+        sut = new DashboardViewModel(statistics);
     }
 
     [Fact]
