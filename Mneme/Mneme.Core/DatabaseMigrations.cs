@@ -1,37 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mneme.Core;
 
-public class DatabaseMigrations : IDatabaseMigrations
+public class DatabaseMigrations(IEnumerable<IDatabase> databases) : IDatabaseMigrations
 {
-	private readonly IEnumerable<IDatabase> databases;
 	private readonly SemaphoreSlim semaphore = new(1, 1);
 	private bool isMigrated = false;
 
-	public DatabaseMigrations(IEnumerable<IDatabase> databases) => this.databases = databases;
-
 	public async Task MigrateDatabases()
 	{
-		if (!isMigrated)
+		await semaphore.WaitAsync();
+		try
 		{
-			await semaphore.WaitAsync();
-			try
+			if (!isMigrated)
 			{
-				if (!isMigrated)
+				//code duplicated 1
+				var mnemeFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Mneme");
+				//end code duplicated 1
+				_ = Directory.CreateDirectory(mnemeFolder);
+				
+				var migrationTasks = new List<Task>();
+				foreach (IDatabase db in databases)
 				{
-					foreach (IDatabase db in databases)
-					{
-						await db.MigrateDatabase();
-					}
-					isMigrated = true;
+					migrationTasks.Add(db.MigrateDatabase());
 				}
+				await Task.WhenAll(migrationTasks);
+				isMigrated = true;
 			}
-			finally
-			{
-				_ = semaphore.Release();
-			}
+		}
+		finally
+		{
+			_ = semaphore.Release();
 		}
 	}
 }

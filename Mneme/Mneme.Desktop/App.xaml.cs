@@ -31,33 +31,26 @@ public partial class App
 
 	protected override void RegisterTypes(IContainerRegistry containerRegistry) => containerRegistry.RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(4)));
 
-	protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
-	{
-		_ = moduleCatalog.AddModule<DashboardModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<SourcesModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<NotesModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<GoogleBooksModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<MnemeModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<PluralsightModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<TestingModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<IntegrationModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<BaseModule>(InitializationMode.WhenAvailable);
-		_ = moduleCatalog.AddModule<IntegrationFacadeModule>(InitializationMode.WhenAvailable);
-	}
+	protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) => moduleCatalog
+			.AddModule<DashboardModule>()
+			.AddModule<SourcesModule>()
+			.AddModule<NotesModule>()
+			.AddModule<GoogleBooksModule>()
+			.AddModule<MnemeModule>()
+			.AddModule<PluralsightModule>()
+			.AddModule<TestingModule>()
+			.AddModule<IntegrationModule>()
+			.AddModule<BaseModule>()
+			.AddModule<IntegrationFacadeModule>();
 
 	protected override void OnInitialized()
 	{
-		IRegionManager regionManager = Container.Resolve<IRegionManager>();
-		_ = regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DashboardView));
-		_ = regionManager.RegisterViewWithRegion(RegionNames.NoteRegion, typeof(EmptyNotePreviewView));
-		_ = regionManager.RegisterViewWithRegion(RegionNames.SideBarMenuRegion, typeof(MainMenuSideBarView));
-		base.OnInitialized();
-	}
-
-	protected override async void OnStartup(StartupEventArgs e)
-	{
-		base.OnStartup(e);
 		IDatabaseMigrations migrations = Container.Resolve<IDatabaseMigrations>();
-		await migrations.MigrateDatabases();
+		migrations.MigrateDatabases().GetAwaiter().GetResult();
+		_ = Container.Resolve<IRegionManager>()
+			.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DashboardView))
+			.RegisterViewWithRegion(RegionNames.NoteRegion, typeof(EmptyNotePreviewView))
+			.RegisterViewWithRegion(RegionNames.SideBarMenuRegion, typeof(MainMenuSideBarView));
+		base.OnInitialized();
 	}
 }
