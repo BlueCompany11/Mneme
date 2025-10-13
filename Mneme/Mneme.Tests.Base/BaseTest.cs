@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 namespace Mneme.Tests.Base;
 public abstract class BaseTest
 {
-	Random random;
+	private readonly Random random;
 	protected IFixture fixture;
 	public BaseTest()
 	{
@@ -25,5 +25,5 @@ public abstract class BaseTest
 		typeof(Test),
 		typeof(MockedTest)));
 	}
-    protected IReadOnlyList<T> CreateMany<T>() => fixture.CreateMany<T>(random.Next(2,30)).ToImmutableList();
+	protected IReadOnlyList<T> CreateMany<T>() => fixture.CreateMany<T>(random.Next(2, 30)).ToImmutableList();
 }

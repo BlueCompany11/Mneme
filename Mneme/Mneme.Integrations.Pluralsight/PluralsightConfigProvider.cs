@@ -12,8 +12,7 @@ public class PluralsightConfigProvider
 		{
 			Config = pluralsightContext.PluralsightConfigs.SingleOrDefault();
 			Config ??= new();
-		}
-		catch (Microsoft.Data.Sqlite.SqliteException)
+		} catch (Microsoft.Data.Sqlite.SqliteException)
 		{
 			Config = new();
 		}
@@ -21,7 +20,7 @@ public class PluralsightConfigProvider
 
 	public void UpdatePath(string path)
 	{
-		if(path is null)
+		if (path is null)
 			throw new ArgumentNullException(nameof(path), "Path cannot be null.");
 		Config.FilePath = path;
 		using var pluralsightContext = new PluralsightContext();

@@ -44,7 +44,7 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 	{
 		this.snackbarMessageQueue = snackbarMessageQueue;
 		this.dialogService = dialogService;
-		this.sourcesFacade = facade;
+		sourcesFacade = facade;
 		this.mnemeProxy = mnemeProxy;
 		IgnoreSourceCommand = new DelegateCommand<Source>(IgnoreSource, (x) => x?.Active ?? false);
 		ActivateSourceCommand = new DelegateCommand<Source>(ActivateSource, (x) => !x?.Active ?? false);
@@ -64,7 +64,7 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		{
 			if (result.Result == ButtonResult.OK)
 			{
-				Source editedSource = result.Parameters.GetValue<Source>("source");
+				var editedSource = result.Parameters.GetValue<Source>("source");
 				var index = AllItems.IndexOf(source);
 				AllItems.RemoveAt(index);
 				AllItems.Insert(index, editedSource);
@@ -79,14 +79,13 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		{
 			_ = AllItems.Remove(source);
 			RaisePropertyChanged(nameof(SourcesListEmpty));
-		}
-		else
+		} else
 			snackbarMessageQueue.Enqueue("Could not delete source. Some related data to this source still exists.");
 	}
 
 	private async void IgnoreSource(Source source)
 	{
-		Source updatedSource = await sourcesFacade.IgnoreSource(source);
+		var updatedSource = await sourcesFacade.IgnoreSource(source);
 		_ = AllItems.Remove(source);
 		AllItems.Add(updatedSource);
 		SelectedSource = updatedSource;
@@ -94,7 +93,7 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 
 	private async void ActivateSource(Source source)
 	{
-		Source updatedSource = await sourcesFacade.ActivateSource(source);
+		var updatedSource = await sourcesFacade.ActivateSource(source);
 		_ = AllItems.Remove(source);
 		AllItems.Add(updatedSource);
 		SelectedSource = updatedSource;
@@ -106,30 +105,27 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 	public DelegateCommand<Source> DeleteSourceCommand { get; set; }
 	public DelegateCommand ShowDialogCreateSourceCommand { get; }
 
-	private void CreateSource()
-	{
-		dialogService.ShowDialog(nameof(SourceCreationView), null, result =>
-		{
-			if (result.Result == ButtonResult.OK)
-			{
-				MnemeSource source = result.Parameters.GetValue<MnemeSource>("source");
-				AllItems.Add(source);
-				RaisePropertyChanged(nameof(SourcesListEmpty));
-			}
-		});
-	}
+	private void CreateSource() => dialogService.ShowDialog(nameof(SourceCreationView), null, result =>
+																	{
+																		if (result.Result == ButtonResult.OK)
+																		{
+																			var source = result.Parameters.GetValue<MnemeSource>("source");
+																			AllItems.Add(source);
+																			RaisePropertyChanged(nameof(SourcesListEmpty));
+																		}
+																	});
 
 	public async void OnNavigatedTo(NavigationContext navigationContext)
 	{
 		using (cts = new CancellationTokenSource())
 		{
 			IsLoading = true;
-			Task<IReadOnlyList<Source>> getSourcesTask = sourcesFacade.GetSourcesPreviewAsync(cts.Token);
-			Task completedTask = await Task.WhenAny(getSourcesTask, Task.Delay(Timeout.Infinite, cts.Token));
+			var getSourcesTask = sourcesFacade.GetSourcesPreviewAsync(cts.Token);
+			var completedTask = await Task.WhenAny(getSourcesTask, Task.Delay(Timeout.Infinite, cts.Token));
 
 			if (completedTask == getSourcesTask)
 			{
-				IReadOnlyList<Source> sources = getSourcesTask.Result;
+				var sources = getSourcesTask.Result;
 				if (sources.Count != AllItems.Count)
 				{
 					AllItems.Clear();

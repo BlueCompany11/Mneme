@@ -5,48 +5,48 @@ namespace Mneme.PrismModule.Dashboard.Tests;
 
 public class DashboardViewModelShould
 {
-    private readonly MockedStatisticsProvider statistics;
-    private readonly DashboardViewModel sut;
+	private readonly MockedStatisticsProvider statistics;
+	private readonly DashboardViewModel sut;
 
-    public DashboardViewModelShould()
-    {
-        statistics = new MockedStatisticsProvider();
-        sut = new DashboardViewModel(statistics);
-    }
+	public DashboardViewModelShould()
+	{
+		statistics = new MockedStatisticsProvider();
+		sut = new DashboardViewModel(statistics);
+	}
 
-    [Fact]
-    public async Task LoadDataCommand_Executed_LoadsData()
-    {
-        sut.LoadDataCommand.Execute();
-        await Task.Delay(10);
+	[Fact]
+	public async Task LoadDataCommand_Executed_LoadsData()
+	{
+		sut.LoadDataCommand.Execute();
+		await Task.Delay(10);
 
-        MakeAssertion(statistics, sut);
-    }
+		MakeAssertion(statistics, sut);
+	}
 
-    [Fact]
-    public async Task WhenNavigatedTo_RefreshesData()
-    {
-        sut.OnNavigatedTo(null);
-        await Task.Delay(10);
+	[Fact]
+	public async Task WhenNavigatedTo_RefreshesData()
+	{
+		sut.OnNavigatedTo(null);
+		await Task.Delay(10);
 
-        MakeAssertion(statistics, sut);
+		MakeAssertion(statistics, sut);
 
-        statistics.KnownSourcesCount = 100;
-        sut.OnNavigatedTo(null);
-        await Task.Delay(10);
+		statistics.KnownSourcesCount = 100;
+		sut.OnNavigatedTo(null);
+		await Task.Delay(10);
 
-        MakeAssertion(statistics, sut);
-    }
+		MakeAssertion(statistics, sut);
+	}
 
-    private static void MakeAssertion(MockedStatisticsProvider statistics, DashboardViewModel viewModel)
-    {
-        Assert.Equal(statistics.KnownSourcesCount, viewModel.ActiveSourcesAmount);
-        Assert.Equal(statistics.KnownNotesCount, viewModel.ActiveNotesAmount);
-        Assert.Equal(statistics.MostRecentSource, viewModel.MostRecentSource);
-        Assert.Equal(statistics.MostRecentNote, viewModel.MostRecentNote);
-        Assert.Equal(statistics.AllTestsCount, viewModel.AllTestsCount);
-        Assert.Equal(statistics.AllTestsForTestingCount, viewModel.AllTestsForTestingCount);
-    }
+	private static void MakeAssertion(MockedStatisticsProvider statistics, DashboardViewModel viewModel)
+	{
+		Assert.Equal(statistics.KnownSourcesCount, viewModel.ActiveSourcesAmount);
+		Assert.Equal(statistics.KnownNotesCount, viewModel.ActiveNotesAmount);
+		Assert.Equal(statistics.MostRecentSource, viewModel.MostRecentSource);
+		Assert.Equal(statistics.MostRecentNote, viewModel.MostRecentNote);
+		Assert.Equal(statistics.AllTestsCount, viewModel.AllTestsCount);
+		Assert.Equal(statistics.AllTestsForTestingCount, viewModel.AllTestsForTestingCount);
+	}
 }
 
 internal class MockedStatisticsProvider : IStatisticsProvider

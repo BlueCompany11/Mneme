@@ -67,10 +67,7 @@ public class DashboardViewModel : BindableBase, INavigationAware
 		LoadDataCommand = new DelegateCommand(LoadDataHandler);
 	}
 
-	private async void LoadDataHandler()
-	{
-		await LoadData(default);
-	}
+	private async void LoadDataHandler() => await LoadData(default);
 
 	private async Task LoadData(CancellationToken ct)
 	{
@@ -118,8 +115,8 @@ public class DashboardViewModel : BindableBase, INavigationAware
 	{
 		using (cts = new CancellationTokenSource())
 		{
-			Task loadData = LoadData(cts.Token);
-			Task completedTask = await Task.WhenAny(loadData, Task.Delay(Timeout.Infinite, cts.Token));
+			var loadData = LoadData(cts.Token);
+			var completedTask = await Task.WhenAny(loadData, Task.Delay(Timeout.Infinite, cts.Token));
 			if (completedTask == loadData)
 			{
 				await loadData;

@@ -15,7 +15,7 @@ public partial class ClozeDeletionTestCreationView : UserControl
 	private void btnGetSelectedText_Click(object sender, RoutedEventArgs e)
 	{
 		var dataContext = DataContext as ClozeDeletionTestCreationViewModel;
-		Tuple<int, int> positions = Count();
+		var positions = Count();
 
 		dataContext.MarkClozeDeletion(positions.Item1, positions.Item2);
 	}

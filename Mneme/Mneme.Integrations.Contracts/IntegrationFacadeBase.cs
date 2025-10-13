@@ -19,8 +19,8 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 
 	public virtual Task DeleteNote(int id, CancellationToken ct)
 	{
-		using T context = CreateContext();
-		N entity = context.Set<N>().First(x => x.Id == id);
+		using var context = CreateContext();
+		var entity = context.Set<N>().First(x => x.Id == id);
 		_ = context.Set<N>().Remove(entity);
 		_ = context.SaveChanges();
 		return Task.CompletedTask;
@@ -28,8 +28,8 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 
 	public virtual Task DeleteSource(int id, CancellationToken ct)
 	{
-		using T context = CreateContext();
-		S entity = context.Set<S>().First(x => x.Id == id);
+		using var context = CreateContext();
+		var entity = context.Set<S>().First(x => x.Id == id);
 		_ = context.Set<S>().Remove(entity);
 		_ = context.SaveChanges();
 		return Task.CompletedTask;
@@ -37,56 +37,56 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 
 	public virtual async Task<IReadOnlyList<N>> GetActiveNotes(CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return await context.Set<N>().ToListAsync(ct).ConfigureAwait(false);
 	}
 
 	public virtual async Task<IReadOnlyList<S>> GetActiveSources(CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return await context.Set<S>().Where(x => x.Active).ToListAsync(ct).ConfigureAwait(false);
 	}
 
 	public virtual Task<N> GetNote(int id, CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return Task.FromResult(context.Set<N>().First(x => x.Id == id));
 	}
 
 	public virtual async Task<IReadOnlyList<N>> GetNotes(CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return await context.Set<N>().ToListAsync(ct).ConfigureAwait(false);
 	}
 
 	public virtual async Task<IReadOnlyList<N>> GetKnownNotes(bool activeOnly, CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return await context.Set<N>().ToListAsync(ct).ConfigureAwait(false);
 		//TODO activeOnly
 	}
 
 	public virtual Task<S> GetSource(int id, CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return Task.FromResult(context.Set<S>().First(x => x.Id == id));
 	}
 
 	public virtual async Task<IReadOnlyList<S>> GetSources(CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return await context.Set<S>().ToListAsync(ct).ConfigureAwait(false);
 	}
 
 	public virtual async Task<IReadOnlyList<S>> GetKnownSources(bool onlyActive, CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		return await context.Set<S>().Where(x => x.Active).ToListAsync(ct).ConfigureAwait(false);
 	}
 
 	public virtual Task CreateSource(S source)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		_ = context.Set<S>().Update(source);
 		_ = context.SaveChanges();
 		return Task.CompletedTask;
@@ -94,7 +94,7 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 
 	public virtual Task CreateNote(N note)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		_ = context.Set<N>().Update(note);
 		_ = context.SaveChanges();
 		return Task.CompletedTask;
@@ -102,7 +102,7 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 
 	public virtual Task UpdateSource(S source, CancellationToken ct)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		_ = context.Set<S>().Update(source);
 		_ = context.SaveChanges();
 		return Task.CompletedTask;
@@ -110,7 +110,7 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 
 	public async Task MigrateDatabase(CancellationToken ct = default)
 	{
-		using T context = CreateContext();
+		using var context = CreateContext();
 		await context.Database.MigrateAsync(ct).ConfigureAwait(false);
 	}
 }

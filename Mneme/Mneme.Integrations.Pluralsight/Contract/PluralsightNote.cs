@@ -10,8 +10,8 @@ public class PluralsightNote : Note
 	public required string Module { get; set; }
 	public required string Clip { get; set; }
 	public required string TimeInClip { get; set; }
-	private string pluralsightIntegrationId;
+	private string? pluralsightIntegrationId;
 	[NotMapped]
-	public required string PluralsightIntegrationId { get { return pluralsightIntegrationId; } init { pluralsightIntegrationId = value; IntegrationId = PluralsightIntegrationId; } }
+	public required string PluralsightIntegrationId { get => pluralsightIntegrationId; init { pluralsightIntegrationId = value; IntegrationId = PluralsightIntegrationId; } }
 	public override DateTime CreationTime { get; protected set; } = DateTime.Now;
 }

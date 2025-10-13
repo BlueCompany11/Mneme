@@ -23,14 +23,13 @@ public class GoogleBooksSourceProvider : BaseSourcesProvider<GoogleBooksSource>
 		try
 		{
 			googleBooksService.Connect();
-		}
-		catch (FileNotFoundException)
+		} catch (FileNotFoundException)
 		{
 			return ret;
 		}
-		List<GoogleBooksNote> annotations = await googleBooksService.LoadNotes(ct).ConfigureAwait(false);
+		var annotations = await googleBooksService.LoadNotes(ct).ConfigureAwait(false);
 		annotations = annotations.GroupBy(x => x.Source.IntegrationId).Select(x => x.First()).ToList();
-		foreach (GoogleBooksNote item in annotations)
+		foreach (var item in annotations)
 		{
 			ret.Add(new GoogleBooksSource { Title = item.Source.Title, GoogleBooksSourceId = item.Source.IntegrationId, Active = true });
 		}

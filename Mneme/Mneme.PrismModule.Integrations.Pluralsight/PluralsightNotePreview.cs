@@ -11,17 +11,14 @@ public class PluralsightNotePreview
 	public required string Type { get; init; }
 	public required string Note { get; init; }
 	public required string TimeInClip { get; init; }
-	public static PluralsightNotePreview CreateFromNote(PluralsightNote note)
+	public static PluralsightNotePreview CreateFromNote(PluralsightNote note) => new()
 	{
-		return new PluralsightNotePreview()
-		{
-			Clip = note.Clip,
-			Link = note.Path,
-			Module = note.Module,
-			Note = note.Content,
-			Title = note.Title,
-			Type = "Note",
-			TimeInClip = note.TimeInClip
-		};
-	}
+		Clip = note.Clip,
+		Link = note.Path,
+		Module = note.Module,
+		Note = note.Content,
+		Title = note.Title,
+		Type = "Note",
+		TimeInClip = note.TimeInClip
+	};
 }

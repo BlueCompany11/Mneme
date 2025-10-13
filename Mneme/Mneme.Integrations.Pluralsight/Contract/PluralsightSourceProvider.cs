@@ -17,7 +17,7 @@ public class PluralsightSourceProvider : BaseSourcesProvider<PluralsightSource>
 
 	protected override async Task<List<PluralsightSource>> GetSourcesFromAccountAsync(CancellationToken ct)
 	{
-		List<Model.Note> notes = await pluralsightNoteProvider.GetNotesAsync(ct).ConfigureAwait(false);
+		var notes = await pluralsightNoteProvider.GetNotesAsync(ct).ConfigureAwait(false);
 		notes = notes.GroupBy(x => x.Title).Select(x => x.First()).ToList();
 		var ret = new List<PluralsightSource>();
 		foreach (PluralsightNote item in notes)

@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Mneme.Core;
-using Mneme.Integrations.Contracts;
-using Mneme.Integrations.Mneme.Contract;
+﻿using Mneme.Core;
 using Mneme.Model;
 
 namespace Mneme.Sources;
@@ -10,10 +7,7 @@ public class SourcesFacade : ISourcesFacade
 {
 	private readonly IBundledIntegrationFacades integration;
 
-	public SourcesFacade(IBundledIntegrationFacades integration)
-	{
-		this.integration = integration;
-	}
+	public SourcesFacade(IBundledIntegrationFacades integration) => this.integration = integration;
 
 	public async Task<Source> IgnoreSource(Source source)
 	{

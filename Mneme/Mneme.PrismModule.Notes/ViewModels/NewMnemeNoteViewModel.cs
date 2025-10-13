@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace Mneme.PrismModule.Notes.ViewModels;
 
@@ -52,7 +51,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 	public NewMnemeNoteViewModel(IRegionManager regionManager, IMnemeNotesProxy manager)
 	{
 		this.regionManager = regionManager;
-		this.mnemeNotesProxy = manager;
+		mnemeNotesProxy = manager;
 		SourcesPreviews = [];
 		CreateNoteCommand = new DelegateCommand(CreateNote, CanCreateNote())
 			.ObservesProperty(() => SelectedSourcePreview)
@@ -63,7 +62,7 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 
 	private async void CreateNote()
 	{
-		Mneme.Integrations.Mneme.Contract.MnemeNote note = await mnemeNotesProxy.SaveMnemeNote(SelectedSourcePreview, Note, Title, NoteDetails, default);
+		var note = await mnemeNotesProxy.SaveMnemeNote(SelectedSourcePreview, Note, Title, NoteDetails, default);
 		var para = new NavigationParameters() {
 				{ "note", note }
 			};
@@ -77,16 +76,13 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 
 	}
 
-	public async void OnNavigatedTo(NavigationContext navigationContext)
-	{
-		await Task.Run(async () =>
-		{
-			var sources = await mnemeNotesProxy.GetMnemeSources(default);
-			Application.Current.Dispatcher.Invoke(() =>
-			{
-				SourcesPreviews.Clear();
-				_ = SourcesPreviews.AddRange(sources);
-			});
-		});
-	}
+	public async void OnNavigatedTo(NavigationContext navigationContext) => await Task.Run(async () =>
+																																					 {
+																																						 var sources = await mnemeNotesProxy.GetMnemeSources(default);
+																																						 Application.Current.Dispatcher.Invoke(() =>
+																																						 {
+																																							 SourcesPreviews.Clear();
+																																							 _ = SourcesPreviews.AddRange(sources);
+																																						 });
+																																					 });
 }

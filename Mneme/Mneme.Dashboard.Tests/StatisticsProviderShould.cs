@@ -21,7 +21,7 @@ public class StatisticsProviderShould : BaseTest
 		x.GetKnownNotes(true, default) == Task.FromResult(notes));
 
 		tests = CreateMany<Test>();
-		testProvider = Mock.Of<ITestProvider>(x => 
+		testProvider = Mock.Of<ITestProvider>(x =>
 		x.GetTestsForToday(default) == Task.FromResult(tests) &&
 		x.GetAllTests(default) == Task.FromResult(tests));
 	}
@@ -33,7 +33,7 @@ public class StatisticsProviderShould : BaseTest
 
 		var actualCount = await sut.GetKnownSourcesCount();
 
-		actualCount.Should().Be(sources.Count);
+		_ = actualCount.Should().Be(sources.Count);
 	}
 
 	[Fact]
@@ -43,7 +43,7 @@ public class StatisticsProviderShould : BaseTest
 
 		var actualCount = await sut.GetKnownNotesCount();
 
-		actualCount.Should().Be(notes.Count);
+		_ = actualCount.Should().Be(notes.Count);
 	}
 
 	[Fact]
@@ -54,7 +54,7 @@ public class StatisticsProviderShould : BaseTest
 
 		var actualSource = await sut.GetMostRecentSource();
 
-		actualSource.Should().Contain(expectedSource.Title);
+		_ = actualSource.Should().Contain(expectedSource.Title);
 	}
 
 	[Fact]
@@ -65,7 +65,7 @@ public class StatisticsProviderShould : BaseTest
 
 		var actualNote = await sut.GetMostRecentNote();
 
-		actualNote.Should().Contain(expectedNote.Title);
+		_ = actualNote.Should().Contain(expectedNote.Title);
 	}
 
 	[Fact]
@@ -75,7 +75,7 @@ public class StatisticsProviderShould : BaseTest
 
 		var actualCount = await sut.GetAllTestsCount();
 
-		actualCount.Should().Be(tests.Count);
+		_ = actualCount.Should().Be(tests.Count);
 	}
 
 	[Fact]
@@ -85,6 +85,6 @@ public class StatisticsProviderShould : BaseTest
 
 		var actualCount = await sut.GetAllTestsForTestingCount();
 
-		actualCount.Should().Be(tests.Count);
+		_ = actualCount.Should().Be(tests.Count);
 	}
 }

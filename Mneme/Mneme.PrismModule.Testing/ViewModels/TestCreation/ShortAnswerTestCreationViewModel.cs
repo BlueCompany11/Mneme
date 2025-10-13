@@ -93,7 +93,7 @@ public class ShortAnswerTestCreationViewModel : BindableBase, INavigationAware, 
 		var importance = testImportanceMapper.Map(SelectedImportanceOption);
 		if (editMode)
 		{
-			TestShortAnswer test = repository.GetShortAnswerTest(oldQuestion);
+			var test = repository.GetShortAnswerTest(oldQuestion);
 			test.Question = Question;
 			test.Answer = Answer;
 			test.Hint = Hint;
@@ -105,8 +105,7 @@ public class ShortAnswerTestCreationViewModel : BindableBase, INavigationAware, 
 					{ "test", new TestDataPreview { Title = test.Question, CreationTime = test.Created, Type = testTypeProvider.ShortAnswer }}
 				};
 			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param));
-		}
-		else
+		} else
 		{
 			var test = new TestShortAnswer { Question = Question, Answer = Answer, Hint = Hint, Importance = importance, Created = DateTime.Now, NoteId = Note.Id };
 			repository.CreateTest(test);

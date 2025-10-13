@@ -11,7 +11,7 @@ public class MnemeNotesProxy : IMnemeNotesProxy
 	public MnemeNotesProxy(IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration) => this.mnemeIntegration = mnemeIntegration;
 	public async Task<MnemeNote> SaveMnemeNote(Source source, string content, string title, string path, CancellationToken ct)
 	{
-		MnemeSource newSource = await mnemeIntegration.GetSource(source.Id, ct);
+		var newSource = await mnemeIntegration.GetSource(source.Id, ct);
 		var note = new MnemeNote() { Content = content, Title = title, Path = path, Source = newSource };
 		await mnemeIntegration.CreateNote(note).ConfigureAwait(false);
 		return note;

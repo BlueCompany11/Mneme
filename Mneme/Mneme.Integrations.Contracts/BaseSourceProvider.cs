@@ -10,7 +10,7 @@ public abstract class BaseSourcesProvider<T> where T : Source
 	protected List<T> FindUnique(List<T> fromAccount, List<T> fromDatabase)
 	{
 		var existingSources = new List<T>();
-		foreach (T item in fromAccount)
+		foreach (var item in fromAccount)
 		{
 			for (var i = 0; i < fromDatabase.Count; i++)
 			{
@@ -25,9 +25,9 @@ public abstract class BaseSourcesProvider<T> where T : Source
 	public async Task<List<Source>> GetSourcesAsync(bool onlyActive, CancellationToken ct)
 	{
 		var ret = new List<Source>();
-		List<T> fromAccount = await GetSourcesFromAccountAsync(ct).ConfigureAwait(false);
-		List<T> fromDatabase = GetSourcesFromDatabase();
-		List<T> unique = FindUnique(fromAccount, fromDatabase);
+		var fromAccount = await GetSourcesFromAccountAsync(ct).ConfigureAwait(false);
+		var fromDatabase = GetSourcesFromDatabase();
+		var unique = FindUnique(fromAccount, fromDatabase);
 		AddSources(unique);
 		ret.AddRange(unique);
 		ret.AddRange(fromDatabase);
@@ -39,7 +39,7 @@ public abstract class BaseSourcesProvider<T> where T : Source
 	public Task<List<Source>> GetKnownSourcesAsync(bool onlyActive, CancellationToken cancellationToken)
 	{
 		var ret = new List<Source>();
-		List<T> fromDatabase = GetSourcesFromDatabase();
+		var fromDatabase = GetSourcesFromDatabase();
 		if (onlyActive)
 			fromDatabase = fromDatabase.Where(x => x.Active).ToList();
 		ret.AddRange(fromDatabase);
