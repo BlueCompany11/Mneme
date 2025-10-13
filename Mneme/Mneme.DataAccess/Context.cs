@@ -15,6 +15,6 @@ public class Context : DbContext
 		var mnemeFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Mneme");
 		//end code duplicated 1
 		var dbPath = Path.Combine(mnemeFolder, "Database.db");
-		optionsBuilder.UseSqlite($"Data Source={dbPath}");
+		_=optionsBuilder.UseSqlite($"Data Source={dbPath}");
 	}
 }

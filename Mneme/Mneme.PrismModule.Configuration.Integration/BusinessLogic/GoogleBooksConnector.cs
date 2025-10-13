@@ -20,8 +20,7 @@ public class GoogleBooksConnector : IDisposable
 		{
 			Directory.Delete(folderPath, true);
 			return true;
-		}
-		catch (Exception)
+		} catch (Exception)
 		{
 			return false;
 		}

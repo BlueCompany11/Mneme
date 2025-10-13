@@ -25,8 +25,7 @@ public abstract class SearchableViewModel<T> : BindableBase
 			{
 				UpdateFilteredItems();
 				RaisePropertyChanged(nameof(FilteredItems));
-			}
-			else
+			} else
 			{
 				FilteredItems = AllItems;
 				RaisePropertyChanged(nameof(FilteredItems));

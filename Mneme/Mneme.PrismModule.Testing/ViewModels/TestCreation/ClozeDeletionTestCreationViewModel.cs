@@ -12,7 +12,6 @@ using System.Linq;
 
 namespace Mneme.PrismModule.Testing.ViewModels.TestCreation;
 
-
 public class ClozeDeletionTestCreationViewModel : BindableBase, INavigationAware
 {
 	private string text;
@@ -71,8 +70,9 @@ public class ClozeDeletionTestCreationViewModel : BindableBase, INavigationAware
 			snackbarMessageQueue.Enqueue("Add cloze deletion first.");
 			return;
 		}
-		var importance = testImportanceMapper.Map(SelectedImportanceOption);
-		foreach (TestShortAnswer test in tests)
+
+		_ = testImportanceMapper.Map(SelectedImportanceOption);
+		foreach (var test in tests)
 		{
 			repository.CreateTest(test);
 		}

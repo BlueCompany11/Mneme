@@ -33,7 +33,6 @@ public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAwar
 	}
 	private List<string> text;
 
-
 	public List<string> Texts
 	{
 		get => text;
@@ -101,7 +100,7 @@ public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAwar
 			return;
 		if (editMode)
 		{
-			TestMultipleChoices test = repository.GetMultipleChoicesTest(oldQuestion);
+			var test = repository.GetMultipleChoicesTest(oldQuestion);
 			test.Question = Question;
 			test.Answers.Clear();
 			for (var i = 0; i < amountOfAnswers; i++)
@@ -116,8 +115,7 @@ public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAwar
 				};
 			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param));
 			snackbarMessageQueue.Enqueue("Test updated");
-		}
-		else
+		} else
 		{
 			var importance = testImportanceMapper.Map(SelectedImportanceOption);
 			var answers = new List<TestMultipleChoice>();

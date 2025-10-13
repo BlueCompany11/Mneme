@@ -49,7 +49,7 @@ public abstract class AbstractNotePreviewViewModel : BindableBase, INavigationAw
 	public void OnNavigatedTo(NavigationContext navigationContext)
 	{
 		CheckIfShouldDisplayCreateTestButton(navigationContext);
-		Note receivedNote = navigationContext.Parameters.GetValue<Note>("note");
+		var receivedNote = navigationContext.Parameters.GetValue<Note>("note");
 		BaseNote = receivedNote;
 		LoadNote();
 	}

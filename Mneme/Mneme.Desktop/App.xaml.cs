@@ -45,7 +45,7 @@ public partial class App
 
 	protected override void OnInitialized()
 	{
-		IDatabaseMigrations migrations = Container.Resolve<IDatabaseMigrations>();
+		var migrations = Container.Resolve<IDatabaseMigrations>();
 		migrations.MigrateDatabases().GetAwaiter().GetResult();
 		_ = Container.Resolve<IRegionManager>()
 			.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DashboardView))

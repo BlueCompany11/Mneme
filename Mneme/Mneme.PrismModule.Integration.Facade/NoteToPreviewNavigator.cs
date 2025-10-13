@@ -18,12 +18,10 @@ public class NoteToPreviewNavigator
 		if (note is GoogleBooksNote)
 		{
 			regionManager.RequestNavigate(regionName, nameof(GoogleBooksNotePreviewView), para);
-		}
-		else if (note is PluralsightNote)
+		} else if (note is PluralsightNote)
 		{
 			regionManager.RequestNavigate(regionName, nameof(PluralsightNotePreviewView), para);
-		}
-		else if (note is MnemeNote)
+		} else if (note is MnemeNote)
 		{
 			regionManager.RequestNavigate(regionName, nameof(MnemeNotePreviewView), para);
 		}

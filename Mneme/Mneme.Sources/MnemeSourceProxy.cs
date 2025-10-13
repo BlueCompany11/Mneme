@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Mneme.Core;
 using Mneme.Integrations.Contracts;
 using Mneme.Integrations.Mneme.Contract;
 using Mneme.Model;
@@ -7,13 +6,10 @@ using Mneme.Model;
 namespace Mneme.Sources;
 
 public class MnemeSourceProxy
-{ 
+{
 	private readonly IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration;
 
-	public MnemeSourceProxy(IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration)
-	{
-		this.mnemeIntegration = mnemeIntegration;
-	}
+	public MnemeSourceProxy(IIntegrationFacade<MnemeSource, MnemeNote> mnemeIntegration) => this.mnemeIntegration = mnemeIntegration;
 
 	public async Task<MnemeSource?> SaveMnemeSource(string sourceTitle, string details, CancellationToken ct)
 	{
@@ -22,8 +18,7 @@ public class MnemeSourceProxy
 		{
 			await mnemeIntegration.CreateSource(source).ConfigureAwait(false);
 			return await mnemeIntegration.GetSource(source.Id, ct).ConfigureAwait(false);
-		}
-		catch (Exception)
+		} catch (Exception)
 		{
 			return null;
 		}
@@ -31,7 +26,7 @@ public class MnemeSourceProxy
 
 	public async Task<MnemeSource?> UpdateMnemeSource(int id, string title, string details, CancellationToken ct)
 	{
-		MnemeSource existingSource = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
+		var existingSource = await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 		existingSource.Title = title;
 		existingSource.Details = details;
 		await mnemeIntegration.UpdateSource(existingSource, ct).ConfigureAwait(false);
@@ -44,8 +39,7 @@ public class MnemeSourceProxy
 		{
 			await mnemeIntegration.DeleteSource(source.Id, default).ConfigureAwait(false);
 			return true;
-		}
-		catch (DbUpdateException)
+		} catch (DbUpdateException)
 		{
 			return false;
 		}

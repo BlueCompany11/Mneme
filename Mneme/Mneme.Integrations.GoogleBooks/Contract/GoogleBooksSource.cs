@@ -11,8 +11,7 @@ public class GoogleBooksSource : Source
 
 	public static string Type => "GoogleBooks";
 
-	private string googleBooksIntegrationId;
+	private string? googleBooksIntegrationId;
 	[NotMapped]
-	public required string GoogleBooksSourceId { get { return googleBooksIntegrationId; } init { googleBooksIntegrationId = value; IntegrationId = googleBooksIntegrationId; } }
-
+	public required string GoogleBooksSourceId { get => googleBooksIntegrationId; init { googleBooksIntegrationId = value; IntegrationId = googleBooksIntegrationId; } }
 }

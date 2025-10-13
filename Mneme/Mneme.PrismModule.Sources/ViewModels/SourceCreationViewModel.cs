@@ -49,7 +49,7 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 
 	private async Task Save()
 	{
-		Integrations.Mneme.Contract.MnemeSource source = await proxy.SaveMnemeSource(SourceTitle, Details, default);
+		var source = await proxy.SaveMnemeSource(SourceTitle, Details, default);
 		if (source is not null)
 		{
 			var parameters = new DialogParameters
@@ -58,8 +58,7 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 				};
 			snackbarMessageQueue.Enqueue("New source created");
 			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
-		}
-		else
+		} else
 			snackbarMessageQueue.Enqueue("Source already exisits");
 	}
 	private async Task Update()

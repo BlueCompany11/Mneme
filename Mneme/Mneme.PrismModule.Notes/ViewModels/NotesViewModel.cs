@@ -85,18 +85,17 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 		if (navigationContext.Parameters.ContainsKey("note"))
 		{
 			ShowNewMnemeNote(navigationContext);
-		}
-		else
+		} else
 		{
 			using (cts = new CancellationTokenSource())
 			{
 				IsLoading = true;
-				Task<IReadOnlyList<Note>> getNotesTask = utilty.GetNotes(cts.Token);
-				Task completedTask = await Task.WhenAny(getNotesTask, Task.Delay(Timeout.Infinite, cts.Token));
+				var getNotesTask = utilty.GetNotes(cts.Token);
+				var completedTask = await Task.WhenAny(getNotesTask, Task.Delay(Timeout.Infinite, cts.Token));
 
 				if (completedTask == getNotesTask)
 				{
-					IReadOnlyList<Note> notes = getNotesTask.Result;
+					var notes = getNotesTask.Result;
 					if (notes.Count != AllItems.Count)
 					{
 						AllItems.Clear();

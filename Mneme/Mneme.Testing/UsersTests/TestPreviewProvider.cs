@@ -21,13 +21,13 @@ public class TestPreviewProvider : ITestProvider
 	public IReadOnlyList<TestDataPreview> GetAllTests()
 	{
 		var ret = new List<TestDataPreview>();
-		IReadOnlyList<TestCreation.TestShortAnswer> shortAnswers = repository.GetShortAnswerTests();
-		IReadOnlyList<TestCreation.TestMultipleChoices> multipleChoice = repository.GetMultipleChoicesTests();
-		foreach (TestCreation.TestShortAnswer item in shortAnswers)
+		var shortAnswers = repository.GetShortAnswerTests();
+		var multipleChoice = repository.GetMultipleChoicesTests();
+		foreach (var item in shortAnswers)
 		{
 			ret.Add(new TestDataPreview { Title = item.Question, CreationTime = item.Created, Type = testTypeProvider.ShortAnswer });
 		}
-		foreach (TestCreation.TestMultipleChoices item in multipleChoice)
+		foreach (var item in multipleChoice)
 		{
 			ret.Add(new TestDataPreview { Title = item.Question, CreationTime = item.Created, Type = testTypeProvider.MultipleChoice });
 		}
@@ -36,14 +36,14 @@ public class TestPreviewProvider : ITestProvider
 	public Queue<Test> GetTestsForToday()
 	{
 		var ret = new Queue<Test>();
-		IReadOnlyList<TestCreation.TestShortAnswer> shortAnswers = repository.GetShortAnswerTests();
-		IReadOnlyList<TestCreation.TestMultipleChoices> multipleChoice = repository.GetMultipleChoicesTests();
-		foreach (TestCreation.TestShortAnswer item in shortAnswers)
+		var shortAnswers = repository.GetShortAnswerTests();
+		var multipleChoice = repository.GetMultipleChoicesTests();
+		foreach (var item in shortAnswers)
 		{
 			if (spaceRepetition.ShouldBeTested(item))
 				ret.Enqueue(item);
 		}
-		foreach (TestCreation.TestMultipleChoices item in multipleChoice)
+		foreach (var item in multipleChoice)
 		{
 			if (spaceRepetition.ShouldBeTested(item))
 				ret.Enqueue(item);
@@ -54,8 +54,8 @@ public class TestPreviewProvider : ITestProvider
 	Task<IReadOnlyList<Test>> ITestProvider.GetAllTests(CancellationToken ct)
 	{
 		var ret = new List<Test>();
-		IReadOnlyList<TestCreation.TestShortAnswer> shortAnswers = repository.GetShortAnswerTests();
-		IReadOnlyList<TestCreation.TestMultipleChoices> multipleChoice = repository.GetMultipleChoicesTests();
+		var shortAnswers = repository.GetShortAnswerTests();
+		var multipleChoice = repository.GetMultipleChoicesTests();
 		ret.AddRange(shortAnswers);
 		ret.AddRange(multipleChoice);
 		return Task.FromResult<IReadOnlyList<Test>>(ret);
@@ -64,14 +64,14 @@ public class TestPreviewProvider : ITestProvider
 	Task<IReadOnlyList<Test>> ITestProvider.GetTestsForToday(CancellationToken ct)
 	{
 		var ret = new List<Test>();
-		IReadOnlyList<TestCreation.TestShortAnswer> shortAnswers = repository.GetShortAnswerTests();
-		IReadOnlyList<TestCreation.TestMultipleChoices> multipleChoice = repository.GetMultipleChoicesTests();
-		foreach (TestCreation.TestShortAnswer item in shortAnswers)
+		var shortAnswers = repository.GetShortAnswerTests();
+		var multipleChoice = repository.GetMultipleChoicesTests();
+		foreach (var item in shortAnswers)
 		{
 			if (spaceRepetition.ShouldBeTested(item))
 				ret.Add(item);
 		}
-		foreach (TestCreation.TestMultipleChoices item in multipleChoice)
+		foreach (var item in multipleChoice)
 		{
 			if (spaceRepetition.ShouldBeTested(item))
 				ret.Add(item);

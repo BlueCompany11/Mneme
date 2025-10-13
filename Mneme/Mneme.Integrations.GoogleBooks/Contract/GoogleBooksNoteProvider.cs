@@ -16,24 +16,23 @@ public class GoogleBooksNoteProvider
 		try
 		{
 			googleBooksService.Connect();
-		}
-		catch (FileNotFoundException)
+		} catch (FileNotFoundException)
 		{
 			return ret;
 		}
-		List<GoogleBooksNote> notes = await googleBooksService.LoadNotes(ct).ConfigureAwait(false);
+		var notes = await googleBooksService.LoadNotes(ct).ConfigureAwait(false);
 		if (ct.IsCancellationRequested)
 			return ret;
 		//add sources
 		//get unique sources
 		var uniqueSources = new Dictionary<string, GoogleBooksSource>();
-		foreach (GoogleBooksNote note in notes)
+		foreach (var note in notes)
 			_ = uniqueSources.TryAdd(note.Source.IntegrationId, note.Source);
 
 		using var googleBooksContext = new GoogleBooksContext();
 		//check if new sources are in database
-		List<GoogleBooksSource> existingSources = await googleBooksContext.GoogleBooksSources.ToListAsync(ct).ConfigureAwait(false);
-		foreach (GoogleBooksSource? existingSource in existingSources)
+		var existingSources = await googleBooksContext.GoogleBooksSources.ToListAsync(ct).ConfigureAwait(false);
+		foreach (var existingSource in existingSources)
 		{
 			if (uniqueSources.ContainsKey(existingSource.IntegrationId))
 				_ = uniqueSources.Remove(existingSource.IntegrationId);
@@ -41,18 +40,18 @@ public class GoogleBooksNoteProvider
 
 		googleBooksContext.AddRange(uniqueSources.Values);
 		_ = await googleBooksContext.SaveChangesAsync(ct).ConfigureAwait(false);
-		foreach (GoogleBooksNote entity in notes)
+		foreach (var entity in notes)
 		{
-			GoogleBooksNote? note = googleBooksContext.GoogleBooksNotes.FirstOrDefault(x => x.IntegrationId == entity.IntegrationId);
+			var note = googleBooksContext.GoogleBooksNotes.FirstOrDefault(x => x.IntegrationId == entity.IntegrationId);
 			if (note == null)
 			{
-				GoogleBooksSource source = googleBooksContext.GoogleBooksSources.First(x => x.IntegrationId == entity.IntegrationId);
+				var source = googleBooksContext.GoogleBooksSources.First(x => x.IntegrationId == entity.IntegrationId);
 				entity.Source = source;
 				_ = googleBooksContext.Update(entity);
 			}
 		}
 		_ = await googleBooksContext.SaveChangesAsync(ct).ConfigureAwait(false);
-		foreach (GoogleBooksNote? item in googleBooksContext.GoogleBooksNotes.Where(x => x.Source.Active))
+		foreach (var item in googleBooksContext.GoogleBooksNotes.Where(x => x.Source.Active))
 		{
 			ret.Add(item);
 		}

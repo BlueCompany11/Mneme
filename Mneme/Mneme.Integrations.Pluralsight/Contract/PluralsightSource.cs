@@ -16,5 +16,5 @@ public class PluralsightSource : Source
 	public static string Type => "Pluralsight";
 	private string pluralsightIntegrationId;
 	[NotMapped]
-	public required string PluralsightSourceId { get { return pluralsightIntegrationId; } init { pluralsightIntegrationId = value; IntegrationId = pluralsightIntegrationId; } }
+	public required string PluralsightSourceId { get => pluralsightIntegrationId; init { pluralsightIntegrationId = value; IntegrationId = pluralsightIntegrationId; } }
 }

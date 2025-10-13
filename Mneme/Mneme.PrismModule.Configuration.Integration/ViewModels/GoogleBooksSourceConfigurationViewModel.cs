@@ -47,8 +47,7 @@ public class GoogleBooksSourceConfigurationViewModel : SourceConfigurationEntryB
 			connector.Connect();
 			queue.Enqueue("Connection with Google Books account established.");
 			Status = "Connected";
-		}
-		catch (Exception)
+		} catch (Exception)
 		{
 			Status = "Unable to connect";
 			queue.Enqueue("Failed to connect to Google Books.");
@@ -61,12 +60,10 @@ public class GoogleBooksSourceConfigurationViewModel : SourceConfigurationEntryB
 		{
 			Status = "Disconnected";
 			queue.Enqueue("Disconnected from Google Books account. All sources and notes will remain in Mneme.");
-		}
-		else
+		} else
 		{
 			Status = "Unknown";
 			queue.Enqueue("Failed to disconnect");
 		}
-
 	}
 }

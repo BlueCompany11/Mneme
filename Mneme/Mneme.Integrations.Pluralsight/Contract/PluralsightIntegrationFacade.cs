@@ -19,7 +19,7 @@ public class PluralsightIntegrationFacade : IntegrationFacadeBase<Context, Plura
 	public override async Task<IReadOnlyList<PluralsightNote>> GetNotes(CancellationToken ct)
 	{
 		var ret = new List<PluralsightNote>();
-		foreach (Model.Note note in await noteProvider.GetNotesAsync(ct).ConfigureAwait(false))
+		foreach (var note in await noteProvider.GetNotesAsync(ct).ConfigureAwait(false))
 		{
 			ret.Add((PluralsightNote)note);
 		}
@@ -28,7 +28,7 @@ public class PluralsightIntegrationFacade : IntegrationFacadeBase<Context, Plura
 	public override async Task<IReadOnlyList<PluralsightSource>> GetSources(CancellationToken ct)
 	{
 		var ret = new List<PluralsightSource>();
-		foreach (Model.Source note in await pluralsightSourceProvider.GetSourcesAsync(false, ct).ConfigureAwait(false))
+		foreach (var note in await pluralsightSourceProvider.GetSourcesAsync(false, ct).ConfigureAwait(false))
 		{
 			ret.Add((PluralsightSource)note);
 		}

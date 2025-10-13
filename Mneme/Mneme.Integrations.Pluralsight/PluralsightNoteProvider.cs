@@ -32,8 +32,7 @@ internal class PluralsightNoteProvider
 			}
 			Notes = ret;
 			return ret;
-		}
-		catch (Exception)
+		} catch (Exception)
 		{
 			return ret;
 		}

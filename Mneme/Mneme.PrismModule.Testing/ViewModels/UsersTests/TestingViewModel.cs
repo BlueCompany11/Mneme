@@ -118,7 +118,7 @@ public class TestingViewModel : BindableBase, INavigationAware
 
 	private bool CheckIfTestsAreFinished()
 	{
-		if (UserTests.TryPeek(out Test test))
+		if (UserTests.TryPeek(out _))
 		{
 			currentTest = UserTests.Dequeue();
 			QuestionStage(true);
@@ -131,7 +131,6 @@ public class TestingViewModel : BindableBase, INavigationAware
 		ShowHint = false;
 		return true;
 	}
-
 
 	private void QuestionStage(bool isQuestionStage)
 	{

@@ -15,7 +15,7 @@ public class MnemeIntegrationFacade : IntegrationFacadeBase<Context, MnemeSource
 	protected override Context CreateContext() => new MnemeContext();
 	public override async Task<IReadOnlyList<MnemeNote>> GetNotes(CancellationToken ct)
 	{
-		using Context context = CreateContext();
+		using var context = CreateContext();
 		return await context.Set<MnemeNote>().Include(x => x.Source).ToListAsync(ct).ConfigureAwait(false);
 	}
 }

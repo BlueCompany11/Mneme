@@ -22,17 +22,16 @@ public class DatabaseMigrations(IEnumerable<IDatabase> databases) : IDatabaseMig
 				var mnemeFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Mneme");
 				//end code duplicated 1
 				_ = Directory.CreateDirectory(mnemeFolder);
-				
+
 				var migrationTasks = new List<Task>();
-				foreach (IDatabase db in databases)
+				foreach (var db in databases)
 				{
 					migrationTasks.Add(db.MigrateDatabase());
 				}
 				await Task.WhenAll(migrationTasks);
 				isMigrated = true;
 			}
-		}
-		finally
+		} finally
 		{
 			_ = semaphore.Release();
 		}

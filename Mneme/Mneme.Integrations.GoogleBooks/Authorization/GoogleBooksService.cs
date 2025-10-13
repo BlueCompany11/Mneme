@@ -6,7 +6,6 @@ using Google.Apis.Books.v1.Data;
 using Google.Apis.Services;
 using Mneme.Integrations.GoogleBooks.Contract;
 
-
 namespace Mneme.Integrations.GoogleBooks.Authorization;
 
 public class GoogleBooksService : IDisposable
@@ -29,14 +28,11 @@ public class GoogleBooksService : IDisposable
 		annotations = [];
 	}
 
-	protected void CreateService()
+	protected void CreateService() => service = new BooksService(new BaseClientService.Initializer()
 	{
-		service = new BooksService(new BaseClientService.Initializer()
-		{
-			HttpClientInitializer = credential,
-			ApplicationName = AppName,
-		});
-	}
+		HttpClientInitializer = credential,
+		ApplicationName = AppName,
+	});
 
 	public void Connect()
 	{
@@ -62,7 +58,7 @@ public class GoogleBooksService : IDisposable
 		var ret = new List<GoogleBooksAnnotation>();
 		if (annotations != null && annotations.Items != null)
 		{
-			foreach (Annotation? annotation in annotations.Items)
+			foreach (var annotation in annotations.Items)
 			{
 				ret.Add(new GoogleBooksAnnotation(annotation, volume));
 			}
@@ -75,16 +71,14 @@ public class GoogleBooksService : IDisposable
 		List<Volumes> volumes = [];
 		try
 		{
-			Bookshelves bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync(ct).ConfigureAwait(false)
+			var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync(ct).ConfigureAwait(false)
 					;
 			volumes = await GetVolumesAsync(bookshelves, ct).ConfigureAwait(false);
 			return FilterVolumes(volumes);
-		}
-		catch (GoogleApiException)
+		} catch (GoogleApiException)
 		{
 			return FilterVolumes(volumes);
-		}
-		catch (TokenResponseException ex) when (ex.Error.Error == "invalid_grant")
+		} catch (TokenResponseException ex) when (ex.Error.Error == "invalid_grant")
 		{
 			return FilterVolumes(volumes);
 		}
@@ -93,7 +87,7 @@ public class GoogleBooksService : IDisposable
 	private List<Volume> FilterVolumes(List<Volumes> volumes)
 	{
 		var ret = new List<Volume>();
-		foreach (Volumes vol in volumes)
+		foreach (var vol in volumes)
 		{
 			ret.AddRange(vol.Items.Where(x => !x.VolumeInfo.Title.EndsWith(fileExtensionBlackList)));
 		}
@@ -102,7 +96,7 @@ public class GoogleBooksService : IDisposable
 
 	private async Task LoadAnnotationsAsync(CancellationToken ct)
 	{
-		List<Volume> volumes = await LoadVolumesAsync(ct).ConfigureAwait(false);
+		var volumes = await LoadVolumesAsync(ct).ConfigureAwait(false);
 		await UpdateAnnotationsAsync(volumes, ct).ConfigureAwait(false);
 	}
 
@@ -110,7 +104,7 @@ public class GoogleBooksService : IDisposable
 	{
 		await LoadAnnotationsAsync(ct).ConfigureAwait(false);
 		var ret = new List<GoogleBooksNote>();
-		foreach (GoogleBooksAnnotation a in annotations)
+		foreach (var a in annotations)
 			ret.Add(Convert(a));
 		return ret;
 	}
@@ -124,7 +118,7 @@ public class GoogleBooksService : IDisposable
 			ContentVersion = "gbImageRange"
 		};
 		string? pageToken = null;
-		foreach (Volume vol in volumes)
+		foreach (var vol in volumes)
 		{
 			request.VolumeId = vol.Id;
 			do
@@ -132,11 +126,10 @@ public class GoogleBooksService : IDisposable
 				request.PageToken = pageToken;
 				try
 				{
-					Annotations annotations = await request.ExecuteAsync(ct).ConfigureAwait(false);
+					var annotations = await request.ExecuteAsync(ct).ConfigureAwait(false);
 					ret.AddRange(ConvertAnnotations(annotations, vol));
 					pageToken = annotations.NextPageToken;
-				}
-				catch (Exception e) when (e is TaskCanceledException or GoogleApiException or OperationCanceledException)
+				} catch (Exception e) when (e is TaskCanceledException or GoogleApiException or OperationCanceledException)
 				{
 					break;
 				}
@@ -148,11 +141,11 @@ public class GoogleBooksService : IDisposable
 	private async Task<List<Volumes>> GetVolumesAsync(Bookshelves bookshelves, CancellationToken ct)
 	{
 		var ret = new List<Volumes>();
-		foreach (Bookshelf? item in bookshelves.Items)
+		foreach (var item in bookshelves.Items)
 		{
 			try
 			{
-				MylibraryResource.BookshelvesResource.VolumesResource.ListRequest request = service.Mylibrary.Bookshelves.Volumes.List(item.Id.ToString());
+				var request = service.Mylibrary.Bookshelves.Volumes.List(item.Id.ToString());
 				request.MaxResults = 40;
 				request.StartIndex = 0;
 				Volumes result;
@@ -165,8 +158,7 @@ public class GoogleBooksService : IDisposable
 						request.StartIndex += result.Items?.Count;
 					} while (result.TotalItems > request.StartIndex);
 				}
-			}
-			catch (Exception e) when (e is TaskCanceledException or GoogleApiException or OperationCanceledException)
+			} catch (Exception e) when (e is TaskCanceledException or GoogleApiException or OperationCanceledException)
 			{
 				break;
 			}
@@ -174,19 +166,16 @@ public class GoogleBooksService : IDisposable
 		return ret;
 	}
 
-	private GoogleBooksNote Convert(GoogleBooksAnnotation annotation)
+	private GoogleBooksNote Convert(GoogleBooksAnnotation annotation) => new()
 	{
-		return new GoogleBooksNote
-		{
-			Content = annotation.SelectedText,
-			NoteType = annotation.Type,
-			Path = annotation.Path,
-			Title = annotation.BookTitle,
-			CreationDate = annotation.Created,
-			GoogleBooksNoteId = annotation.Id,
-			Source = new GoogleBooksSource { Title = annotation.BookTitle, GoogleBooksSourceId = annotation.BookId, Active = true }
-		};
-	}
+		Content = annotation.SelectedText,
+		NoteType = annotation.Type,
+		Path = annotation.Path,
+		Title = annotation.BookTitle,
+		CreationDate = annotation.Created,
+		GoogleBooksNoteId = annotation.Id,
+		Source = new GoogleBooksSource { Title = annotation.BookTitle, GoogleBooksSourceId = annotation.BookId, Active = true }
+	};
 
 	public void Dispose()
 	{

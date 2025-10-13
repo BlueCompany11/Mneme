@@ -1,6 +1,5 @@
 ﻿using Mneme.Core;
 
-
 namespace Mneme.Dashboard;
 
 public class StatisticsProvider : IStatisticsProvider

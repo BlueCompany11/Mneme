@@ -48,16 +48,14 @@ public class TestsViewModel : SearchableViewModel<TestDataPreview>, INavigationA
 		if (test.Type == testTypeProvider.MultipleChoice)
 		{
 			page = nameof(MultipleChoiceTestCreationView);
-			Mneme.Testing.TestCreation.TestMultipleChoices t = repository.GetMultipleChoicesTest(test.Title);
+			var t = repository.GetMultipleChoicesTest(test.Title);
 			parameters.Add("test", t);
-		}
-		else if (test.Type == testTypeProvider.ShortAnswer)
+		} else if (test.Type == testTypeProvider.ShortAnswer)
 		{
 			page = nameof(ShortAnswerTestCreationView);
-			Mneme.Testing.TestCreation.TestShortAnswer t = repository.GetShortAnswerTest(test.Title);
+			var t = repository.GetShortAnswerTest(test.Title);
 			parameters.Add("test", t);
-		}
-		else
+		} else
 			throw new Exception("Unknown test type or trying to edit cloze deletion");
 		dialogService.ShowDialog(page, parameters, result =>
 		{
@@ -74,32 +72,28 @@ public class TestsViewModel : SearchableViewModel<TestDataPreview>, INavigationA
 	{
 		if (test.Type == testTypeProvider.MultipleChoice)
 		{
-			Mneme.Testing.TestCreation.TestMultipleChoices t = repository.GetMultipleChoicesTest(test.Title);
+			var t = repository.GetMultipleChoicesTest(test.Title);
 			repository.RemoveTest(t);
-		}
-		else if (test.Type == testTypeProvider.ShortAnswer)
+		} else if (test.Type == testTypeProvider.ShortAnswer)
 		{
-			Mneme.Testing.TestCreation.TestShortAnswer t = repository.GetShortAnswerTest(test.Title);
+			var t = repository.GetShortAnswerTest(test.Title);
 			repository.RemoveTest(t);
 		}
 		_ = AllItems.Remove(test);
 	}
 
-	public async void OnNavigatedTo(NavigationContext navigationContext)
-	{
-		await Task.Run(() =>
-		{
-			IReadOnlyList<TestDataPreview> tests = testPreviewProvider.GetAllTests();
-			Application.Current.Dispatcher.Invoke(() =>
-			{
-				if (tests.Count != AllItems.Count)
-				{
-					AllItems.Clear();
-					_ = AllItems.AddRange(tests);
-				}
-			});
-		});
-	}
+	public async void OnNavigatedTo(NavigationContext navigationContext) => await Task.Run(() =>
+																																					 {
+																																						 var tests = testPreviewProvider.GetAllTests();
+																																						 Application.Current.Dispatcher.Invoke(() =>
+																																						 {
+																																							 if (tests.Count != AllItems.Count)
+																																							 {
+																																								 AllItems.Clear();
+																																								 _ = AllItems.AddRange(tests);
+																																							 }
+																																						 });
+																																					 });
 
 	public bool IsNavigationTarget(NavigationContext navigationContext) => true;
 

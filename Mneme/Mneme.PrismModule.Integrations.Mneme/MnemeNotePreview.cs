@@ -11,16 +11,13 @@ public class MnemeNotePreview
 	public required string Source { get; init; }
 	public required string SourceDetails { get; init; }
 	public required DateTime CreationDate { get; init; }
-	public static MnemeNotePreview CreateFromNote(MnemeNote note)
+	public static MnemeNotePreview CreateFromNote(MnemeNote note) => new()
 	{
-		return new MnemeNotePreview()
-		{
-			Title = note.Title,
-			NoteText = note.Content,
-			NoteDetails = note.Path,
-			Source = note.Source.Title,
-			SourceDetails = note.Source.Details,
-			CreationDate = note.CreationTime
-		};
-	}
+		Title = note.Title,
+		NoteText = note.Content,
+		NoteDetails = note.Path,
+		Source = note.Source.Title,
+		SourceDetails = note.Source.Details,
+		CreationDate = note.CreationTime
+	};
 }
