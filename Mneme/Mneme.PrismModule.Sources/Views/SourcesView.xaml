@@ -40,6 +40,8 @@
             </Style.Triggers>
         </Style>
         <local:DateToDayConverter x:Key="DateToDayConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <materialDesign:InvertBooleanConverter x:Key="InverseBooleanToVisibilityConverter"/>
         <CollectionViewSource x:Key="GroupedSources"
                               Source="{Binding FilteredItems}">
             <CollectionViewSource.GroupDescriptions>
