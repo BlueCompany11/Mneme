@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mneme.Integrations.Mneme.Database;
 
@@ -10,9 +11,11 @@ using Mneme.Integrations.Mneme.Database;
 namespace Mneme.Integrations.Mneme.Migrations
 {
     [DbContext(typeof(MnemeContext))]
-    partial class MnemeContextModelSnapshot : ModelSnapshot
+    [Migration("20251026151914_Init3")]
+    partial class Init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
