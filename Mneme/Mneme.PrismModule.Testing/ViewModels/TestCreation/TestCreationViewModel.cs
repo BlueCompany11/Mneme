@@ -3,7 +3,8 @@ using Mneme.Model;
 using Mneme.PrismModule.Integration.Facade;
 using Mneme.Views.Base;
 using Prism.Mvvm;
-using Prism.Regions;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 using System;
 using System.Collections.Generic;
 

@@ -2,7 +2,8 @@
 using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 
 namespace Mneme.PrismModule.Integrations.Base;
 

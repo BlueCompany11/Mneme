@@ -16,7 +16,7 @@ using Mneme.PrismModule.Testing;
 using Mneme.Views.Base;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using System;
 using System.Windows;
 

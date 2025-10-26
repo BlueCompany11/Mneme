@@ -4,9 +4,9 @@ using Mneme.Testing.Contracts;
 using Mneme.Testing.TestCreation;
 using Mneme.Testing.UsersTests;
 using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Mvvm;
-using Prism.Regions;
-using Prism.Services.Dialogs;
+using Prism.Navigation.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +94,8 @@ public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAwar
 
 	public string Title => "Edit";
 
+	DialogCloseListener IDialogAware.RequestClose => throw new NotImplementedException();
+
 	private void CreateTest()
 	{
 		if (!Validate())
@@ -113,7 +115,8 @@ public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAwar
 				{
 					{ "test", new TestDataPreview { Title = test.Question, CreationTime = test.Created, Type = testTypeProvider.MultipleChoice }}
 				};
-			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param));
+			var dialogResult = new DialogResult(ButtonResult.OK);
+			RequestClose?.Invoke(dialogResult);
 			snackbarMessageQueue.Enqueue("Test updated");
 		} else
 		{

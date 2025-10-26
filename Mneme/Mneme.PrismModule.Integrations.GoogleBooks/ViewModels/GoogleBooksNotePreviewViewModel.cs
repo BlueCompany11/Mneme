@@ -1,7 +1,7 @@
 ﻿using Mneme.Integrations.GoogleBooks.Contract;
 using Mneme.Model;
 using Mneme.PrismModule.Integrations.Base;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Mneme.PrismModule.Integrations.GoogleBooks.ViewModels;
 

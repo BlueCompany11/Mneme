@@ -3,7 +3,7 @@ using Mneme.Testing.RepetitionAlgorithm;
 using Mneme.Testing.UsersTests;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

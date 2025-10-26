@@ -5,7 +5,8 @@ using Mneme.Model;
 using Mneme.PrismModule.Integrations.GoogleBooks.Views;
 using Mneme.PrismModule.Integrations.Mneme.Views;
 using Mneme.PrismModule.Integrations.Pluralsight.Views;
-using Prism.Regions;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 
 namespace Mneme.PrismModule.Integration.Facade;
 
@@ -13,7 +14,7 @@ public class NoteToPreviewNavigator
 {
 	private readonly IRegionManager regionManager;
 	public NoteToPreviewNavigator(IRegionManager regionManager) => this.regionManager = regionManager;
-	public void NavigateToPreview(Note note, NavigationParameters para, string regionName)
+	public void NavigateToPreview(Note note, INavigationParameters para, string regionName)
 	{
 		if (note is GoogleBooksNote)
 		{

@@ -2,8 +2,8 @@
 using Mneme.Model;
 using Mneme.Sources;
 using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
 using System;
 using System.Threading.Tasks;
 
@@ -57,7 +57,9 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 					{ "source", source }
 				};
 			snackbarMessageQueue.Enqueue("New source created");
-			RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
+			var dialogResult = new DialogResult(ButtonResult.OK);
+			dialogResult.Parameters = parameters;
+			RequestClose?.Invoke(dialogResult);
 		} else
 			snackbarMessageQueue.Enqueue("Source already exisits");
 	}
@@ -68,11 +70,16 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 				{
 					{ "source", sourceToEdit }
 				};
-		RequestClose?.Invoke(new DialogResult(ButtonResult.OK, parameters));
+		var dialogResult = new DialogResult(ButtonResult.OK);
+		dialogResult.Parameters = parameters;
+		RequestClose?.Invoke(dialogResult);
 		snackbarMessageQueue.Enqueue("Source updated");
 	}
 
 	public string Title { get; private set; }
+
+	DialogCloseListener IDialogAware.RequestClose => throw new NotImplementedException();
+
 	public event Action<IDialogResult> RequestClose;
 
 	public bool CanCloseDialog() => true;
