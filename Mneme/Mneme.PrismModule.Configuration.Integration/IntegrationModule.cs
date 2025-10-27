@@ -17,10 +17,8 @@ public class IntegrationModule : IModule
 	public void RegisterTypes(IContainerRegistry containerRegistry)
 	{
 		containerRegistry.RegisterForNavigation<BundledSourceConfigurationsView>();
-		containerRegistry.RegisterForNavigation<PluralsightConfigurationView>();
 		containerRegistry.RegisterForNavigation<GoogleBooksConfigurationView>();
 
-		ViewModelLocationProvider.Register<PluralsightConfigurationView, PluralsightConfigurationViewModel>();
 		ViewModelLocationProvider.Register<GoogleBooksConfigurationView, GoogleBooksSourceConfigurationViewModel>();
 		ViewModelLocationProvider.Register<BundledSourceConfigurationsView, BundledSourceConfigurationsViewModel>();
 

@@ -12,13 +12,12 @@ public class BundledSourceConfigurationsViewModel : BindableBase
 	private readonly IEventAggregator eventAggregator;
 	private readonly IRegionManager regionManager;
 
-	public BundledSourceConfigurationsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, PluralsightSourceConfigurationWithSignleTextViewModel pluralsight,
+	public BundledSourceConfigurationsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager,
 		GoogleBooksSourceConfigurationViewModel googleBooks
 		)
 	{
 		this.eventAggregator = eventAggregator;
 		this.regionManager = regionManager;
-		Pluralsight = pluralsight;
 		GoogleBooks = googleBooks;
 		_ = this.eventAggregator.GetEvent<NavigationRequestEvent>().Subscribe(OnRecived);
 	}
@@ -30,9 +29,7 @@ public class BundledSourceConfigurationsViewModel : BindableBase
 	private void OnRecived(string msg)
 	{
 		var uri = "";
-		if (msg == Pluralsight.SourceName)
-			uri = nameof(PluralsightConfigurationView);
-		else if (msg == GoogleBooks.SourceName)
+		if (msg == GoogleBooks.SourceName)
 		{
 			uri = nameof(GoogleBooksConfigurationView);
 		}

@@ -8,7 +8,6 @@ using Mneme.PrismModule.Dashboard.Views;
 using Mneme.PrismModule.Integration.Facade;
 using Mneme.PrismModule.Integrations.GoogleBooks;
 using Mneme.PrismModule.Integrations.Mneme;
-using Mneme.PrismModule.Integrations.Pluralsight;
 using Mneme.PrismModule.Notes;
 using Mneme.PrismModule.Notes.Views;
 using Mneme.PrismModule.Sources;
@@ -37,7 +36,6 @@ public partial class App
 			.AddModule<NotesModule>()
 			.AddModule<GoogleBooksModule>()
 			.AddModule<MnemeModule>()
-			.AddModule<PluralsightModule>()
 			.AddModule<TestingModule>()
 			.AddModule<IntegrationModule>()
 			.AddModule<BaseModule>()
