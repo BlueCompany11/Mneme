@@ -44,7 +44,7 @@ public class ClozeDeletionTestCreationViewModel : BindableBase, INavigationAware
 	}
 
 	private readonly List<TestShortAnswer> tests;
-	private Note Note { get; set; }
+	private INote Note { get; set; }
 	public DelegateCommand CreateTestCommand { get; set; }
 	private readonly TestImportanceMapper testImportanceMapper;
 	private readonly ISnackbarMessageQueue snackbarMessageQueue;
@@ -100,7 +100,7 @@ public class ClozeDeletionTestCreationViewModel : BindableBase, INavigationAware
 	}
 	public void OnNavigatedTo(NavigationContext navigationContext)
 	{
-		Note = navigationContext.Parameters.GetValue<Note>("note");
+		Note = navigationContext.Parameters.GetValue<INote>("note");
 		Text = Note.Content;
 		ClozeDeletions.Clear();
 	}

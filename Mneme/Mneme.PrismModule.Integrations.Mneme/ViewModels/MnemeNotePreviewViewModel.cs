@@ -49,7 +49,7 @@ public class MnemeNotePreviewViewModel : AbstractNotePreviewViewModel
 		get => creationDate;
 		set => SetProperty(ref creationDate, value);
 	}
-	protected override Note BaseNote { get; set; }
+	protected override INote BaseNote { get; set; }
 
 	public MnemeNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) { }
 	protected override void LoadNote()

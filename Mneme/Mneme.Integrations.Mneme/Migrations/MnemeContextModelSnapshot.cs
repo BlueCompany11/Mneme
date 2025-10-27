@@ -24,6 +24,7 @@ namespace Mneme.Integrations.Mneme.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreationTime")
@@ -32,12 +33,14 @@ namespace Mneme.Integrations.Mneme.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Path")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("SourceId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

@@ -48,7 +48,7 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 		}
 	}
 
-	public async Task<IReadOnlyList<Note>> GetNotes(bool activeOnly, CancellationToken ct = default)
+	public async Task<IReadOnlyList<INote>> GetNotes(bool activeOnly, CancellationToken ct = default)
 	{
 		var googleBooksTask = googleBooksIntegration.GetNotes(ct);
 		var mnemeTask = mnemeIntegration.GetNotes(ct);
@@ -56,7 +56,7 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 
 		await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
-		var ret = new List<Note>();
+		var ret = new List<INote>();
 		ret.AddRange(await googleBooksTask);
 		ret.AddRange(await mnemeTask);
 		ret.AddRange(await pluralsightTask);
@@ -92,7 +92,7 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 		return ret;
 	}
 
-	public async Task<IReadOnlyList<Note>> GetKnownNotes(bool onlyActive = true, CancellationToken ct = default)
+	public async Task<IReadOnlyList<INote>> GetKnownNotes(bool onlyActive = true, CancellationToken ct = default)
 	{
 		var googleBooksTask = googleBooksIntegration.GetKnownNotes(onlyActive, ct);
 		var mnemeTask = mnemeIntegration.GetKnownNotes(onlyActive, ct);
@@ -100,7 +100,7 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 
 		await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
-		var ret = new List<Note>();
+		var ret = new List<INote>();
 		ret.AddRange(await googleBooksTask);
 		ret.AddRange(await mnemeTask);
 		ret.AddRange(await pluralsightTask);

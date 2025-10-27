@@ -28,6 +28,7 @@ namespace Mneme.Integrations.Pluralsight.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreationTime")
@@ -36,6 +37,7 @@ namespace Mneme.Integrations.Pluralsight.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("IntegrationId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Module")
@@ -43,6 +45,7 @@ namespace Mneme.Integrations.Pluralsight.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Path")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SourceId")
@@ -53,6 +56,7 @@ namespace Mneme.Integrations.Pluralsight.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

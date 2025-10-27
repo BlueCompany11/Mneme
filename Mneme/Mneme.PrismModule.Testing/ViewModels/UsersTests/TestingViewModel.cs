@@ -17,9 +17,9 @@ public class TestingViewModel : BindableBase, INavigationAware
 	private readonly IRegionManager regionManager;
 	private readonly SpaceRepetition speceRepetition;
 	private CancellationTokenSource cts;
-	private Test? currentTest;
+	private ITest? currentTest;
 
-	private Queue<Test> UserTests { get; set; }
+	private Queue<ITest> UserTests { get; set; }
 	public DelegateCommand WrongAnswerCommand { get; set; }
 	public DelegateCommand CorrectAnswerCommand { get; set; }
 	public DelegateCommand ShowAnswerCommand { get; set; }

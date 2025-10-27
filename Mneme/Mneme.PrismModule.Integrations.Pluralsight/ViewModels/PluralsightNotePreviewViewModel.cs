@@ -58,7 +58,7 @@ public class PluralsightNotePreviewViewModel : AbstractNotePreviewViewModel
 		set => SetProperty(ref type, value);
 	}
 
-	protected override Note BaseNote { get; set; }
+	protected override INote BaseNote { get; set; }
 
 	public PluralsightNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) { }
 

@@ -2,7 +2,7 @@
 
 namespace Mneme.Testing.TestCreation;
 
-public class TestShortAnswer : Test
+public class TestShortAnswer : ITest
 {
 	public string? Hint { get; set; }
 	public required string Answer { get; set; }

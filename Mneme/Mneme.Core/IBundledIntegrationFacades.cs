@@ -15,13 +15,13 @@ public interface IBundledIntegrationFacades
 	/// </summary>
 	/// <param name="ct"></param>
 	/// <returns></returns>
-	Task<IReadOnlyList<Note>> GetKnownNotes(bool onlyActive = true, CancellationToken ct = default);
+	Task<IReadOnlyList<INote>> GetKnownNotes(bool onlyActive = true, CancellationToken ct = default);
 	/// <summary>
 	/// Returns sources that are active and also will check for any new sources
 	/// </summary>
 	/// <param name="ct"></param>
 	/// <returns></returns>
-	Task<IReadOnlyList<Note>> GetNotes(bool activeOnly, CancellationToken ct = default);
+	Task<IReadOnlyList<INote>> GetNotes(bool activeOnly, CancellationToken ct = default);
 	/// <summary>
 	/// Returns sources that are active and also will check for any new sources
 	/// </summary>

@@ -24,7 +24,7 @@ public abstract class AbstractNotePreviewViewModel : BindableBase, INavigationAw
 		ShowCreateTestButton = true;
 	}
 	public DelegateCommand CreateTestCommand { get; set; }
-	protected abstract Note BaseNote { get; set; }
+	protected abstract INote BaseNote { get; set; }
 	protected abstract void LoadNote();
 	protected void CheckIfShouldDisplayCreateTestButton(NavigationContext navigationContext)
 	{
@@ -50,7 +50,7 @@ public abstract class AbstractNotePreviewViewModel : BindableBase, INavigationAw
 	public void OnNavigatedTo(NavigationContext navigationContext)
 	{
 		CheckIfShouldDisplayCreateTestButton(navigationContext);
-		var receivedNote = navigationContext.Parameters.GetValue<Note>("note");
+		var receivedNote = navigationContext.Parameters.GetValue<INote>("note");
 		BaseNote = receivedNote;
 		LoadNote();
 	}

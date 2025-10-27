@@ -76,10 +76,10 @@ public class MultipleChoiceTestCreationViewModel : BindableBase, INavigationAwar
 		CreateTestCommand = new DelegateCommand(CreateTest);
 	}
 
-	private Note Note { get; set; }
+	private INote Note { get; set; }
 	public void OnNavigatedTo(NavigationContext navigationContext)
 	{
-		Note = navigationContext.Parameters.GetValue<Note>("note");
+		Note = navigationContext.Parameters.GetValue<INote>("note");
 		Question = Note.Title;
 		editMode = false;
 	}

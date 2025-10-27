@@ -21,7 +21,7 @@ public class NotesViewModelShould
 
 	[Theory]
 	[AutoDomainData]
-	public async Task LoadAllNotes_WhenNavigatedTo([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<Note> notes, Mock<NavigationContext> nav)
+	public async Task LoadAllNotes_WhenNavigatedTo([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<INote> notes, Mock<NavigationContext> nav)
 	{
 		_ = utility.Setup(x => x.GetNotes(It.IsAny<CancellationToken>())).Returns(Task.FromResult(notes));
 		sut.AllItems.Clear();
@@ -34,9 +34,9 @@ public class NotesViewModelShould
 
 	[Theory]
 	[AutoDomainData]
-	public async Task StopsLoadingNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasNotEmpty([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<Note> notes, Mock<NavigationContext> nav)
+	public async Task StopsLoadingNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasNotEmpty([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<INote> notes, Mock<NavigationContext> nav)
 	{
-		var oldNotes = fixture.CreateMany<Note>();
+		var oldNotes = fixture.CreateMany<INote>();
 		_ = utility.Setup(x => x.GetNotes(It.IsAny<CancellationToken>())).Returns(async () =>
 		{
 			await Task.Delay(TimeSpan.FromSeconds(5));
@@ -53,7 +53,7 @@ public class NotesViewModelShould
 
 	[Theory]
 	[AutoDomainData]
-	public async Task LoadsNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasEmpty([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<Note> notes, Mock<NavigationContext> nav)
+	public async Task LoadsNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasEmpty([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<INote> notes, Mock<NavigationContext> nav)
 	{
 		_ = utility.Setup(x => x.GetNotes(It.IsAny<CancellationToken>())).Returns(async () =>
 		{

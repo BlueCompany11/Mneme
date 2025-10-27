@@ -5,7 +5,7 @@ namespace Mneme.Integrations.Contracts;
 
 public interface IIntegrationFacade<S, N> : IDatabase
 		where S : ISource
-		where N : Note
+		where N : INote
 {
 	Task DeleteSource(int id, CancellationToken ct);
 	Task UpdateSource(S source, CancellationToken ct);

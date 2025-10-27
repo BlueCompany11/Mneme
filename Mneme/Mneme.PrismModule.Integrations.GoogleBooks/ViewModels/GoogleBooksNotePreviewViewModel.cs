@@ -54,7 +54,7 @@ public class GoogleBooksNotePreviewViewModel : AbstractNotePreviewViewModel
 		set => SetProperty(ref noteText, value);
 	}
 
-	protected override Note BaseNote { get; set; }
+	protected override INote BaseNote { get; set; }
 
 	public GoogleBooksNotePreviewViewModel(IRegionManager regionManager) : base(regionManager) { }
 

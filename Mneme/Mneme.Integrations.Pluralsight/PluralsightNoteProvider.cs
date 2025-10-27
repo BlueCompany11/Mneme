@@ -49,7 +49,7 @@ internal class PluralsightNoteProvider
 			TimeInClip = values[4],
 			Clip = values[3],
 			Source = new PluralsightSource { Title = values[1], PluralsightSourceId = values[1], Active = true },
-			PluralsightIntegrationId = GetNoteId(values[5])
+			IntegrationId = GetNoteId(values[5])
 		};
 		return ret;
 	}

@@ -172,8 +172,8 @@ public class GoogleBooksService : IDisposable
 		NoteType = annotation.Type,
 		Path = annotation.Path,
 		Title = annotation.BookTitle,
-		CreationDate = annotation.Created,
-		GoogleBooksNoteId = annotation.Id,
+		CreationTime = annotation.Created,
+		IntegrationId = annotation.Id,
 		Source = new GoogleBooksSource { Title = annotation.BookTitle, GoogleBooksSourceId = annotation.BookId, Active = true }
 	};
 

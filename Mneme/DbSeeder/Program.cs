@@ -25,7 +25,7 @@ internal class Program
 		var faker = new Faker();
 		var sources = new List<MnemeSource>(amountOfSources);
 		var notes = new ConcurrentBag<MnemeNote>();
-		var tests = new List<Test>();
+		var tests = new List<ITest>();
 		using MnemeContext mnemeContext = new();
 		using TestingContext testingContext = new();
 

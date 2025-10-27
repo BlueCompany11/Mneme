@@ -7,6 +7,6 @@ namespace Mneme.Core;
 
 public interface ITestProvider
 {
-	Task<IReadOnlyList<Test>> GetAllTests(CancellationToken ct);
-	Task<IReadOnlyList<Test>> GetTestsForToday(CancellationToken ct);
+	Task<IReadOnlyList<ITest>> GetAllTests(CancellationToken ct);
+	Task<IReadOnlyList<ITest>> GetTestsForToday(CancellationToken ct);
 }

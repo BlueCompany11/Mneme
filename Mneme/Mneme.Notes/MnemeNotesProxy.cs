@@ -19,5 +19,5 @@ public class MnemeNotesProxy : IMnemeNotesProxy
 
 	public async Task<IReadOnlyList<ISource>> GetMnemeSources(CancellationToken ct) => await mnemeIntegration.GetActiveSources(ct).ConfigureAwait(false);
 
-	public async Task DeleteNote(Note note) => await mnemeIntegration.DeleteNote(note.Id, default).ConfigureAwait(false);
+	public async Task DeleteNote(INote note) => await mnemeIntegration.DeleteNote(note.Id, default).ConfigureAwait(false);
 }

@@ -11,20 +11,20 @@ public class StatisticsProviderShould
 {
 	private readonly ITestProvider testProvider;
 	private readonly IBundledIntegrationFacades integration;
-	private readonly IReadOnlyList<Note> notes;
+	private readonly IReadOnlyList<INote> notes;
 	private readonly IReadOnlyList<ISource> sources;
-	private readonly IReadOnlyList<Test> tests;
+	private readonly IReadOnlyList<ITest> tests;
 	private IFixture fixture;
 	public StatisticsProviderShould()
 	{
 		fixture = new Fixture().Customize(new AutoMoqCustomization());
-		notes = fixture.CreateMany<Note>().ToImmutableList();
+		notes = fixture.CreateMany<INote>().ToImmutableList();
 		sources = fixture.CreateMany<ISource>().ToImmutableList();
 		integration = Mock.Of<IBundledIntegrationFacades>(x =>
 		x.GetKnownSources(true, default) == Task.FromResult(sources) &&
 		x.GetKnownNotes(true, default) == Task.FromResult(notes));
 
-		tests = fixture.CreateMany<Test>().ToImmutableList();
+		tests = fixture.CreateMany<ITest>().ToImmutableList();
 		testProvider = Mock.Of<ITestProvider>(x =>
 		x.GetTestsForToday(default) == Task.FromResult(tests) &&
 		x.GetAllTests(default) == Task.FromResult(tests));
