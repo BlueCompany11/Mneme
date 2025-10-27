@@ -63,7 +63,7 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 		return ret;
 	}
 
-	public async Task<IReadOnlyList<Source>> GetSources(bool activeOnly, CancellationToken ct = default)
+	public async Task<IReadOnlyList<ISource>> GetSources(bool activeOnly, CancellationToken ct = default)
 	{
 		var googleBooksTask = googleBooksIntegration.GetSources(ct);
 		var mnemeTask = mnemeIntegration.GetSources(ct);
@@ -71,13 +71,13 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 
 		await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
-		var ret = new List<Source>();
+		var ret = new List<ISource>();
 		ret.AddRange(await googleBooksTask);
 		ret.AddRange(await mnemeTask);
 		ret.AddRange(await pluralsightTask);
 		return ret;
 	}
-	public async Task<IReadOnlyList<Source>> GetKnownSources(bool onlyActive = true, CancellationToken ct = default)
+	public async Task<IReadOnlyList<ISource>> GetKnownSources(bool onlyActive = true, CancellationToken ct = default)
 	{
 		var googleBooksTask = googleBooksIntegration.GetKnownSources(onlyActive, ct);
 		var mnemeTask = mnemeIntegration.GetKnownSources(onlyActive, ct);
@@ -85,7 +85,7 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 
 		await Task.WhenAll(googleBooksTask, mnemeTask, pluralsightTask).ConfigureAwait(false);
 
-		var ret = new List<Source>();
+		var ret = new List<ISource>();
 		ret.AddRange(await googleBooksTask);
 		ret.AddRange(await mnemeTask);
 		ret.AddRange(await pluralsightTask);
@@ -127,7 +127,7 @@ public class BundledIntegrationFacades : IBundledIntegrationFacades
 		}
 	}
 
-	public async Task<Source> GetSource(int id, string type, CancellationToken ct)
+	public async Task<ISource> GetSource(int id, string type, CancellationToken ct)
 	{
 		if (type == GoogleBooksSource.Type)
 			return await googleBooksIntegration.GetSource(id, ct).ConfigureAwait(false);

@@ -9,7 +9,7 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 					IDatabase,
 					IIntegrationFacade<S, N>
 					where T : Context
-					where S : Source
+					where S : class, ISource
 					where N : Note
 {
 

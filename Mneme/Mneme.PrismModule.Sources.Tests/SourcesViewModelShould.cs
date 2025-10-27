@@ -1,3 +1,5 @@
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Mneme.Model;
@@ -10,11 +12,17 @@ using System.Collections.ObjectModel;
 
 namespace Mneme.PrismModule.Sources.Tests;
 
-public class SourcesViewModelShould : BaseTest
+public class SourcesViewModelShould
 {
+	private IFixture fixture;
+	public SourcesViewModelShould()
+	{
+		fixture = new Fixture().Customize(new AutoMoqCustomization());
+	}
+
 	[Theory]
 	[AutoDomainData]
-	public async Task LoadAllSources_WhenNavigatedTo([Frozen] Mock<ISourcesFacade> facade, SourcesViewModel sut, IReadOnlyList<Source> sources, Mock<NavigationContext> nav)
+	public async Task LoadAllSources_WhenNavigatedTo([Frozen] Mock<ISourcesFacade> facade, SourcesViewModel sut, IReadOnlyList<ISource> sources, Mock<NavigationContext> nav)
 	{
 		_ = facade.Setup(x => x.GetSourcesPreviewAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(sources));
 		sut.AllItems.Clear();
@@ -27,9 +35,9 @@ public class SourcesViewModelShould : BaseTest
 
 	[Theory]
 	[AutoDomainData]
-	public async Task StopsLoadingNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasNotEmpty([Frozen] Mock<ISourcesFacade> facade, SourcesViewModel sut, IReadOnlyList<Source> sources, Mock<NavigationContext> nav)
+	public async Task StopsLoadingNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasNotEmpty([Frozen] Mock<ISourcesFacade> facade, SourcesViewModel sut, IReadOnlyList<ISource> sources, Mock<NavigationContext> nav)
 	{
-		var oldSources = CreateMany<Source>();
+		var oldSources = fixture.CreateMany<ISource>();
 		_ = facade.Setup(x => x.GetSourcesPreviewAsync(It.IsAny<CancellationToken>())).Returns(async () =>
 		{
 			await Task.Delay(TimeSpan.FromSeconds(5));
@@ -41,12 +49,12 @@ public class SourcesViewModelShould : BaseTest
 		sut.OnNavigatedFrom(nav.Object);
 		await Task.Delay(20);
 
-		_ = sut.AllItems.Count.Should().BeGreaterThanOrEqualTo(oldSources.Count);
+		_ = sut.AllItems.Count.Should().BeGreaterThanOrEqualTo(oldSources.Count());
 	}
 
 	[Theory]
 	[AutoDomainData]
-	public async Task LoadsNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasEmpty([Frozen] Mock<ISourcesFacade> facade, SourcesViewModel sut, IReadOnlyList<Source> sources, Mock<NavigationContext> nav)
+	public async Task LoadsNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasEmpty([Frozen] Mock<ISourcesFacade> facade, SourcesViewModel sut, IReadOnlyList<ISource> sources, Mock<NavigationContext> nav)
 	{
 		_ = facade.Setup(x => x.GetSourcesPreviewAsync(It.IsAny<CancellationToken>())).Returns(async () =>
 		{

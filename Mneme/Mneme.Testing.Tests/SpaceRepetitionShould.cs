@@ -5,8 +5,15 @@ using Mneme.Tests.Base;
 
 namespace Mneme.Testing.Tests;
 
-public class SpaceRepetitionShould : BaseTest
+public class SpaceRepetitionShould
 {
+	private readonly Fixture fixture;
+
+	public SpaceRepetitionShould()
+	{
+		fixture = new Fixture();
+	}
+
 	[Fact]
 	public void ScheduleTestForNewlyCreatedTests()
 	{

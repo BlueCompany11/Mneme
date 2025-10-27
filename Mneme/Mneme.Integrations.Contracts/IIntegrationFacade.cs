@@ -4,7 +4,7 @@ using Mneme.Model;
 namespace Mneme.Integrations.Contracts;
 
 public interface IIntegrationFacade<S, N> : IDatabase
-		where S : Source
+		where S : ISource
 		where N : Note
 {
 	Task DeleteSource(int id, CancellationToken ct);

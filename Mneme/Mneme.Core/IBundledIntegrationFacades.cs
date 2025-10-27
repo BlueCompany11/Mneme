@@ -9,7 +9,7 @@ public interface IBundledIntegrationFacades
 {
 	Task ActivateSource(int id, string type, CancellationToken ct = default);
 	Task IgnoreSource(int id, string type, CancellationToken ct = default);
-	Task<IReadOnlyList<Source>> GetKnownSources(bool onlyActive = true, CancellationToken ct = default);
+	Task<IReadOnlyList<ISource>> GetKnownSources(bool onlyActive = true, CancellationToken ct = default);
 	/// <summary>
 	/// Returns notes that are known to the system (checking only database)
 	/// </summary>
@@ -27,6 +27,6 @@ public interface IBundledIntegrationFacades
 	/// </summary>
 	/// <param name="ct"></param>
 	/// <returns></returns>
-	Task<IReadOnlyList<Source>> GetSources(bool activeOnly, CancellationToken ct = default);
-	Task<Source> GetSource(int id, string type, CancellationToken ct = default);
+	Task<IReadOnlyList<ISource>> GetSources(bool activeOnly, CancellationToken ct = default);
+	Task<ISource> GetSource(int id, string type, CancellationToken ct = default);
 }

@@ -1,4 +1,6 @@
-﻿using AutoFixture.Xunit2;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using Mneme.Model;
 using Mneme.Notes;
@@ -9,8 +11,14 @@ using Prism.Navigation.Regions;
 using System.Collections.ObjectModel;
 
 namespace Mneme.PrismModule.Notes.Tests;
-public class NotesViewModelShould : BaseTest
+public class NotesViewModelShould
 {
+	private IFixture fixture;
+	public NotesViewModelShould()
+	{
+		fixture = new Fixture().Customize(new AutoMoqCustomization());
+	}
+
 	[Theory]
 	[AutoDomainData]
 	public async Task LoadAllNotes_WhenNavigatedTo([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<Note> notes, Mock<NavigationContext> nav)
@@ -28,7 +36,7 @@ public class NotesViewModelShould : BaseTest
 	[AutoDomainData]
 	public async Task StopsLoadingNotes_WhenNavigatedFrom_AndLoadedPreviouslyDataWasNotEmpty([Frozen] Mock<INotesUtility> utility, NotesViewModel sut, IReadOnlyList<Note> notes, Mock<NavigationContext> nav)
 	{
-		var oldNotes = CreateMany<Note>();
+		var oldNotes = fixture.CreateMany<Note>();
 		_ = utility.Setup(x => x.GetNotes(It.IsAny<CancellationToken>())).Returns(async () =>
 		{
 			await Task.Delay(TimeSpan.FromSeconds(5));
@@ -40,7 +48,7 @@ public class NotesViewModelShould : BaseTest
 		sut.OnNavigatedFrom(nav.Object);
 		await Task.Delay(20);
 
-		_ = sut.AllItems.Count.Should().BeGreaterThanOrEqualTo(oldNotes.Count);
+		_ = sut.AllItems.Count.Should().BeGreaterThanOrEqualTo(oldNotes.Count());
 	}
 
 	[Theory]

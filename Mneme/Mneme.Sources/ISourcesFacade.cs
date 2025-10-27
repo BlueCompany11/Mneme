@@ -3,8 +3,8 @@
 namespace Mneme.Sources;
 public interface ISourcesFacade
 {
-	Task<Source> ActivateSource(Source source);
-	Task<IReadOnlyList<Source>> GetKnownSourcesPreviewAsync(bool onlyActive = false, CancellationToken ct = default);
-	Task<IReadOnlyList<Source>> GetSourcesPreviewAsync(CancellationToken ct = default);
-	Task<Source> IgnoreSource(Source source);
+	Task<ISource> ActivateSource(ISource source);
+	Task<IReadOnlyList<ISource>> GetKnownSourcesPreviewAsync(bool onlyActive = false, CancellationToken ct = default);
+	Task<IReadOnlyList<ISource>> GetSourcesPreviewAsync(CancellationToken ct = default);
+	Task<ISource> IgnoreSource(ISource source);
 }

@@ -2,22 +2,25 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Mneme.Integrations.GoogleBooks.Database;
+using Mneme.Integrations.Mneme.Database;
 
 #nullable disable
 
-namespace Mneme.Integrations.GoogleBooks.Migrations
+namespace Mneme.Integrations.Mneme.Migrations
 {
-    [DbContext(typeof(GoogleBooksContext))]
-    partial class GoogleBooksContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MnemeContext))]
+    [Migration("20251027182014_sources-upgrade")]
+    partial class sourcesupgrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,19 +30,14 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntegrationId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NoteType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Path")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SourceId")
+                    b.Property<int?>("SourceId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
@@ -47,15 +45,12 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IntegrationId")
-                        .IsUnique();
-
                     b.HasIndex("SourceId");
 
-                    b.ToTable("GoogleBooksNotes");
+                    b.ToTable("MnemeNotes");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeSource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,10 +60,11 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<string>("IntegrationId")
-                        .IsRequired()
+                    b.Property<string>("Details")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -77,19 +73,14 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IntegrationId")
-                        .IsUnique();
-
-                    b.ToTable("GoogleBooksSources");
+                    b.ToTable("MnemeSources");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
+            modelBuilder.Entity("Mneme.Integrations.Mneme.Contract.MnemeNote", b =>
                 {
-                    b.HasOne("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", "Source")
+                    b.HasOne("Mneme.Integrations.Mneme.Contract.MnemeSource", "Source")
                         .WithMany()
-                        .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SourceId");
 
                     b.Navigation("Source");
                 });

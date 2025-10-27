@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Mneme.PrismModule.Sources.ViewModels;
 
-public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
+public class SourcesViewModel : SearchableViewModel<ISource>, INavigationAware
 {
 	private readonly ISnackbarMessageQueue snackbarMessageQueue;
 	private readonly IDialogService dialogService;
@@ -23,8 +23,8 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 	private readonly MnemeSourceProxy mnemeProxy;
 	private CancellationTokenSource cts;
 
-	private Source selectedSource;
-	public Source SelectedSource
+	private ISource selectedSource;
+	public ISource SelectedSource
 	{
 		get => selectedSource;
 		set => SetProperty(ref selectedSource, value);
@@ -46,15 +46,15 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		this.dialogService = dialogService;
 		sourcesFacade = facade;
 		this.mnemeProxy = mnemeProxy;
-		IgnoreSourceCommand = new DelegateCommand<Source>(IgnoreSource, (x) => x?.Active ?? false);
-		ActivateSourceCommand = new DelegateCommand<Source>(ActivateSource, (x) => !x?.Active ?? false);
-		DeleteSourceCommand = new DelegateCommand<Source>(DeleteSource);
-		EditSourceCommand = new DelegateCommand<Source>(EditSource, (x) => x?.TextType == MnemeSource.Type);
+		IgnoreSourceCommand = new DelegateCommand<ISource>(IgnoreSource, (x) => x?.Active ?? false);
+		ActivateSourceCommand = new DelegateCommand<ISource>(ActivateSource, (x) => !x?.Active ?? false);
+		DeleteSourceCommand = new DelegateCommand<ISource>(DeleteSource);
+		EditSourceCommand = new DelegateCommand<ISource>(EditSource, (x) => x?.TextType == MnemeSource.Type);
 		ShowDialogCreateSourceCommand = new DelegateCommand(CreateSource);
 		IsLoading = true;
 	}
 
-	private void EditSource(Source source)
+	private void EditSource(ISource source)
 	{
 		var param = new DialogParameters
 			{
@@ -64,7 +64,7 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		{
 			if (result.Result == ButtonResult.OK)
 			{
-				var editedSource = result.Parameters.GetValue<Source>("source");
+				var editedSource = result.Parameters.GetValue<ISource>("source");
 				var index = AllItems.IndexOf(source);
 				AllItems.RemoveAt(index);
 				AllItems.Insert(index, editedSource);
@@ -73,7 +73,7 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		});
 	}
 
-	private async void DeleteSource(Source source)
+	private async void DeleteSource(ISource source)
 	{
 		if (await mnemeProxy.DeleteSource(source))
 		{
@@ -83,7 +83,7 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 			snackbarMessageQueue.Enqueue("Could not delete source. Some related data to this source still exists.");
 	}
 
-	private async void IgnoreSource(Source source)
+	private async void IgnoreSource(ISource source)
 	{
 		var updatedSource = await sourcesFacade.IgnoreSource(source);
 		_ = AllItems.Remove(source);
@@ -91,7 +91,7 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		SelectedSource = updatedSource;
 	}
 
-	private async void ActivateSource(Source source)
+	private async void ActivateSource(ISource source)
 	{
 		var updatedSource = await sourcesFacade.ActivateSource(source);
 		_ = AllItems.Remove(source);
@@ -99,10 +99,10 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 		SelectedSource = updatedSource;
 	}
 
-	public DelegateCommand<Source> IgnoreSourceCommand { get; set; }
-	public DelegateCommand<Source> ActivateSourceCommand { get; set; }
-	public DelegateCommand<Source> EditSourceCommand { get; set; }
-	public DelegateCommand<Source> DeleteSourceCommand { get; set; }
+	public DelegateCommand<ISource> IgnoreSourceCommand { get; set; }
+	public DelegateCommand<ISource> ActivateSourceCommand { get; set; }
+	public DelegateCommand<ISource> EditSourceCommand { get; set; }
+	public DelegateCommand<ISource> DeleteSourceCommand { get; set; }
 	public DelegateCommand ShowDialogCreateSourceCommand { get; }
 
 	private void CreateSource() => dialogService.ShowDialog(nameof(SourceCreationView), null, result =>
@@ -146,5 +146,5 @@ public class SourcesViewModel : SearchableViewModel<Source>, INavigationAware
 			cts?.Cancel();
 	}
 
-	protected override Func<Source, bool> SearchCondition() => x => x.Title.ToLower().Contains(SearchedPhrase.ToLower()) || x.TextType.ToLower() == SearchedPhrase.ToLower();
+	protected override Func<ISource, bool> SearchCondition() => x => x.Title.ToLower().Contains(SearchedPhrase.ToLower()) || x.TextType.ToLower() == SearchedPhrase.ToLower();
 }

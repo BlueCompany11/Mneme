@@ -7,7 +7,7 @@ using Moq;
 
 namespace Mneme.Notes.Tests;
 
-public class MnemeNotesProxyShould : BaseTest
+public class MnemeNotesProxyShould
 {
 	[Theory]
 	[AutoDomainData]

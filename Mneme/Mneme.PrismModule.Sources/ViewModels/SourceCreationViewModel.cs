@@ -14,7 +14,7 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 	private ISnackbarMessageQueue snackbarMessageQueue { get; }
 	public DelegateCommand CreateCommand { get; private set; }
 
-	private Source sourceToEdit;
+	private ISource sourceToEdit;
 
 	private string sourceTitle;
 	public string SourceTitle
@@ -96,7 +96,7 @@ internal class SourceCreationViewModel : BindableBase, IDialogAware
 			Title = "Source creation";
 			return;
 		}
-		sourceToEdit = parameters.GetValue<Source>("source");
+		sourceToEdit = parameters.GetValue<ISource>("source");
 		Title = "Source edition";
 		SourceTitle = sourceToEdit.Title;
 		Details = sourceToEdit.GetDetails();

@@ -13,7 +13,7 @@ public class MnemeSourceProxy
 
 	public async Task<MnemeSource?> SaveMnemeSource(string sourceTitle, string details, CancellationToken ct)
 	{
-		var source = new MnemeSource { Title = sourceTitle, Details = details, Active = true };
+		var source = new MnemeSource { Title = sourceTitle, Details = details, Active = true, CreationTime = DateTime.Now };
 		try
 		{
 			await mnemeIntegration.CreateSource(source).ConfigureAwait(false);
@@ -33,7 +33,7 @@ public class MnemeSourceProxy
 		return await mnemeIntegration.GetSource(id, ct).ConfigureAwait(false);
 	}
 
-	public async Task<bool> DeleteSource(Source source)
+	public async Task<bool> DeleteSource(ISource source)
 	{
 		try
 		{

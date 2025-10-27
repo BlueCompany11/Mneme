@@ -19,10 +19,10 @@ public class NewMnemeNoteViewModel : BindableBase, INavigationAware
 	private readonly IRegionManager regionManager;
 	private readonly IMnemeNotesProxy mnemeNotesProxy;
 
-	public ObservableCollection<Source> SourcesPreviews { get; set; }
+	public ObservableCollection<ISource> SourcesPreviews { get; set; }
 
-	private Source selectedSourcePreview;
-	public Source SelectedSourcePreview
+	private ISource selectedSourcePreview;
+	public ISource SelectedSourcePreview
 	{
 		get => selectedSourcePreview;
 		set => SetProperty(ref selectedSourcePreview, value);
