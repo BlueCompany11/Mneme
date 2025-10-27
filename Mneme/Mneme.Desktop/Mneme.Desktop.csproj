@@ -49,7 +49,6 @@
     <ProjectReference Include="..\Mneme.PrismModule.Configuration.Integration\Mneme.PrismModule.Configuration.Integration.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Dashboard\Mneme.PrismModule.Dashboard.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Integration.Facade\Mneme.PrismModule.Integration.Facade.csproj" />
-    <ProjectReference Include="..\Mneme.PrismModule.Integrations.GoogleBooks\Mneme.PrismModule.Integrations.GoogleBooks.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Integrations.Mneme\Mneme.PrismModule.Integrations.Mneme.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Notes\Mneme.PrismModule.Notes.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Sources\Mneme.PrismModule.Sources.csproj" />

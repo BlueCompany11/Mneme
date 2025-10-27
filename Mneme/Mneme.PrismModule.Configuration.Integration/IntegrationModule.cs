@@ -1,5 +1,4 @@
-﻿using Mneme.PrismModule.Configuration.Integration.BusinessLogic;
-using Mneme.PrismModule.Configuration.Integration.ViewModels;
+﻿using Mneme.PrismModule.Configuration.Integration.ViewModels;
 using Mneme.PrismModule.Configuration.Integration.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -17,11 +16,7 @@ public class IntegrationModule : IModule
 	public void RegisterTypes(IContainerRegistry containerRegistry)
 	{
 		containerRegistry.RegisterForNavigation<BundledSourceConfigurationsView>();
-		containerRegistry.RegisterForNavigation<GoogleBooksConfigurationView>();
 
-		ViewModelLocationProvider.Register<GoogleBooksConfigurationView, GoogleBooksSourceConfigurationViewModel>();
 		ViewModelLocationProvider.Register<BundledSourceConfigurationsView, BundledSourceConfigurationsViewModel>();
-
-		_ = containerRegistry.Register<GoogleBooksConnector>();
 	}
 }
