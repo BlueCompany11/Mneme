@@ -7,11 +7,11 @@ using Mneme.Tests.Base;
 using Moq;
 
 namespace Mneme.PrismModule.Notes.Tests;
-public class NewMnemeNoteViewModelShould : BaseTest
+public class NewMnemeNoteViewModelShoul
 {
 	[Theory]
 	[AutoDomainData]
-	public async Task LoadExistingMnemeSource_WhenNavigatedTo([Frozen] Mock<IMnemeNotesProxy> proxy, NewMnemeNoteViewModel sut, IReadOnlyList<Source> sources)
+	public async Task LoadExistingMnemeSource_WhenNavigatedTo([Frozen] Mock<IMnemeNotesProxy> proxy, NewMnemeNoteViewModel sut, IReadOnlyList<ISource> sources)
 	{
 		_ = proxy.Setup(p => p.GetMnemeSources(default)).Returns(Task.FromResult(sources));
 		sut.SourcesPreviews = [];

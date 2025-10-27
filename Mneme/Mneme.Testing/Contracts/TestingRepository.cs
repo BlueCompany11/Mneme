@@ -40,7 +40,7 @@ public class TestingRepository
 		_ = context.SaveChanges();
 	}
 
-	public void EditTest(Test test)
+	public void EditTest(ITest test)
 	{
 		using TestingContext context = new();
 		_ = context.Update(test);

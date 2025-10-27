@@ -2,7 +2,7 @@
 
 namespace Mneme.Integrations.Contracts;
 
-public abstract class BaseSourcesProvider<T> where T : Source
+public abstract class BaseSourcesProvider<T> where T : ISource
 {
 	protected abstract Task<List<T>> GetSourcesFromAccountAsync(CancellationToken ct);
 
@@ -22,9 +22,9 @@ public abstract class BaseSourcesProvider<T> where T : Source
 	}
 	protected abstract void AddSources(List<T> sources);
 
-	public async Task<List<Source>> GetSourcesAsync(bool onlyActive, CancellationToken ct)
+	public async Task<List<T>> GetSourcesAsync(bool onlyActive, CancellationToken ct)
 	{
-		var ret = new List<Source>();
+		var ret = new List<T>();
 		var fromAccount = await GetSourcesFromAccountAsync(ct).ConfigureAwait(false);
 		var fromDatabase = GetSourcesFromDatabase();
 		var unique = FindUnique(fromAccount, fromDatabase);
@@ -36,9 +36,9 @@ public abstract class BaseSourcesProvider<T> where T : Source
 		return ret;
 	}
 
-	public Task<List<Source>> GetKnownSourcesAsync(bool onlyActive, CancellationToken cancellationToken)
+	public Task<List<T>> GetKnownSourcesAsync(bool onlyActive, CancellationToken cancellationToken)
 	{
-		var ret = new List<Source>();
+		var ret = new List<T>();
 		var fromDatabase = GetSourcesFromDatabase();
 		if (onlyActive)
 			fromDatabase = fromDatabase.Where(x => x.Active).ToList();

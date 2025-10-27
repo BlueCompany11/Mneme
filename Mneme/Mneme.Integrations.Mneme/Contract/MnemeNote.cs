@@ -2,9 +2,13 @@
 
 namespace Mneme.Integrations.Mneme.Contract;
 
-public class MnemeNote : Note
+public class MnemeNote : INote
 {
 	public MnemeSource? Source { get; set; }
-	public override string IntegrationId => Title + Content;
-	public override DateTime CreationTime { get; protected set; } = DateTime.Now;
+	public string IntegrationId  => Title + Content;
+	public DateTime CreationTime { get; set; } = DateTime.Now;
+	public int Id { get; set; }
+	public string Title { get; init; }
+	public string Path { get; init; }
+	public string Content { get; init; }
 }

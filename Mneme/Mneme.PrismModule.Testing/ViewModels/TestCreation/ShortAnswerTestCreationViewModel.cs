@@ -57,7 +57,7 @@ public class ShortAnswerTestCreationViewModel : BindableBase, INavigationAware, 
 
 	public event Action<IDialogResult> RequestClose;
 
-	private Note Note { get; set; }
+	private INote Note { get; set; }
 	public ShortAnswerTestCreationViewModel(TestImportanceMapper testImportanceMapper, ISnackbarMessageQueue snackbarMessageQueue, TestingRepository repository, TestTypeProvider testTypeProvider)
 	{
 		this.testImportanceMapper = testImportanceMapper;
@@ -71,7 +71,7 @@ public class ShortAnswerTestCreationViewModel : BindableBase, INavigationAware, 
 	}
 	public void OnNavigatedTo(NavigationContext navigationContext)
 	{
-		Note = navigationContext.Parameters.GetValue<Note>("note");
+		Note = navigationContext.Parameters.GetValue<INote>("note");
 		Question = Note.Title;
 		editMode = false;
 	}

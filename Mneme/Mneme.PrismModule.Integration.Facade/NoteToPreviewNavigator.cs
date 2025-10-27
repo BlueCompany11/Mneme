@@ -14,7 +14,7 @@ public class NoteToPreviewNavigator
 {
 	private readonly IRegionManager regionManager;
 	public NoteToPreviewNavigator(IRegionManager regionManager) => this.regionManager = regionManager;
-	public void NavigateToPreview(Note note, INavigationParameters para, string regionName)
+	public void NavigateToPreview(INote note, INavigationParameters para, string regionName)
 	{
 		if (note is GoogleBooksNote)
 		{

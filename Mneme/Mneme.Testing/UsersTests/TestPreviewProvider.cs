@@ -33,9 +33,9 @@ public class TestPreviewProvider : ITestProvider
 		}
 		return ret;
 	}
-	public Queue<Test> GetTestsForToday()
+	public Queue<ITest> GetTestsForToday()
 	{
-		var ret = new Queue<Test>();
+		var ret = new Queue<ITest>();
 		var shortAnswers = repository.GetShortAnswerTests();
 		var multipleChoice = repository.GetMultipleChoicesTests();
 		foreach (var item in shortAnswers)
@@ -51,19 +51,19 @@ public class TestPreviewProvider : ITestProvider
 		return ret;
 	}
 
-	Task<IReadOnlyList<Test>> ITestProvider.GetAllTests(CancellationToken ct)
+	Task<IReadOnlyList<ITest>> ITestProvider.GetAllTests(CancellationToken ct)
 	{
-		var ret = new List<Test>();
+		var ret = new List<ITest>();
 		var shortAnswers = repository.GetShortAnswerTests();
 		var multipleChoice = repository.GetMultipleChoicesTests();
 		ret.AddRange(shortAnswers);
 		ret.AddRange(multipleChoice);
-		return Task.FromResult<IReadOnlyList<Test>>(ret);
+		return Task.FromResult<IReadOnlyList<ITest>>(ret);
 	}
 
-	Task<IReadOnlyList<Test>> ITestProvider.GetTestsForToday(CancellationToken ct)
+	Task<IReadOnlyList<ITest>> ITestProvider.GetTestsForToday(CancellationToken ct)
 	{
-		var ret = new List<Test>();
+		var ret = new List<ITest>();
 		var shortAnswers = repository.GetShortAnswerTests();
 		var multipleChoice = repository.GetMultipleChoicesTests();
 		foreach (var item in shortAnswers)
@@ -76,6 +76,6 @@ public class TestPreviewProvider : ITestProvider
 			if (spaceRepetition.ShouldBeTested(item))
 				ret.Add(item);
 		}
-		return Task.FromResult<IReadOnlyList<Test>>(ret);
+		return Task.FromResult<IReadOnlyList<ITest>>(ret);
 	}
 }

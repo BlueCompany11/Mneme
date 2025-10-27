@@ -1,26 +1,30 @@
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using FluentAssertions;
 using Mneme.Core;
 using Mneme.Model;
-using Mneme.Tests.Base;
 using Moq;
+using System.Collections.Immutable;
 
 namespace Mneme.Dashboard.Tests;
-public class StatisticsProviderShould : BaseTest
+public class StatisticsProviderShould
 {
 	private readonly ITestProvider testProvider;
 	private readonly IBundledIntegrationFacades integration;
-	private readonly IReadOnlyList<Note> notes;
-	private readonly IReadOnlyList<Source> sources;
-	private readonly IReadOnlyList<Test> tests;
-	public StatisticsProviderShould() : base()
+	private readonly IReadOnlyList<INote> notes;
+	private readonly IReadOnlyList<ISource> sources;
+	private readonly IReadOnlyList<ITest> tests;
+	private IFixture fixture;
+	public StatisticsProviderShould()
 	{
-		notes = CreateMany<Note>();
-		sources = CreateMany<Source>();
+		fixture = new Fixture().Customize(new AutoMoqCustomization());
+		notes = fixture.CreateMany<INote>().ToImmutableList();
+		sources = fixture.CreateMany<ISource>().ToImmutableList();
 		integration = Mock.Of<IBundledIntegrationFacades>(x =>
 		x.GetKnownSources(true, default) == Task.FromResult(sources) &&
 		x.GetKnownNotes(true, default) == Task.FromResult(notes));
 
-		tests = CreateMany<Test>();
+		tests = fixture.CreateMany<ITest>().ToImmutableList();
 		testProvider = Mock.Of<ITestProvider>(x =>
 		x.GetTestsForToday(default) == Task.FromResult(tests) &&
 		x.GetAllTests(default) == Task.FromResult(tests));

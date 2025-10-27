@@ -9,8 +9,8 @@ public abstract class IntegrationFacadeBase<T, S, N> :
 					IDatabase,
 					IIntegrationFacade<S, N>
 					where T : Context
-					where S : Source
-					where N : Note
+					where S : class, ISource
+					where N : class, INote
 {
 
 	protected bool disposedValue;

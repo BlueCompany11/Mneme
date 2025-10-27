@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mneme.Integrations.Mneme.Database;
 
@@ -10,9 +11,11 @@ using Mneme.Integrations.Mneme.Database;
 namespace Mneme.Integrations.Mneme.Migrations
 {
     [DbContext(typeof(MnemeContext))]
-    partial class MnemeContextModelSnapshot : ModelSnapshot
+    [Migration("20251027182014_sources-upgrade")]
+    partial class sourcesupgrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -24,7 +27,6 @@ namespace Mneme.Integrations.Mneme.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreationTime")
@@ -33,14 +35,12 @@ namespace Mneme.Integrations.Mneme.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("SourceId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

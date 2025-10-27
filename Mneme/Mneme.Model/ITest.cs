@@ -2,7 +2,7 @@
 
 namespace Mneme.Model;
 
-public abstract class Test
+public abstract class ITest
 {
 	public int Id { get; init; }
 	public int? NoteId { get; set; }

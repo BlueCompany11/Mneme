@@ -4,7 +4,7 @@ using Mneme.Model;
 namespace Mneme.Notes;
 public interface IMnemeNotesProxy
 {
-	Task DeleteNote(Note note);
-	Task<IReadOnlyList<Source>> GetMnemeSources(CancellationToken ct);
-	Task<MnemeNote> SaveMnemeNote(Source source, string content, string title, string path, CancellationToken ct);
+	Task DeleteNote(INote note);
+	Task<IReadOnlyList<ISource>> GetMnemeSources(CancellationToken ct);
+	Task<MnemeNote> SaveMnemeNote(ISource source, string content, string title, string path, CancellationToken ct);
 }

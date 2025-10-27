@@ -2,7 +2,7 @@
 
 namespace Mneme.Testing.TestCreation;
 
-public class TestMultipleChoices : Test
+public class TestMultipleChoices : ITest
 {
 	public List<TestMultipleChoice> Answers { get; set; } = [];
 

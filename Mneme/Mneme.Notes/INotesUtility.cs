@@ -3,5 +3,5 @@
 namespace Mneme.Notes;
 public interface INotesUtility
 {
-	Task<IReadOnlyList<Note>> GetNotes(CancellationToken ct);
+	Task<IReadOnlyList<INote>> GetNotes(CancellationToken ct);
 }

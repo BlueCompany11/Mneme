@@ -15,9 +15,9 @@ public class PluralsightNoteProviderDecorator
 		this.pluralsightConfigProvider = pluralsightConfigProvider;
 	}
 
-	public async Task<List<Note>> GetNotesAsync(CancellationToken ct = default)
+	public async Task<List<INote>> GetNotesAsync(CancellationToken ct = default)
 	{
-		var ret = new List<Note>();
+		var ret = new List<INote>();
 		using var pluralsightContext = new PluralsightContext();
 		if (pluralsightNoteProvider.TryOpen(pluralsightConfigProvider.Config.FilePath, out var note))
 		{

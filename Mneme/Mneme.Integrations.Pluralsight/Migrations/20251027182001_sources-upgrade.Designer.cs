@@ -2,48 +2,60 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Mneme.Integrations.GoogleBooks.Database;
+using Mneme.Integrations.Pluralsight.Database;
 
 #nullable disable
 
-namespace Mneme.Integrations.GoogleBooks.Migrations
+namespace Mneme.Integrations.Pluralsight.Migrations
 {
-    [DbContext(typeof(GoogleBooksContext))]
-    partial class GoogleBooksContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PluralsightContext))]
+    [Migration("20251027182001_sources-upgrade")]
+    partial class sourcesupgrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
+            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Content")
+                    b.Property<string>("Clip")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("IntegrationId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NoteType")
+                    b.Property<string>("Module")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SourceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("TimeInClip")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -53,10 +65,10 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("GoogleBooksNotes");
+                    b.ToTable("PluralsightNotes");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", b =>
+            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightSource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +78,9 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("IntegrationId")
                         .IsRequired()
@@ -81,12 +95,26 @@ namespace Mneme.Integrations.GoogleBooks.Migrations
                     b.HasIndex("IntegrationId")
                         .IsUnique();
 
-                    b.ToTable("GoogleBooksSources");
+                    b.ToTable("PluralsightSources");
                 });
 
-            modelBuilder.Entity("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksNote", b =>
+            modelBuilder.Entity("Mneme.Integrations.Pluralsight.PluralsightConfig", b =>
                 {
-                    b.HasOne("Mneme.Integrations.GoogleBooks.Contract.GoogleBooksSource", "Source")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PluralsightConfigs");
+                });
+
+            modelBuilder.Entity("Mneme.Integrations.Pluralsight.Contract.PluralsightNote", b =>
+                {
+                    b.HasOne("Mneme.Integrations.Pluralsight.Contract.PluralsightSource", "Source")
                         .WithMany()
                         .HasForeignKey("SourceId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -16,14 +16,14 @@ using System.Threading.Tasks;
 
 namespace Mneme.PrismModule.Notes.ViewModels;
 
-public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
+public class NotesViewModel : SearchableViewModel<INote>, INavigationAware
 {
 	private readonly IRegionManager regionManager;
 	private readonly INotesUtility utilty;
 	private readonly NoteToPreviewNavigator navigator;
 	private readonly IMnemeNotesProxy mnemeNotesProxy;
 	private bool isLoading;
-	private Note selectedNotePreview;
+	private INote selectedNotePreview;
 	private CancellationTokenSource cts;
 	private string deleteNoteToolTip;
 
@@ -39,7 +39,7 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 		set => SetProperty(ref deleteNoteToolTip, value);
 	}
 
-	public Note SelectedNotePreview
+	public INote SelectedNotePreview
 	{
 		get => selectedNotePreview;
 		set
@@ -54,7 +54,7 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 	}
 
 	public DelegateCommand OpenNewNoteViewCommand { get; set; }
-	public DelegateCommand<Note> DeleteNoteCommand { get; set; }
+	public DelegateCommand<INote> DeleteNoteCommand { get; set; }
 	public NotesViewModel(IRegionManager regionManager, INotesUtility utilty, NoteToPreviewNavigator navigator, IMnemeNotesProxy mnemeNotesProxy) : base()
 	{
 		this.regionManager = regionManager;
@@ -62,12 +62,12 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 		this.navigator = navigator;
 		this.mnemeNotesProxy = mnemeNotesProxy;
 		OpenNewNoteViewCommand = new DelegateCommand(OpenNewNoteView);
-		DeleteNoteCommand = new DelegateCommand<Note>(DeleteNote, (p) => p?.GetType() == typeof(MnemeNote));
+		DeleteNoteCommand = new DelegateCommand<INote>(DeleteNote, (p) => p?.GetType() == typeof(MnemeNote));
 	}
 
 	private void OpenNewNoteView() => regionManager.RequestNavigate(RegionNames.NoteRegion, nameof(NewMnemeNoteView));
 
-	private async void DeleteNote(Note preview)
+	private async void DeleteNote(INote preview)
 	{
 		await mnemeNotesProxy.DeleteNote(preview);
 		_ = AllItems.Remove(preview);
@@ -125,5 +125,5 @@ public class NotesViewModel : SearchableViewModel<Note>, INavigationAware
 			cts?.Cancel();
 	}
 
-	protected override Func<Note, bool> SearchCondition() => x => x.Title.ToLower().Contains(SearchedPhrase.ToLower()) || x.Content.ToLower().Contains(SearchedPhrase.ToLower());
+	protected override Func<INote, bool> SearchCondition() => x => x.Title.ToLower().Contains(SearchedPhrase.ToLower()) || x.Content.ToLower().Contains(SearchedPhrase.ToLower());
 }

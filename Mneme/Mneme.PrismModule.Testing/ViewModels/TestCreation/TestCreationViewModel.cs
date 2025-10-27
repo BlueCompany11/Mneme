@@ -33,7 +33,7 @@ public class TestCreationViewModel : BindableBase, INavigationAware
 		}
 	}
 
-	private Note CurrentNote { get; set; }
+	private INote CurrentNote { get; set; }
 
 	public TestCreationViewModel(IRegionManager regionManager, ISnackbarMessageQueue snackbarMessageQueue, NoteToPreviewNavigator navigator)
 	{
@@ -65,7 +65,7 @@ public class TestCreationViewModel : BindableBase, INavigationAware
 
 	public void OnNavigatedTo(NavigationContext navigationContext)
 	{
-		CurrentNote = navigationContext.Parameters.GetValue<Note>("note");
+		CurrentNote = navigationContext.Parameters.GetValue<INote>("note");
 		ChangeTestOptionView(SelectedTestOption);
 		navigator.NavigateToPreview(CurrentNote, navigationContext.Parameters, RegionNames.NotePreviewRegion);
 	}
