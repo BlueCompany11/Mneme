@@ -51,6 +51,7 @@
             <Setter Property="Margin"
                     Value="0,0,0,24"></Setter>
         </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid Margin="24,0,24,0">
         <Grid.RowDefinitions>
