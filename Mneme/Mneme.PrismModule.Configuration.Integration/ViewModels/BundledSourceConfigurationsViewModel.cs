@@ -3,7 +3,7 @@ using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Mneme.PrismModule.Configuration.Integration.ViewModels;
 

@@ -5,7 +5,7 @@ using Mneme.PrismModule.Sources.ViewModels;
 using Mneme.Sources;
 using Mneme.Tests.Base;
 using Moq;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using System.Collections.ObjectModel;
 
 namespace Mneme.PrismModule.Sources.Tests;

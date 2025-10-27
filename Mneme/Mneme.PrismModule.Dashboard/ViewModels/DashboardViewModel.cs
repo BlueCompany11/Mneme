@@ -1,7 +1,7 @@
 ﻿using Mneme.Dashboard;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

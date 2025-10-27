@@ -6,7 +6,7 @@ using Mneme.PrismModule.Testing.Views.UsersTests;
 using Mneme.Views.Base;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Mneme.Desktop.ViewModels;
 

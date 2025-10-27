@@ -15,7 +15,7 @@
         <Style TargetType="HeaderedContentControl">
             <Setter Property="Height" Value="20" />
         </Style>
-        <Style BasedOn="{StaticResource MaterialDesignFlatAccentButton}" TargetType="Button">
+        <Style BasedOn="{StaticResource MaterialDesignFlatButton}" TargetType="Button">
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="Background" Value="White" />
             <Setter Property="BorderBrush" Value="White" />
