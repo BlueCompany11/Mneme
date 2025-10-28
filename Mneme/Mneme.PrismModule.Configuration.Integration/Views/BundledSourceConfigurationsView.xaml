@@ -27,14 +27,5 @@
                        Style="{StaticResource MaterialDesignHeadline3TextBlock}"
                        Text="Integrate with external systems" />
         </Grid>
-        <local:SourceConfigurationView Grid.Row="1"
-                                       DataContext="{Binding GoogleBooks}"
-                                       Width="300"
-                                       HorizontalAlignment="Right"/>
-        <local:SourceConfigurationWithSignleTextView Grid.Row="1"
-                                                     Grid.Column="1"
-                                                     Width="300"
-                                                     HorizontalAlignment="Left"
-                                                     DataContext="{Binding Pluralsight}" />
     </Grid>
 </UserControl>

@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mneme.Integrations.GoogleBooks\Mneme.Integrations.GoogleBooks.csproj" />
     <ProjectReference Include="..\Mneme.Integrations.Mneme\Mneme.Integrations.Mneme.csproj" />
-    <ProjectReference Include="..\Mneme.Integrations.Pluralsight\Mneme.Integrations.Pluralsight.csproj" />
     <ProjectReference Include="..\Mneme.Testing\Mneme.Testing.csproj" />
   </ItemGroup>
 

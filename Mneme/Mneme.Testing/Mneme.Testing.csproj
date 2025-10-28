@@ -17,9 +17,7 @@
     <ProjectReference Include="..\Mneme.Core\Mneme.Core.csproj" />
     <ProjectReference Include="..\Mneme.DataAccess\Mneme.DataAccess.csproj" />
     <ProjectReference Include="..\Mneme.Integrations.Contracts\Mneme.Integrations.Contracts.csproj" />
-    <ProjectReference Include="..\Mneme.Integrations.GoogleBooks\Mneme.Integrations.GoogleBooks.csproj" />
     <ProjectReference Include="..\Mneme.Integrations.Mneme\Mneme.Integrations.Mneme.csproj" />
-    <ProjectReference Include="..\Mneme.Integrations.Pluralsight\Mneme.Integrations.Pluralsight.csproj" />
     <ProjectReference Include="..\Mneme.Model\Mneme.Model.csproj" />
   </ItemGroup>
 

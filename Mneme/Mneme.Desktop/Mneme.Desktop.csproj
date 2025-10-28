@@ -27,7 +27,6 @@
     <None Remove="Icons\Mneme-symbol-blue-bg-96x96.jpg" />
     <None Remove="Icons\Mneme-symbol-color-bg-96x96.png" />
     <None Remove="Icons\Notes.svg" />
-    <None Remove="Icons\PluralsightNotesButton.svg" />
     <None Remove="Icons\Sources.svg" />
     <None Remove="Icons\Testing.svg" />
   </ItemGroup>
@@ -50,9 +49,7 @@
     <ProjectReference Include="..\Mneme.PrismModule.Configuration.Integration\Mneme.PrismModule.Configuration.Integration.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Dashboard\Mneme.PrismModule.Dashboard.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Integration.Facade\Mneme.PrismModule.Integration.Facade.csproj" />
-    <ProjectReference Include="..\Mneme.PrismModule.Integrations.GoogleBooks\Mneme.PrismModule.Integrations.GoogleBooks.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Integrations.Mneme\Mneme.PrismModule.Integrations.Mneme.csproj" />
-    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Pluralsight\Mneme.PrismModule.Integrations.Pluralsight.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Notes\Mneme.PrismModule.Notes.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Sources\Mneme.PrismModule.Sources.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Testing\Mneme.PrismModule.Testing.csproj" />
@@ -81,9 +78,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\Notes.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Icons\PluralsightNotesButton.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\Sources.svg">

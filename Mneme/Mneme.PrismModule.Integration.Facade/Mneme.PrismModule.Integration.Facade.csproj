@@ -8,11 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mneme.Core\Mneme.Core.csproj" />
-    <ProjectReference Include="..\Mneme.Integrations.GoogleBooks\Mneme.Integrations.GoogleBooks.csproj" />
     <ProjectReference Include="..\Mneme.Integrations.Mneme\Mneme.Integrations.Mneme.csproj" />
-    <ProjectReference Include="..\Mneme.Integrations.Pluralsight\Mneme.Integrations.Pluralsight.csproj" />
-    <ProjectReference Include="..\Mneme.PrismModule.Integrations.GoogleBooks\Mneme.PrismModule.Integrations.GoogleBooks.csproj" />
     <ProjectReference Include="..\Mneme.PrismModule.Integrations.Mneme\Mneme.PrismModule.Integrations.Mneme.csproj" />
-    <ProjectReference Include="..\Mneme.PrismModule.Integrations.Pluralsight\Mneme.PrismModule.Integrations.Pluralsight.csproj" />
   </ItemGroup>
 </Project>
